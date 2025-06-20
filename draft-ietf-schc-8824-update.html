@@ -7,27 +7,27 @@
 <title>Static Context Header Compression (SCHC) for the Constrained Application Protocol (CoAP)</title>
 <meta content="Marco Tiloca" name="author">
 <meta content="Laurent Toutain" name="author">
-<meta content="Ivan Martinez" name="author">
+<meta content="Iván Martínez" name="author">
 <meta content="Ana Minaburo" name="author">
 <meta content="
        This document defines how to compress Constrained Application Protocol (CoAP) headers using the Static Context Header Compression and fragmentation (SCHC) framework. SCHC defines a header compression mechanism adapted for constrained devices. SCHC uses a static description of the header to reduce the header's redundancy and size. While RFC 8724 describes the SCHC compression and fragmentation framework, and its application for IPv6/UDP headers, this document applies SCHC to CoAP headers. The CoAP header structure differs from IPv6 and UDP, since CoAP uses a flexible header with a variable number of options, themselves of variable length. The CoAP message format is asymmetric: the request messages have a header format different from the format in the response messages. This specification gives guidance on applying SCHC to flexible headers and how to leverage the asymmetry for more efficient compression Rules. This document replaces and obsoletes RFC 8824. 
     " name="description">
-<meta content="xml2rfc 3.28.1" name="generator">
+<meta content="xml2rfc 3.29.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-schc-8824-update-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.28.1
-    Python 3.12.10
+  xml2rfc 3.29.0
+    Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
-    lxml 5.3.0
-    platformdirs 4.3.7
+    lxml 5.3.1
+    platformdirs 4.3.8
     pycountry 24.6.1
     PyYAML 6.0.2
-    requests 2.32.3
-    setuptools 70.3.0
+    requests 2.32.4
+    setuptools 80.9.0
     wcwidth 0.2.13
 -->
 <link href="draft-ietf-schc-8824-update.xml" rel="alternate" type="application/rfc+xml">
@@ -1047,11 +1047,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">SCHC for CoAP</td>
-<td class="right">May 2025</td>
+<td class="right">June 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tiloca, et al.</td>
-<td class="center">Expires 15 November 2025</td>
+<td class="center">Expires 22 December 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc8824" class="eref">8824</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-05-14" class="published">14 May 2025</time>
+<time datetime="2025-06-20" class="published">20 June 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-11-15">15 November 2025</time></dd>
+<dd class="expires"><time datetime="2025-12-22">22 December 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1084,8 +1084,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <div class="org">IMT Atlantique</div>
 </div>
 <div class="author">
-      <div class="author-name">I. Martinez</div>
-<div class="org">Nokia Bell Labs</div>
+      <div class="author-name">I. Martínez</div>
+<div class="org">IRISA</div>
 </div>
 <div class="author">
       <div class="author-name">A. Minaburo</div>
@@ -1129,7 +1129,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 15 November 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 22 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1356,16 +1356,19 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.16.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-document-updates" class="internal xref">Document Updates</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.1">
-                <p id="section-toc.1-1.16.2.1.1"><a href="#appendix-B.1" class="auto internal xref">B.1</a>.  <a href="#name-version-03-to-04" class="internal xref">Version -03 to -04</a></p>
+                <p id="section-toc.1-1.16.2.1.1"><a href="#appendix-B.1" class="auto internal xref">B.1</a>.  <a href="#name-version-04-to-05" class="internal xref">Version -04 to -05</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.2">
-                <p id="section-toc.1-1.16.2.2.1"><a href="#appendix-B.2" class="auto internal xref">B.2</a>.  <a href="#name-version-02-to-03" class="internal xref">Version -02 to -03</a></p>
+                <p id="section-toc.1-1.16.2.2.1"><a href="#appendix-B.2" class="auto internal xref">B.2</a>.  <a href="#name-version-03-to-04" class="internal xref">Version -03 to -04</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.3">
-                <p id="section-toc.1-1.16.2.3.1"><a href="#appendix-B.3" class="auto internal xref">B.3</a>.  <a href="#name-version-01-to-02" class="internal xref">Version -01 to -02</a></p>
+                <p id="section-toc.1-1.16.2.3.1"><a href="#appendix-B.3" class="auto internal xref">B.3</a>.  <a href="#name-version-02-to-03" class="internal xref">Version -02 to -03</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.4">
-                <p id="section-toc.1-1.16.2.4.1"><a href="#appendix-B.4" class="auto internal xref">B.4</a>.  <a href="#name-version-00-to-01" class="internal xref">Version -00 to -01</a></p>
+                <p id="section-toc.1-1.16.2.4.1"><a href="#appendix-B.4" class="auto internal xref">B.4</a>.  <a href="#name-version-01-to-02" class="internal xref">Version -01 to -02</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.5">
+                <p id="section-toc.1-1.16.2.5.1"><a href="#appendix-B.5" class="auto internal xref">B.5</a>.  <a href="#name-version-00-to-01" class="internal xref">Version -00 to -01</a></p>
 </li>
             </ul>
 </li>
@@ -5939,122 +5942,137 @@ module ietf-schc-coap {
 <a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-document-updates" class="section-name selfRef">Document Updates</a>
       </h2>
 <p id="appendix-B-1">This section is to be removed before publishing as an RFC.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
-<div id="sec-03-04">
+<div id="sec-04-05">
 <section id="appendix-B.1">
-        <h3 id="name-version-03-to-04">
-<a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-version-03-to-04" class="section-name selfRef">Version -03 to -04</a>
+        <h3 id="name-version-04-to-05">
+<a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-version-04-to-05" class="section-name selfRef">Version -04 to -05</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="appendix-B.1-1.1">
-            <p id="appendix-B.1-1.1.1">Clarified the rationale for using the "tkl" function.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.1.1">Updated author's contact information.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.2">
-            <p id="appendix-B.1-1.2.1">Added the "osc.piv" function to determine the length of the OSCORE piv field.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.2.1">Fixes and editorial improvements.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.3">
-            <p id="appendix-B.1-1.3.1">Consistent formulation of "tkl", "osc.x.m", and "osc.y.w".<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+        </ul>
+</section>
+</div>
+<div id="sec-03-04">
+<section id="appendix-B.2">
+        <h3 id="name-version-03-to-04">
+<a href="#appendix-B.2" class="section-number selfRef">B.2. </a><a href="#name-version-03-to-04" class="section-name selfRef">Version -03 to -04</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-B.2-1.1">
+            <p id="appendix-B.2-1.1.1">Clarified the rationale for using the "tkl" function.<a href="#appendix-B.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.4">
-            <p id="appendix-B.1-1.4.1">Explicitly stated that Field Descriptors have to be ordered in a determistic way.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.2-1.2">
+            <p id="appendix-B.2-1.2.1">Added the "osc.piv" function to determine the length of the OSCORE piv field.<a href="#appendix-B.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.5">
-            <p id="appendix-B.1-1.5.1">Fixed format of TV in Rule Descriptors for CoAP MID.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.2-1.3">
+            <p id="appendix-B.2-1.3.1">Consistent formulation of "tkl", "osc.x.m", and "osc.y.w".<a href="#appendix-B.2-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.6">
-            <p id="appendix-B.1-1.6.1">Fixed order of OSCORE-related Field Descriptors in example Rules.<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.2-1.4">
+            <p id="appendix-B.2-1.4.1">Explicitly stated that Field Descriptors have to be ordered in a determistic way.<a href="#appendix-B.2-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.7">
-            <p id="appendix-B.1-1.7.1">Use "bit" instead of "b" as symbol for bit (per ISO/IEC 80000-13).<a href="#appendix-B.1-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.2-1.5">
+            <p id="appendix-B.2-1.5.1">Fixed format of TV in Rule Descriptors for CoAP MID.<a href="#appendix-B.2-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.8">
-            <p id="appendix-B.1-1.8.1">Made YANG extractable.<a href="#appendix-B.1-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.2-1.6">
+            <p id="appendix-B.2-1.6.1">Fixed order of OSCORE-related Field Descriptors in example Rules.<a href="#appendix-B.2-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.9">
-            <p id="appendix-B.1-1.9.1">Updated references.<a href="#appendix-B.1-1.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.2-1.7">
+            <p id="appendix-B.2-1.7.1">Use "bit" instead of "b" as symbol for bit (per ISO/IEC 80000-13).<a href="#appendix-B.2-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.10">
-            <p id="appendix-B.1-1.10.1">Fixes and editorial improvements.<a href="#appendix-B.1-1.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.2-1.8">
+            <p id="appendix-B.2-1.8.1">Made YANG extractable.<a href="#appendix-B.2-1.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.9">
+            <p id="appendix-B.2-1.9.1">Updated references.<a href="#appendix-B.2-1.9.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.10">
+            <p id="appendix-B.2-1.10.1">Fixes and editorial improvements.<a href="#appendix-B.2-1.10.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-02-03">
-<section id="appendix-B.2">
+<section id="appendix-B.3">
         <h3 id="name-version-02-to-03">
-<a href="#appendix-B.2" class="section-number selfRef">B.2. </a><a href="#name-version-02-to-03" class="section-name selfRef">Version -02 to -03</a>
+<a href="#appendix-B.3" class="section-number selfRef">B.3. </a><a href="#name-version-02-to-03" class="section-name selfRef">Version -02 to -03</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-B.2-1.1">
-            <p id="appendix-B.2-1.1.1">Consistent representation of "CoAP Version" 1 in example Rules.<a href="#appendix-B.2-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B.3-1.1">
+            <p id="appendix-B.3-1.1.1">Consistent representation of "CoAP Version" 1 in example Rules.<a href="#appendix-B.3-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.2-1.2">
-            <p id="appendix-B.2-1.2.1">Split the compression of Token Length and Token into two sections.<a href="#appendix-B.2-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.2">
+            <p id="appendix-B.3-1.2.1">Split the compression of Token Length and Token into two sections.<a href="#appendix-B.3-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.2-1.3">
-            <p id="appendix-B.2-1.3.1">Disambiguated example of Rule on eliding a Uri-Path option.<a href="#appendix-B.2-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.3">
+            <p id="appendix-B.3-1.3.1">Disambiguated example of Rule on eliding a Uri-Path option.<a href="#appendix-B.3-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.2-1.4">
-            <p id="appendix-B.2-1.4.1">Fixed compression examples with OSCORE.<a href="#appendix-B.2-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.4">
+            <p id="appendix-B.3-1.4.1">Fixed compression examples with OSCORE.<a href="#appendix-B.3-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.2-1.5">
-            <p id="appendix-B.2-1.5.1">Inherited security considerations on the YANG module from RFC 9363.<a href="#appendix-B.2-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.5">
+            <p id="appendix-B.3-1.5.1">Inherited security considerations on the YANG module from RFC 9363.<a href="#appendix-B.3-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.2-1.6">
-            <p id="appendix-B.2-1.6.1">Fixes and editorial improvements.<a href="#appendix-B.2-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.6">
+            <p id="appendix-B.3-1.6.1">Fixes and editorial improvements.<a href="#appendix-B.3-1.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-01-02">
-<section id="appendix-B.3">
+<section id="appendix-B.4">
         <h3 id="name-version-01-to-02">
-<a href="#appendix-B.3" class="section-number selfRef">B.3. </a><a href="#name-version-01-to-02" class="section-name selfRef">Version -01 to -02</a>
+<a href="#appendix-B.4" class="section-number selfRef">B.4. </a><a href="#name-version-01-to-02" class="section-name selfRef">Version -01 to -02</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-B.3-1.1">
-            <p id="appendix-B.3-1.1.1">Added compression for the CoAP options Proxy-Cri and Proxy-Scheme-Number.<a href="#appendix-B.3-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B.4-1.1">
+            <p id="appendix-B.4-1.1.1">Added compression for the CoAP options Proxy-Cri and Proxy-Scheme-Number.<a href="#appendix-B.4-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.2">
-            <p id="appendix-B.3-1.2.1">Defined new IANA registry "SCHC Compression of CoAP Fields".<a href="#appendix-B.3-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.2">
+            <p id="appendix-B.4-1.2.1">Defined new IANA registry "SCHC Compression of CoAP Fields".<a href="#appendix-B.4-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.3">
-            <p id="appendix-B.3-1.3.1">Updated the YANG data model.<a href="#appendix-B.3-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.3">
+            <p id="appendix-B.4-1.3.1">Updated the YANG data model.<a href="#appendix-B.4-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.4">
-            <p id="appendix-B.3-1.4.1">Fixes and editorial improvements.<a href="#appendix-B.3-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.4">
+            <p id="appendix-B.4-1.4.1">Fixes and editorial improvements.<a href="#appendix-B.4-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-00-01">
-<section id="appendix-B.4">
+<section id="appendix-B.5">
         <h3 id="name-version-00-to-01">
-<a href="#appendix-B.4" class="section-number selfRef">B.4. </a><a href="#name-version-00-to-01" class="section-name selfRef">Version -00 to -01</a>
+<a href="#appendix-B.5" class="section-number selfRef">B.5. </a><a href="#name-version-00-to-01" class="section-name selfRef">Version -00 to -01</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-B.4-1.1">
-            <p id="appendix-B.4-1.1.1">Fixed an example, as per the erratum with Errata ID 7623.<a href="#appendix-B.4-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B.5-1.1">
+            <p id="appendix-B.5-1.1.1">Fixed an example, as per the erratum with Errata ID 7623.<a href="#appendix-B.5-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.4-1.2">
-            <p id="appendix-B.4-1.2.1">Clarified building of Field Descriptor for CoAP options.<a href="#appendix-B.4-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.2">
+            <p id="appendix-B.5-1.2.1">Clarified building of Field Descriptor for CoAP options.<a href="#appendix-B.5-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.4-1.3">
-            <p id="appendix-B.4-1.3.1">Clarified what SCHC compression considers for CoAP options.<a href="#appendix-B.4-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.3">
+            <p id="appendix-B.5-1.3.1">Clarified what SCHC compression considers for CoAP options.<a href="#appendix-B.5-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.4-1.4">
-            <p id="appendix-B.4-1.4.1">Revised SCHC compression of the ETag and If-Match CoAP option.<a href="#appendix-B.4-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.4">
+            <p id="appendix-B.5-1.4.1">Revised SCHC compression of the ETag and If-Match CoAP option.<a href="#appendix-B.5-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.4-1.5">
-            <p id="appendix-B.4-1.5.1">Revised SCHC compression of the If-None-Match CoAP option.<a href="#appendix-B.4-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.5">
+            <p id="appendix-B.5-1.5.1">Revised SCHC compression of the If-None-Match CoAP option.<a href="#appendix-B.5-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.4-1.6">
-            <p id="appendix-B.4-1.6.1">Added YANG data model for the YANG module.<a href="#appendix-B.4-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.6">
+            <p id="appendix-B.5-1.6.1">Added YANG data model for the YANG module.<a href="#appendix-B.5-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.4-1.7">
-            <p id="appendix-B.4-1.7.1">Added IANA considerations.<a href="#appendix-B.4-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.7">
+            <p id="appendix-B.5-1.7.1">Added IANA considerations.<a href="#appendix-B.5-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.4-1.8">
-            <p id="appendix-B.4-1.8.1">Fixes and editorial improvements.<a href="#appendix-B.4-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.8">
+            <p id="appendix-B.5-1.8.1">Fixes and editorial improvements.<a href="#appendix-B.5-1.8.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -6101,16 +6119,16 @@ module ietf-schc-coap {
 </div>
 </address>
 <address class="vcard">
-        <div dir="auto" class="left"><span class="fn nameRole">Ivan Martinez</span></div>
-<div dir="auto" class="left"><span class="org">Nokia Bell Labs</span></div>
-<div dir="auto" class="left"><span class="street-address">12 Rue Jean Bart</span></div>
+        <div dir="auto" class="left"><span class="fn nameRole">Iván Martínez</span></div>
+<div dir="auto" class="left"><span class="org">IRISA</span></div>
+<div dir="auto" class="left"><span class="street-address">263 Av. Général Leclerc</span></div>
 <div dir="auto" class="left">
-<span class="postal-code">91300</span> <span class="locality">Massy</span>
+<span class="postal-code">35000</span> <span class="locality">Rennes</span>
 </div>
 <div dir="auto" class="left"><span class="country-name">France</span></div>
 <div class="email">
 <span>Email:</span>
-<a href="mailto:ivan.martinez_bolivar@nokia-bell-labs.com" class="email">ivan.martinez_bolivar@nokia-bell-labs.com</a>
+<a href="mailto:ivan-marino.martinez-bolivar@irisa.fr" class="email">ivan-marino.martinez-bolivar@irisa.fr</a>
 </div>
 </address>
 <address class="vcard">

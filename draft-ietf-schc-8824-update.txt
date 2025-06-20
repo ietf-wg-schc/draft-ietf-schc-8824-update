@@ -6,11 +6,11 @@ SCHC Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Obsoletes: 8824 (if approved)                                 L. Toutain
 Intended status: Standards Track                          IMT Atlantique
-Expires: 15 November 2025                                    I. Martinez
-                                                         Nokia Bell Labs
+Expires: 22 December 2025                                    I. Martínez
+                                                                   IRISA
                                                              A. Minaburo
                                                               Consultant
-                                                             14 May 2025
+                                                            20 June 2025
 
 
 Static Context Header Compression (SCHC) for the Constrained Application
@@ -61,7 +61,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 November 2025.
+   This Internet-Draft will expire on 22 December 2025.
 
 Copyright Notice
 
@@ -137,10 +137,11 @@ Table of Contents
      14.2.  Informative References
    Appendix A.  YANG Data Model
    Appendix B.  Document Updates
-     B.1.  Version -03 to -04
-     B.2.  Version -02 to -03
-     B.3.  Version -01 to -02
-     B.4.  Version -00 to -01
+     B.1.  Version -04 to -05
+     B.2.  Version -03 to -04
+     B.3.  Version -02 to -03
+     B.4.  Version -01 to -02
+     B.5.  Version -00 to -01
    Acknowledgments
    Authors' Addresses
 
@@ -3702,7 +3703,13 @@ Appendix B.  Document Updates
 
    This section is to be removed before publishing as an RFC.
 
-B.1.  Version -03 to -04
+B.1.  Version -04 to -05
+
+   *  Updated author's contact information.
+
+   *  Fixes and editorial improvements.
+
+B.2.  Version -03 to -04
 
    *  Clarified the rationale for using the "tkl" function.
 
@@ -3726,7 +3733,7 @@ B.1.  Version -03 to -04
 
    *  Fixes and editorial improvements.
 
-B.2.  Version -02 to -03
+B.3.  Version -02 to -03
 
    *  Consistent representation of "CoAP Version" 1 in example Rules.
 
@@ -3741,7 +3748,7 @@ B.2.  Version -02 to -03
 
    *  Fixes and editorial improvements.
 
-B.3.  Version -01 to -02
+B.4.  Version -01 to -02
 
    *  Added compression for the CoAP options Proxy-Cri and Proxy-Scheme-
       Number.
@@ -3752,7 +3759,7 @@ B.3.  Version -01 to -02
 
    *  Fixes and editorial improvements.
 
-B.4.  Version -00 to -01
+B.5.  Version -00 to -01
 
    *  Fixed an example, as per the erratum with Errata ID 7623.
 
@@ -3799,12 +3806,12 @@ Authors' Addresses
    Email: Laurent.Toutain@imt-atlantique.fr
 
 
-   Ivan Martinez
-   Nokia Bell Labs
-   12 Rue Jean Bart
-   91300 Massy
+   Iván Martínez
+   IRISA
+   263 Av. Général Leclerc
+   35000 Rennes
    France
-   Email: ivan.martinez_bolivar@nokia-bell-labs.com
+   Email: ivan-marino.martinez-bolivar@irisa.fr
 
 
    Ana Minaburo
