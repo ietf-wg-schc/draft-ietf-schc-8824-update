@@ -35,14 +35,14 @@ author:
         country: France
         email: Laurent.Toutain@imt-atlantique.fr
       -
-        ins: I. Martinez
-        name: Ivan Martinez
-        org: Nokia Bell Labs
-        street: 12 Rue Jean Bart
-        city: Massy
-        code: 91300
+        ins: I. Martínez
+        name: Iván Martínez
+        org: IRISA
+        street: 263 Av. Général Leclerc
+        city: Rennes
+        code: 35000
         country: France
-        email: ivan.martinez_bolivar@nokia-bell-labs.com
+        email: ivan-marino.martinez-bolivar@irisa.fr
       -
         ins: A. Minaburo
         name: Ana Minaburo
@@ -2323,6 +2323,12 @@ module ietf-schc-coap {
 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
+
+## Version -04 to -05 ## {#sec-04-05}
+
+* Updated author's contact information.
+
+* Fixes and editorial improvements.
 
 ## Version -03 to -04 ## {#sec-03-04}
 
