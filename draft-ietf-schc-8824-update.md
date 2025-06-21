@@ -2365,8 +2365,8 @@ module ietf-schc-coap {
 
 * Compression of OSCORE Option:
 
-  * Revised semantics of the x sub-fields related to KUDOS
-  * Removed moot sub-fields related to KUDOS
+  * Revised semantics of the x sub-field related to KUDOS.
+  * Removed moot sub-fields related to KUDOS.
 
 * Updated author's contact information.
 
