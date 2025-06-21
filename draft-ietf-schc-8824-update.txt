@@ -1414,26 +1414,26 @@ Table of Contents
    Security Context for decrypting the message.
 
                   Original CoAP Message
-              +--------------------------------------------+
-              |                                            |
-              |  +-+-+---+-------+------------+            |
-              |  |v|t|TKL| code  | Message ID |            |
-              |  +-+-+---+-------+------------+-- ... --+  |
-              |  | Token                                |  |
-              |  +--------------------------+---- ... --+  |
-              |  | Options (EIU)            |              |
-              |  :                          :              |
-              |  :                          :              |
-              |  |                          |              |
-              |  +------+-------------------+              |
-              |  | 0xFF |                                  |
-              |  +------+-------------------+              |
-              |  | Payload                  |              |
-              |  |                          |              |
-              |  |                          |              |
-              |  +--------------------------+              |
-              |                                            |
-              +--------------------------------------------+
+              +-------------------------------------------+
+              |                                           |
+              |  +-+-+---+------+------------+            |
+              |  |v|t|TKL| code | Message ID |            |
+              |  +-+-+---+------+------------+-- ... --+  |
+              |  | Token                               |  |
+              |  +--------------------------+--- ... --+  |
+              |  | Options (EIU)            |             |
+              |  :                          :             |
+              |  :                          :             |
+              |  |                          |             |
+              |  +------+-------------------+             |
+              |  | 0xFF |                                 |
+              |  +------+-------------------+             |
+              |  | Payload                  |             |
+              |  |                          |             |
+              |  |                          |             |
+              |  +--------------------------+             |
+              |                                           |
+              +-------------------------------------------+
                             /                \
                            /                  \
                           /                    \
@@ -3230,13 +3230,13 @@ Table of Contents
    |CoAP.option(9)          |CoAP option OSCORE                        |
    |                        |[RFC8613][I-D.ietf-core-oscore-key-update]|
    +------------------------+------------------------------------------+
-   |CoAP.option(9).flags    |CoAP option OSCORE (subfield Flags)       |
+   |CoAP.option(9).flags    |CoAP option OSCORE (subfield flags)       |
    |                        |[RFC8613][I-D.ietf-core-oscore-key-update]|
    +------------------------+------------------------------------------+
-   |CoAP.option(9).piv      |CoAP option OSCORE (subfield PIV)         |
+   |CoAP.option(9).piv      |CoAP option OSCORE (subfield piv)         |
    |                        |[RFC8613]                                 |
    +------------------------+------------------------------------------+
-   |CoAP.option(9).kid_ctx  |CoAP option OSCORE (subfield kid context) |
+   |CoAP.option(9).kid_ctx  |CoAP option OSCORE (subfield kid_ctx)     |
    |                        |[RFC8613]                                 |
    +------------------------+------------------------------------------+
    |CoAP.option(9).x        |CoAP option OSCORE (subfield x)           |
@@ -3449,8 +3449,8 @@ Table of Contents
    The columns of this registry are:
 
    *  Field: a unique identifier of the CoAP field or subfield
-      associated with this entry.  This identifier is used as value of
-      the "FID" column in a SCHC compression Rule for compressing/
+      associated with this entry.  This identifier is used as FID in a
+      Field Descriptor of a SCHC compression Rule for compressing/
       decompressing CoAP messages.
 
       This identifier has two possible formats:
@@ -3461,7 +3461,7 @@ Table of Contents
          name of a subfield of X.
 
       If the CoAP field in question is specifically a CoAP option, then
-      X has the format option(N), where N is the option number of the
+      X has the format "option(N)", where N is the option number of the
       CoAP option.  The value N is taken from the "Number" column of the
       corresponding entry in the "CoAP Option Numbers" IANA registry
       [CoAP.Option.Numbers].
