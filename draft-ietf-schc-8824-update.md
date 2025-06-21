@@ -580,7 +580,7 @@ These two fields, namely x and nonce, are used when running the key update proto
 
 To better perform OSCORE SCHC compression, the Rule description needs to identify the OSCORE Option value and its inner fields mentioned above.
 
-Conceptually, SCHC discerns six distinct pieces of information within the OSCORE Option value: the flag bits, the Partial IV, the kid context prepended by its size s, the x byte, the nonce, and the kid. The SCHC Rule splits the OSCORE Option value into six corresponding Field Descriptors, in order to separateley compress those pieces of information as distinct subfields:
+Conceptually, SCHC discerns six distinct pieces of information within the OSCORE Option value: the flag bits, the Partial IV, the kid context prepended by its size s, the x byte, the nonce, and the kid. The SCHC Rule splits the OSCORE Option value into six corresponding Field Descriptors, in order to separately compress those pieces of information as distinct subfields:
 
 * flags
 * piv
