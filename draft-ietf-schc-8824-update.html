@@ -5816,7 +5816,7 @@ module ietf-schc-coap {
      This module extends the ietf-schc module defined in RFC 9363 to
      include the new CoAP options as defined in RFC YYYY.";
 
-  revision 2025-03-03 {
+  revision 2025-07-07 {
     description
       "New CoAP extensions and extended OSCORE fields.";
     reference
@@ -5923,46 +5923,22 @@ module ietf-schc-coap {
           RFC XXXX Key Update for OSCORE (KUDOS)";
   }
 
-  identity fid-coap-option-oscore-y {
-       base "schc:fid-coap-option";
-       description
-         "CoAP option OSCORE y field.";
-       reference
-         "RFC YYYY Static Context Header Compression (SCHC) for the
-                   Constrained Application Protocol (CoAP) (see
-                   Section 6.4)
-          RFC XXXX Key Update for OSCORE (KUDOS)";
-  }
-
-  identity fid-coap-option-oscore-oldnonce {
-       base "schc:fid-coap-option";
-       description
-         "CoAP option OSCORE old_nonce field.";
-       reference
-         "RFC YYYY Static Context Header Compression (SCHC) for the
-                   Constrained Application Protocol (CoAP) (see
-                   Section 6.4)
-          RFC XXXX Key Update for OSCORE (KUDOS)";
-  }
-
   // Function Length
+
+  identity fl-oscore-oscore-piv-length {
+       base "schc:fl-base-type";
+       description
+         "Size in bytes of the OSCORE Partial IV corresponding to n.";
+       reference
+         "RFC YYYY Static Context Header Compression (SCHC) for the
+                   Constrained Application Protocol (CoAP) (see
+                   Section 6.4)";
+  }
 
   identity fl-oscore-oscore-nonce-length {
        base "schc:fl-base-type";
        description
          "Size in bytes of the OSCORE nonce corresponding to m+1.";
-       reference
-         "RFC YYYY Static Context Header Compression (SCHC) for the
-                   Constrained Application Protocol (CoAP) (see
-                   Section 6.4)
-          RFC XXXX Key Update for OSCORE (KUDOS)";
-  }
-
-  identity fl-oscore-oscore-oldnonce-length {
-       base "schc:fl-base-type";
-       description
-         "Size in bytes of the OSCORE old_nonce corresponding to w+1.
-         ";
        reference
          "RFC YYYY Static Context Header Compression (SCHC) for the
                    Constrained Application Protocol (CoAP) (see
@@ -6021,10 +5997,13 @@ module ietf-schc-coap {
             </ul>
 </li>
           <li class="normal" id="appendix-B.1-1.3">
-            <p id="appendix-B.1-1.3.1">Updated author's contact information.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.3.1">Updated YANG data model.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.4">
-            <p id="appendix-B.1-1.4.1">Fixes and editorial improvements.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.4.1">Updated author's contact information.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.5">
+            <p id="appendix-B.1-1.5.1">Fixes and editorial improvements.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
