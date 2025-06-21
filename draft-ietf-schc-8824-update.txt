@@ -1417,12 +1417,12 @@ Table of Contents
    with FETCH for requests and Content for responses.
 
    The first byte of the Plaintext contains the original header code,
-   the class E options, and, if present, the original message payload
+   the Class E options, and, if present, the original message payload
    preceded by the payload marker.
 
    After that, an Authenticated Encryption with Associated Data (AEAD)
    algorithm encrypts the Plaintext.  This also integrity-protects the
-   Security Context parameters and, if present, any class I options from
+   Security Context parameters and, if present, any Class I options from
    the Outer header.  The resulting ciphertext becomes the new payload
    of the OSCORE message, as illustrated in Figure 7.
 
@@ -1432,24 +1432,33 @@ Table of Contents
    Authentication Tag, fixed in length and uncompressed, is considered
    part of the cost of protection.
 
-                  Outer Header
-               +-+-+---+----------+------------+
-               |v|t|TKL| new code | Message ID |
-               +-+-+---+----------+------------+-- .... --+
-               | Token                                    |
-               +---------------------------------- .... --+
-               | Options (IU)             |
-               :                          :
-               : OSCORE Option            :
-               |                          |
-               +------+-------------------+
-               | 0xFF |
-               +------+---------------------------+
-               | Ciphertext: Encrypted Inner      |
-               |             Header and Payload   |
-               |             + Authentication Tag |
-               |                                  |
-               +----------------------------------+
+   When the CoAP message is specifically protected with the group mode
+   of Group OSCORE (see Section 8 of [I-D.ietf-core-oscore-groupcomm]),
+   the ciphertext is followed by a signature, which is computed over the
+   ciphertext and additional authenticated data.  That is, in the
+   message protected with Group OSCORE, the CoAP payload includes the
+   ciphertext concatenated with the signature.  This has no impact on
+   the SCHC compression/decompression.  That is, like in any other case,
+   the CoAP payload of the protected message is sent as-is within the
+   SCHC packet, following the Compression Residue (if any).
+
+                      +-+-+---+----------+------------+
+                 .... |v|t|TKL| new code | Message ID |
+                 :    +-+-+---+----------+------------+-- .... --+
+                 :    | Token                                    |
+                 :    +---------------------------------- .... --+
+          Outer  :    | Options (IU)             |
+                 :    :                          :
+          Header :    : OSCORE Option            :
+                 :    |                          |
+                 :    +------+-------------------+
+                 :... | 0xFF |
+                      +------+---------------------------+
+                 .... | Ciphertext: Encrypted Inner      |
+                 :    |             Header and Payload   |
+         Payload :    |             + Authentication Tag |
+                 :... |                                  |
+                      +----------------------------------+
 
                          Figure 7: OSCORE Message.
 
@@ -3228,7 +3237,7 @@ Table of Contents
    compression itself does not increase or decrease the overall level of
    security of the communication.  When the connection does not use a
    security protocol (e.g., OSCORE or DTLS), it is necessary to use a
-   Layer 2 security mechanism to protect the SCHC messages.
+   Layer 2 security mechanism to protect the SCHC packets.
 
    If an LPWAN is the Layer 2 technology being used, the SCHC security
    considerations discussed in [RFC8724] continue to apply.  When using
@@ -3809,6 +3818,9 @@ B.1.  Version -04 to -05
       -  Revised semantics of the x sub-field related to KUDOS.
 
       -  Removed moot sub-fields related to KUDOS.
+
+   *  Clarified OSCORE compression when using the group mode of Group
+      OSCORE.
 
    *  Updated YANG data model.
 

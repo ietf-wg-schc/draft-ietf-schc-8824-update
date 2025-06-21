@@ -2577,78 +2577,94 @@ This construct avoids ambiguity with the value m within the x subfield and resul
 </div>
 <p id="section-8.2-7"><a href="#fig-inner-outer" class="auto internal xref">Figure 6</a> shows the packet format for the OSCORE Outer header and Plaintext.<a href="#section-8.2-7" class="pilcrow">¶</a></p>
 <p id="section-8.2-8">In the Outer header, the original header code is hidden and replaced by a well-known value. As specified in Sections <a href="https://rfc-editor.org/rfc/rfc8613#section-4.1.3.5" class="relref">4.1.3.5</a> and <a href="https://rfc-editor.org/rfc/rfc8613#section-4.2" class="relref">4.2</a> of <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>, the original header code is replaced with POST for requests and Changed for responses, when the message does not include the Observe Option. Otherwise, the original header code is replaced with FETCH for requests and Content for responses.<a href="#section-8.2-8" class="pilcrow">¶</a></p>
-<p id="section-8.2-9">The first byte of the Plaintext contains the original header code, the class E options, and, if present, the original message payload preceded by the payload marker.<a href="#section-8.2-9" class="pilcrow">¶</a></p>
-<p id="section-8.2-10">After that, an Authenticated Encryption with Associated Data (AEAD) algorithm encrypts the Plaintext. This also integrity-protects the Security Context parameters and, if present, any class I options from the Outer header. The resulting ciphertext becomes the new payload of the OSCORE message, as illustrated in <a href="#fig-full-oscore" class="auto internal xref">Figure 7</a>.<a href="#section-8.2-10" class="pilcrow">¶</a></p>
+<p id="section-8.2-9">The first byte of the Plaintext contains the original header code, the Class E options, and, if present, the original message payload preceded by the payload marker.<a href="#section-8.2-9" class="pilcrow">¶</a></p>
+<p id="section-8.2-10">After that, an Authenticated Encryption with Associated Data (AEAD) algorithm encrypts the Plaintext. This also integrity-protects the Security Context parameters and, if present, any Class I options from the Outer header. The resulting ciphertext becomes the new payload of the OSCORE message, as illustrated in <a href="#fig-full-oscore" class="auto internal xref">Figure 7</a>.<a href="#section-8.2-10" class="pilcrow">¶</a></p>
 <p id="section-8.2-11">As defined in <span>[<a href="#RFC5116" class="cite xref">RFC5116</a>]</span>, this ciphertext is the encrypted Plaintext's concatenation with the Authentication Tag. Note that Inner Compression only affects the Plaintext before encryption. The Authentication Tag, fixed in length and uncompressed, is considered part of the cost of protection.<a href="#section-8.2-11" class="pilcrow">¶</a></p>
+<p id="section-8.2-12">When the CoAP message is specifically protected with the group mode of Group OSCORE (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-25#section-8" class="relref">Section 8</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), the ciphertext is followed by a signature, which is computed over the ciphertext and additional authenticated data. That is, in the message protected with Group OSCORE, the CoAP payload includes the ciphertext concatenated with the signature. This has no impact on the SCHC compression/decompression. That is, like in any other case, the CoAP payload of the protected message is sent as-is within the SCHC packet, following the Compression Residue (if any).<a href="#section-8.2-12" class="pilcrow">¶</a></p>
 <span id="name-oscore-message"></span><div id="fig-full-oscore">
 <figure id="figure-7">
-          <div id="section-8.2-12.1">
-            <div class="alignCenter art-svg artwork" id="section-8.2-12.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="320" width="360" viewBox="0 0 360 320" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
-                <path d="M 8,48 L 8,128" fill="none" stroke="black"></path>
-                <path d="M 8,176 L 8,304" fill="none" stroke="black"></path>
-                <path d="M 24,48 L 24,80" fill="none" stroke="black"></path>
-                <path d="M 40,48 L 40,80" fill="none" stroke="black"></path>
-                <path d="M 64,192 L 64,224" fill="none" stroke="black"></path>
-                <path d="M 72,48 L 72,80" fill="none" stroke="black"></path>
-                <path d="M 160,48 L 160,80" fill="none" stroke="black"></path>
-                <path d="M 224,176 L 224,192" fill="none" stroke="black"></path>
-                <path d="M 264,48 L 264,80" fill="none" stroke="black"></path>
-                <path d="M 288,224 L 288,304" fill="none" stroke="black"></path>
-                <path d="M 352,80 L 352,112" fill="none" stroke="black"></path>
-                <path d="M 8,48 L 264,48" fill="none" stroke="black"></path>
-                <path d="M 8,80 L 280,80" fill="none" stroke="black"></path>
-                <path d="M 336,80 L 352,80" fill="none" stroke="black"></path>
-                <path d="M 8,112 L 280,112" fill="none" stroke="black"></path>
-                <path d="M 336,112 L 352,112" fill="none" stroke="black"></path>
-                <path d="M 8,192 L 224,192" fill="none" stroke="black"></path>
-                <path d="M 8,224 L 288,224" fill="none" stroke="black"></path>
-                <path d="M 8,304 L 288,304" fill="none" stroke="black"></path>
+          <div id="section-8.2-13.1">
+            <div class="alignCenter art-svg artwork" id="section-8.2-13.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="304" width="464" viewBox="0 0 464 304" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 112,32 L 112,112" fill="none" stroke="black"></path>
+                <path d="M 112,160 L 112,288" fill="none" stroke="black"></path>
+                <path d="M 128,32 L 128,64" fill="none" stroke="black"></path>
+                <path d="M 144,32 L 144,64" fill="none" stroke="black"></path>
+                <path d="M 168,176 L 168,208" fill="none" stroke="black"></path>
+                <path d="M 176,32 L 176,64" fill="none" stroke="black"></path>
+                <path d="M 264,32 L 264,64" fill="none" stroke="black"></path>
+                <path d="M 328,160 L 328,176" fill="none" stroke="black"></path>
+                <path d="M 368,32 L 368,64" fill="none" stroke="black"></path>
+                <path d="M 392,208 L 392,288" fill="none" stroke="black"></path>
+                <path d="M 456,64 L 456,96" fill="none" stroke="black"></path>
+                <path d="M 112,32 L 368,32" fill="none" stroke="black"></path>
+                <path d="M 112,64 L 384,64" fill="none" stroke="black"></path>
+                <path d="M 440,64 L 456,64" fill="none" stroke="black"></path>
+                <path d="M 112,96 L 384,96" fill="none" stroke="black"></path>
+                <path d="M 440,96 L 456,96" fill="none" stroke="black"></path>
+                <path d="M 112,176 L 328,176" fill="none" stroke="black"></path>
+                <path d="M 112,208 L 392,208" fill="none" stroke="black"></path>
+                <path d="M 112,288 L 392,288" fill="none" stroke="black"></path>
                 <g class="text">
-                  <text x="48" y="36">Outer</text>
-                  <text x="100" y="36">Header</text>
-                  <text x="16" y="68">v</text>
-                  <text x="32" y="68">t</text>
-                  <text x="56" y="68">TKL</text>
-                  <text x="96" y="68">new</text>
-                  <text x="132" y="68">code</text>
-                  <text x="200" y="68">Message</text>
-                  <text x="244" y="68">ID</text>
-                  <text x="308" y="84">....</text>
-                  <text x="40" y="100">Token</text>
-                  <text x="308" y="116">....</text>
-                  <text x="48" y="132">Options</text>
-                  <text x="100" y="132">(IU)</text>
-                  <text x="224" y="132">|</text>
-                  <text x="8" y="148">:</text>
-                  <text x="224" y="148">:</text>
-                  <text x="8" y="164">:</text>
-                  <text x="44" y="164">OSCORE</text>
-                  <text x="100" y="164">Option</text>
-                  <text x="224" y="164">:</text>
-                  <text x="36" y="212">0xFF</text>
-                  <text x="64" y="244">Ciphertext:</text>
-                  <text x="152" y="244">Encrypted</text>
-                  <text x="216" y="244">Inner</text>
-                  <text x="140" y="260">Header</text>
-                  <text x="184" y="260">and</text>
-                  <text x="232" y="260">Payload</text>
-                  <text x="120" y="276">+</text>
-                  <text x="188" y="276">Authentication</text>
-                  <text x="264" y="276">Tag</text>
+                  <text x="84" y="52">....</text>
+                  <text x="120" y="52">v</text>
+                  <text x="136" y="52">t</text>
+                  <text x="160" y="52">TKL</text>
+                  <text x="200" y="52">new</text>
+                  <text x="236" y="52">code</text>
+                  <text x="304" y="52">Message</text>
+                  <text x="348" y="52">ID</text>
+                  <text x="72" y="68">:</text>
+                  <text x="412" y="68">....</text>
+                  <text x="72" y="84">:</text>
+                  <text x="144" y="84">Token</text>
+                  <text x="72" y="100">:</text>
+                  <text x="412" y="100">....</text>
+                  <text x="32" y="116">Outer</text>
+                  <text x="72" y="116">:</text>
+                  <text x="152" y="116">Options</text>
+                  <text x="204" y="116">(IU)</text>
+                  <text x="328" y="116">|</text>
+                  <text x="72" y="132">:</text>
+                  <text x="112" y="132">:</text>
+                  <text x="328" y="132">:</text>
+                  <text x="36" y="148">Header</text>
+                  <text x="72" y="148">:</text>
+                  <text x="112" y="148">:</text>
+                  <text x="148" y="148">OSCORE</text>
+                  <text x="204" y="148">Option</text>
+                  <text x="328" y="148">:</text>
+                  <text x="72" y="164">:</text>
+                  <text x="72" y="180">:</text>
+                  <text x="84" y="196">:...</text>
+                  <text x="140" y="196">0xFF</text>
+                  <text x="84" y="228">....</text>
+                  <text x="168" y="228">Ciphertext:</text>
+                  <text x="256" y="228">Encrypted</text>
+                  <text x="320" y="228">Inner</text>
+                  <text x="72" y="244">:</text>
+                  <text x="244" y="244">Header</text>
+                  <text x="288" y="244">and</text>
+                  <text x="336" y="244">Payload</text>
+                  <text x="32" y="260">Payload</text>
+                  <text x="72" y="260">:</text>
+                  <text x="224" y="260">+</text>
+                  <text x="292" y="260">Authentication</text>
+                  <text x="368" y="260">Tag</text>
+                  <text x="84" y="276">:...</text>
                 </g>
-              </svg><a href="#section-8.2-12.1.1" class="pilcrow">¶</a>
+              </svg><a href="#section-8.2-13.1.1" class="pilcrow">¶</a>
 </div>
 </div>
 <figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
 <a href="#name-oscore-message" class="selfRef">OSCORE Message.</a>
           </figcaption></figure>
 </div>
-<p id="section-8.2-13">The SCHC compression scheme consists of compressing both the Plaintext before encryption and the resulting OSCORE message after encryption, as shown in <a href="#fig-OSCORE-Compression" class="auto internal xref">Figure 8</a>. Note that, since the recipient endpoint can only decrypt the Inner part of the message, that endpoint will also have to implement Inner SCHC Compression/Decompression.<a href="#section-8.2-13" class="pilcrow">¶</a></p>
+<p id="section-8.2-14">The SCHC compression scheme consists of compressing both the Plaintext before encryption and the resulting OSCORE message after encryption, as shown in <a href="#fig-OSCORE-Compression" class="auto internal xref">Figure 8</a>. Note that, since the recipient endpoint can only decrypt the Inner part of the message, that endpoint will also have to implement Inner SCHC Compression/Decompression.<a href="#section-8.2-14" class="pilcrow">¶</a></p>
 <span id="name-oscore-compression-diagram"></span><div id="fig-OSCORE-Compression">
 <figure id="figure-8">
-          <div id="section-8.2-14.1">
-            <div class="alignCenter art-svg artwork" id="section-8.2-14.1.1">
+          <div id="section-8.2-15.1">
+            <div class="alignCenter art-svg artwork" id="section-8.2-15.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="608" width="576" viewBox="0 0 576 608" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
                 <path d="M 8,48 L 8,128" fill="none" stroke="black"></path>
                 <path d="M 8,176 L 8,288" fill="none" stroke="black"></path>
@@ -2769,28 +2785,28 @@ This construct avoids ambiguity with the value m within the x subfield and resul
                   <text x="148" y="516">Residue'</text>
                   <text x="60" y="564">Ciphertext</text>
                 </g>
-              </svg><a href="#section-8.2-14.1.1" class="pilcrow">¶</a>
+              </svg><a href="#section-8.2-15.1.1" class="pilcrow">¶</a>
 </div>
 </div>
 <figcaption><a href="#figure-8" class="selfRef">Figure 8</a>:
 <a href="#name-oscore-compression-diagram" class="selfRef">OSCORE Compression Diagram.</a>
           </figcaption></figure>
 </div>
-<p id="section-8.2-15">The OSCORE message translates into a segmented process where SCHC compression is applied independently in two stages, each with its corresponding set of Rules, i.e., the Inner SCHC Rules and the Outer SCHC Rules. By doing so, compression is applied to all the fields of the original CoAP message.<a href="#section-8.2-15" class="pilcrow">¶</a></p>
-<p id="section-8.2-16">As to the compression of the 0xFF payload marker, the same rationale described in <a href="#payload-marker" class="auto internal xref">Section 7</a> applies to both the Inner SCHC Compression and the Outer SCHC Compression. That is:<a href="#section-8.2-16" class="pilcrow">¶</a></p>
+<p id="section-8.2-16">The OSCORE message translates into a segmented process where SCHC compression is applied independently in two stages, each with its corresponding set of Rules, i.e., the Inner SCHC Rules and the Outer SCHC Rules. By doing so, compression is applied to all the fields of the original CoAP message.<a href="#section-8.2-16" class="pilcrow">¶</a></p>
+<p id="section-8.2-17">As to the compression of the 0xFF payload marker, the same rationale described in <a href="#payload-marker" class="auto internal xref">Section 7</a> applies to both the Inner SCHC Compression and the Outer SCHC Compression. That is:<a href="#section-8.2-17" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.2-17.1">
-            <p id="section-8.2-17.1.1">After the Inner SCHC Compression of a CoAP message including a payload, the payload marker <span class="bcp14">MUST NOT</span> be included in the input to the AEAD Encryption, which is composed of the Inner Compression RuleID, the Inner Compression Residue (if any), and the CoAP payload.<a href="#section-8.2-17.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-8.2-18.1">
+            <p id="section-8.2-18.1.1">After the Inner SCHC Compression of a CoAP message including a payload, the payload marker <span class="bcp14">MUST NOT</span> be included in the input to the AEAD Encryption, which is composed of the Inner Compression RuleID, the Inner Compression Residue (if any), and the CoAP payload.<a href="#section-8.2-18.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.2-17.2">
-            <p id="section-8.2-17.2.1">The Outer SCHC Compression takes as input the OSCORE-protected message, which always includes a payload (i.e., the OSCORE Ciphertext) preceded by the payload marker.<a href="#section-8.2-17.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.2-18.2">
+            <p id="section-8.2-18.2.1">The Outer SCHC Compression takes as input the OSCORE-protected message, which always includes a payload (i.e., the OSCORE Ciphertext) preceded by the payload marker.<a href="#section-8.2-18.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-8.2-17.3">
-            <p id="section-8.2-17.3.1">After the Outer SCHC Compression, the payload marker <span class="bcp14">MUST NOT</span> be included in the final compressed message, which is composed of the Outer Compression RuleID, the Outer Compression Residue (if any), and the OSCORE Ciphertext.<a href="#section-8.2-17.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-8.2-18.3">
+            <p id="section-8.2-18.3.1">After the Outer SCHC Compression, the payload marker <span class="bcp14">MUST NOT</span> be included in the final compressed message, which is composed of the Outer Compression RuleID, the Outer Compression Residue (if any), and the OSCORE Ciphertext.<a href="#section-8.2-18.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-8.2-18">After having completed the Outer SCHC Decompression of an incoming message, the recipient endpoint <span class="bcp14">MUST</span> prepend the 0xFF payload marker to the OSCORE Ciphertext.<a href="#section-8.2-18" class="pilcrow">¶</a></p>
-<p id="section-8.2-19">After having completed the Inner SCHC Decompression of an incoming message, the recipient endpoint <span class="bcp14">MUST</span> prepend the 0xFF payload marker to the CoAP payload, if any was present after the consumed Compression Residue.<a href="#section-8.2-19" class="pilcrow">¶</a></p>
+<p id="section-8.2-19">After having completed the Outer SCHC Decompression of an incoming message, the recipient endpoint <span class="bcp14">MUST</span> prepend the 0xFF payload marker to the OSCORE Ciphertext.<a href="#section-8.2-19" class="pilcrow">¶</a></p>
+<p id="section-8.2-20">After having completed the Inner SCHC Decompression of an incoming message, the recipient endpoint <span class="bcp14">MUST</span> prepend the 0xFF payload marker to the CoAP payload, if any was present after the consumed Compression Residue.<a href="#section-8.2-20" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="example-oscore-compression">
@@ -5471,7 +5487,7 @@ Compressed message length: 16 bytes
       <h2 id="name-security-considerations">
 <a href="#section-12" class="section-number selfRef">12. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-12-1">The use of SCHC header compression for CoAP header fields only affects the representation of the header information. SCHC header compression itself does not increase or decrease the overall level of security of the communication. When the connection does not use a security protocol (e.g., OSCORE or DTLS), it is necessary to use a Layer 2 security mechanism to protect the SCHC messages.<a href="#section-12-1" class="pilcrow">¶</a></p>
+<p id="section-12-1">The use of SCHC header compression for CoAP header fields only affects the representation of the header information. SCHC header compression itself does not increase or decrease the overall level of security of the communication. When the connection does not use a security protocol (e.g., OSCORE or DTLS), it is necessary to use a Layer 2 security mechanism to protect the SCHC packets.<a href="#section-12-1" class="pilcrow">¶</a></p>
 <p id="section-12-2">If an LPWAN is the Layer 2 technology being used, the SCHC security considerations discussed in <span>[<a href="#RFC8724" class="cite xref">RFC8724</a>]</span> continue to apply. When using another Layer 2 protocol, the use of a cryptographic integrity-protection mechanism to protect the SCHC headers is <span class="bcp14">REQUIRED</span>. Such cryptographic integrity protection is necessary in order to continue to provide the properties that <span>[<a href="#RFC8724" class="cite xref">RFC8724</a>]</span> relies upon.<a href="#section-12-2" class="pilcrow">¶</a></p>
 <p id="section-12-3">When SCHC is used with OSCORE, the security considerations discussed in <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> continue to apply. When SCHC is used with Group OSCORE, the security considerations discussed in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span> apply. When SCHC is used in the presence of CoAP proxies, the security considerations discussed in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-11.2" class="relref">Section 11.2</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> continue to apply.<a href="#section-12-3" class="pilcrow">¶</a></p>
 <p id="section-12-4">When SCHC is used with the OSCORE Outer headers, the Initialization Vector (IV) size in the Compression Residue must be carefully selected. There is a trade-off between compression efficiency (with a longer MSB MO prefix) and the frequency at which the Device must renew its key material (in order to prevent the IV from expanding to an incompressible value). The key-renewal operation itself may require several message exchanges and result in energy-intensive computation, but the optimal trade-off will depend on the specifics of the Device and expected usage patterns. In order to renew its key material with another OSCORE endpoint, the Device can rely on the lightweight key update protocol KUDOS defined in <span>[<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>.<a href="#section-12-4" class="pilcrow">¶</a></p>
@@ -5997,13 +6013,16 @@ module ietf-schc-coap {
             </ul>
 </li>
           <li class="normal" id="appendix-B.1-1.3">
-            <p id="appendix-B.1-1.3.1">Updated YANG data model.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.3.1">Clarified OSCORE compression when using the group mode of Group OSCORE.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.4">
-            <p id="appendix-B.1-1.4.1">Updated author's contact information.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.4.1">Updated YANG data model.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.5">
-            <p id="appendix-B.1-1.5.1">Fixes and editorial improvements.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.5.1">Updated author's contact information.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.6">
+            <p id="appendix-B.1-1.6.1">Fixes and editorial improvements.<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
