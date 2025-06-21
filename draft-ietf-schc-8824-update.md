@@ -724,31 +724,32 @@ As per these classes, the Outer options comprise the OSCORE Option, which indica
 
 In the Outer header, the original header code is hidden and replaced by a well-known value. As specified in {{Sections 4.1.3.5 and 4.2 of RFC8613}}, the original header code is replaced with POST for requests and Changed for responses, when the message does not include the Observe Option. Otherwise, the original header code is replaced with FETCH for requests and Content for responses.
 
-The first byte of the Plaintext contains the original header code, the class E options, and, if present, the original message payload preceded by the payload marker.
+The first byte of the Plaintext contains the original header code, the Class E options, and, if present, the original message payload preceded by the payload marker.
 
-After that, an Authenticated Encryption with Associated Data (AEAD) algorithm encrypts the Plaintext. This also integrity-protects the Security Context parameters and, if present, any class I options from the Outer header. The resulting ciphertext becomes the new payload of the OSCORE message, as illustrated in {{fig-full-oscore}}.
+After that, an Authenticated Encryption with Associated Data (AEAD) algorithm encrypts the Plaintext. This also integrity-protects the Security Context parameters and, if present, any Class I options from the Outer header. The resulting ciphertext becomes the new payload of the OSCORE message, as illustrated in {{fig-full-oscore}}.
 
 As defined in {{RFC5116}}, this ciphertext is the encrypted Plaintext's concatenation with the Authentication Tag. Note that Inner Compression only affects the Plaintext before encryption. The Authentication Tag, fixed in length and uncompressed, is considered part of the cost of protection.
 
+When the CoAP message is specifically protected with the group mode of Group OSCORE (see {{Section 8 of I-D.ietf-core-oscore-groupcomm}}), the ciphertext is followed by a signature, which is computed over the ciphertext and additional authenticated data. That is, in the message protected with Group OSCORE, the CoAP payload includes the ciphertext concatenated with the signature. This has no impact on the SCHC compression/decompression. That is, like in any other case, the CoAP payload of the protected message is sent as-is within the SCHC packet, following the Compression Residue (if any).
+
 ~~~~ aasvg
-   Outer Header
-+-+-+---+----------+------------+
-|v|t|TKL| new code | Message ID |
-+-+-+---+----------+------------+-- .... --+
-| Token                                    |
-+---------------------------------- .... --+
-| Options (IU)             |
-:                          :
-: OSCORE Option            :
-|                          |
-+------+-------------------+
-| 0xFF |
-+------+---------------------------+
-| Ciphertext: Encrypted Inner      |
-|             Header and Payload   |
-|             + Authentication Tag |
-|                                  |
-+----------------------------------+
+             +-+-+---+----------+------------+
+        .... |v|t|TKL| new code | Message ID |
+        :    +-+-+---+----------+------------+-- .... --+
+        :    | Token                                    |
+        :    +---------------------------------- .... --+
+ Outer  :    | Options (IU)             |
+        :    :                          :
+ Header :    : OSCORE Option            :
+        :    |                          |
+        :    +------+-------------------+
+        :... | 0xFF |
+             +------+---------------------------+
+        .... | Ciphertext: Encrypted Inner      |
+        :    |             Header and Payload   |
+Payload :    |             + Authentication Tag |
+        :... |                                  |
+             +----------------------------------+
 ~~~~
 {: #fig-full-oscore title="OSCORE Message." artwork-align="center"}
 
@@ -2047,7 +2048,7 @@ Editor's note: Before publication, confirm or amend the option numbers associate
 
 # Security Considerations
 
-The use of SCHC header compression for CoAP header fields only affects the representation of the header information. SCHC header compression itself does not increase or decrease the overall level of security of the communication. When the connection does not use a security protocol (e.g., OSCORE or DTLS), it is necessary to use a Layer 2 security mechanism to protect the SCHC messages.
+The use of SCHC header compression for CoAP header fields only affects the representation of the header information. SCHC header compression itself does not increase or decrease the overall level of security of the communication. When the connection does not use a security protocol (e.g., OSCORE or DTLS), it is necessary to use a Layer 2 security mechanism to protect the SCHC packets.
 
 If an LPWAN is the Layer 2 technology being used, the SCHC security considerations discussed in {{RFC8724}} continue to apply. When using another Layer 2 protocol, the use of a cryptographic integrity-protection mechanism to protect the SCHC headers is REQUIRED. Such cryptographic integrity protection is necessary in order to continue to provide the properties that {{RFC8724}} relies upon.
 
@@ -2341,6 +2342,8 @@ module ietf-schc-coap {
 * Compression of OSCORE Option:
   * Revised semantics of the x sub-field related to KUDOS.
   * Removed moot sub-fields related to KUDOS.
+
+* Clarified OSCORE compression when using the group mode of Group OSCORE.
 
 * Updated YANG data model.
 
