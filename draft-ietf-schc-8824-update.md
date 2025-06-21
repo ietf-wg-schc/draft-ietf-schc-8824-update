@@ -509,13 +509,13 @@ The security protocol OSCORE {{RFC8613}} provides end-to-end protection for CoAP
 
 {{fig-oscore-option}} shows the OSCORE Option value encoding, as it was originally defined in {{Section 6.1 of RFC8613}}. As explained later in this section, this has been extended in {{I-D.ietf-core-oscore-key-update}} and {{I-D.ietf-core-oscore-groupcomm}}. The first byte of the OSCORE Option value specifies information to parse the rest of the value by using flags, as described below.
 
-* As defined in {{Section 4.1 of I-D.ietf-core-oscore-key-update}}, the eight least significant bit, when set, indicates that the OSCORE Option includes a second byte of flags. The seventh least significant bit is currently unassigned.
+* As defined in {{Section 4.1 of I-D.ietf-core-oscore-key-update}}, the eight least significant bit, when set, indicates that the OSCORE Option value includes a second byte of flags. The seventh least significant bit is currently unassigned.
 
-* As defined in {{Section 5 of I-D.ietf-core-oscore-groupcomm}}, the sixth least significant bit, when set, indicates that the message including the OSCORE option is protected with the group mode of Group OSCORE (see {{Section 8 of I-D.ietf-core-oscore-groupcomm}}). When not set, the bit indicates that the message is protected either with OSCORE or with the pairwise mode of Group OSCORE (see {{Section 9 of I-D.ietf-core-oscore-groupcomm}}), while the specific OSCORE Security Context used to protect the message determines which of the two cases applies.
+* As defined in {{Section 5 of I-D.ietf-core-oscore-groupcomm}}, the sixth least significant bit, when set, indicates that the message including the OSCORE Option is protected with the group mode of Group OSCORE (see {{Section 8 of I-D.ietf-core-oscore-groupcomm}}). When not set, the bit indicates that the message is protected either with OSCORE or with the pairwise mode of Group OSCORE (see {{Section 9 of I-D.ietf-core-oscore-groupcomm}}), while the specific OSCORE Security Context used to protect the message determines which of the two cases applies.
 
-* As defined in {{Section 6.1 of RFC8613}}, bit h, when set, indicates the presence of the kid context field in the option. Also, bit k, when set, indicates the presence of the kid field. Finally, the three least significant bits form the n field, which indicates the length of the piv (Partial Initialization Vector) field in bytes. When n = 0, no piv is present.
+* As defined in {{Section 6.1 of RFC8613}}, bit h, when set, indicates the presence of the kid context field in the OSCORE Option value. Also, bit k, when set, indicates the presence of the kid field. Finally, the three least significant bits form the n field, which indicates the length of the Partial IV (Partial Initialization Vector) field in bytes. When n = 0, no Partial IV is present.
 
-Assuming the presence of a single flag byte, this is followed by the piv field. After that, if the h bit is set, the kid context field is present, preceded by one byte "s" indicating its length in bytes. After that, if the k bit is set, the kid field is present, and it ends where the OSCORE Option value ends.
+Assuming the presence of a single flag byte, this is followed by the Partial IV field. After that, if the h bit is set, the kid context field is present, preceded by one byte "s" indicating its length in bytes. After that, if the k bit is set, the kid field is present, and it ends where the OSCORE Option value ends.
 
 ~~~~~~~~~~~
  0 1 2 3 4 5 6 7 <------ n bytes ------->
@@ -533,15 +533,13 @@ Assuming the presence of a single flag byte, this is followed by the piv field. 
 |                                       |                  |
 |<--------------- kid_ctx ------------->|<------ kid ----->|
 ~~~~~~~~~~~
-{: #fig-oscore-option title="OSCORE Option." artwork-align="center"}
+{: #fig-oscore-option title="OSCORE Option Value." artwork-align="center"}
 
-{{fig-oscore-option-kudos}} shows the extended OSCORE Option value encoding, with the second byte of flags also present. As defined in {{Section 4.1 of I-D.ietf-core-oscore-key-update}}, the least significant bit d of this byte, when set, indicates that two additional fields are included in the option, following the kid context field (if any).
+{{fig-oscore-option-kudos}} shows the extended OSCORE Option value encoding, with the second byte of flags also present. As defined in {{Section 4.1 of I-D.ietf-core-oscore-key-update}}, the least significant bit d of this byte, when set, indicates that two additional fields are included in the OSCORE Option value, following the kid context field (if any).
 
-These two fields, namely x and nonce, are used when running the key update protocol KUDOS defined in {{I-D.ietf-core-oscore-key-update}}, with x specifying the length of the nonce field in bytes as well as the specific behavior to adopt during the KUDOS execution.
+These two fields, namely x and nonce, are used when running the key update protocol KUDOS defined in {{I-D.ietf-core-oscore-key-update}}, with x specifying the length of the nonce field in bytes as well as further information concerning the KUDOS execution in question.
 
-If the seventh least significant bit z of the x field is set, it indicates that two additional fields are included in the option, following the x and nonce fields. These two fields, namely y and old_nonce, are also used when running the key update protocol KUDOS, with y specifying the length of the old_nonce field in bytes.
-
-{{fig-oscore-option-kudos}} provides the breakdown of the x field, where its four least significant bits form the subfield m, which specifies the size of nonce in bytes, minus 1. Also, the figure provides the breakdown of the y field, where its four least significant bits form the subfield w, which specifies the size of old_nonce in bytes, minus 1.
+{{fig-oscore-option-kudos}} provides the breakdown of the x field, where its four least significant bits encode the value m, which specifies the size of nonce in bytes, minus 1.
 
 ~~~~~~~~~~~
  0 1 2 3 4 5 6 7  8   9   10  11  12  13  14  15 <----- n bytes ----->
@@ -572,76 +570,56 @@ If the seventh least significant bit z of the x field is set, it indicates that 
 |  +-+-+-+-+-+-+-+-+  |
 
 
- <------ 1 byte -----> <---- w + 1 bytes --->
-+---------------------+----------------------+
-|     y (if any)      |  old_nonce (if any)  |
-+---------------------+----------------------+
-|<-------- y -------->|<----- old_nonce ---->|
-|                     |
-|   0 1 2 3 4 5 6 7   |
-|  +-+-+-+-+-+-+-+-+  |
-|  |0|0|0|0|   w   |  |
-|  +-+-+-+-+-+-+-+-+  |
-
-
 +---------------------+
 |   kid (if any) ...  |
 +---------------------+
 |                     |
 |<------- kid ------->|
 ~~~~~~~~~~~
-{: #fig-oscore-option-kudos title="OSCORE Option extended to support a KUDOS execution." artwork-align="center"}
+{: #fig-oscore-option-kudos title="OSCORE Option Value Extended to Support a KUDOS Execution." artwork-align="center"}
 
-To better perform OSCORE SCHC compression, the Rule description needs to identify the OSCORE Option and the fields it contains.
+To better perform OSCORE SCHC compression, the Rule description needs to identify the OSCORE Option value and its inner fields mentioned above.
 
-Conceptually, it discerns up to eight distinct pieces of information within the OSCORE Option: the flag bits, the piv, the kid context prepended by its size, the x byte, the nonce, the y byte, the old_nonce, and the kid. The SCHC Rule splits the OSCORE Option into eight corresponding Field Descriptors in order to compress those pieces of information:
+Conceptually, SCHC discerns six distinct pieces of information within the OSCORE Option value: the flag bits, the Partial IV, the kid context prepended by its size s, the x byte, the nonce, and the kid. The SCHC Rule splits the OSCORE Option value into six corresponding Field Descriptors, in order to separateley compress those pieces of information as distinct subfields:
 
 * flags
 * piv
 * kid_ctx
 * x
 * nonce
-* y
-* old_nonce
 * kid
 
-If a SCHC Rule is intended to compress a CoAP message that specififes the OSCORE Option, then the related Field Descriptors defined above MUST be listed in the same order according to which the corresponding pieces of information appear in the OSCORE Option.
+If a SCHC Rule is intended to compress a CoAP message that specifies the OSCORE Option, then the related Field Descriptors defined above MUST be listed in the same order according to which the corresponding pieces of information appear in the OSCORE Option value.
 
-{{fig-oscore-option}} shows the original format of the OSCORE Option with the four fields flags, piv, kid_ctx, and kid superimposed on it. Also, {{fig-oscore-option-kudos}} shows the extended format of the OSCORE option with all the eight fields superimposed on it.
+{{fig-oscore-option}} shows the original format of the OSCORE Option value with the four subfields flags, piv, kid_ctx, and kid superimposed on it. Also, {{fig-oscore-option-kudos}} shows the extended format of the OSCORE Option value with all the six subfields superimposed on it.
 
-If a field is not present, then the corresponding Field Descriptor in the SCHC Rule describes the TV set to b'', with the MO set to "equal" and the CDA set to "not-sent". Note that, if the field kid_context is present, it directly includes the size octet, i.e., s.
+If a subfield is not present, then the corresponding Field Descriptor in the SCHC Rule describes the TV set to b'', with the MO set to "equal" and the CDA set to "not-sent". Note that, if the subfield kid_context is present, it directly includes the size octet, i.e., s.
 
 In addition, the following applies.
 
-* If the piv field is present, SCHC MUST NOT send it as variable-size data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the piv field, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see {{Section 7.4.2 of RFC8724}}).
+* If the piv subfield is present, SCHC MUST NOT send it as variable-size data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the piv subfield, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see {{Section 7.4.2 of RFC8724}}).
 
-  Instead, SCHC MUST use the value of the n field from the first byte of the OSCORE Option to define the size of the piv field in the Compression Residue. To this end, SCHC designates a specific function, "osc.piv", that the Rule MUST use to complete the Field Descriptor. During the decompression, this function returns the value contained in the n field, hence the length of the piv field.
+  Instead, SCHC MUST use the value n from the first byte of the OSCORE Option value to define the size of the piv subfield in the Compression Residue. To this end, SCHC designates a specific function, "osc.piv", that the Rule MUST use to complete the Field Descriptor. During the decompression, this function returns the value n, hence the length of the piv subfield.
 
-  This construct avoids ambiguity with the n field and results in a more efficient compression of the piv field.
+  This construct avoids ambiguity with the value n from the first byte of the OSCORE Option value and results in a more efficient compression of the piv subfield.
 
-* For the x field, if both endpoints know the value, then the corresponding Field Descriptor in the SCHC Rule describes the TV set to that value, with the MO set to "equal" and the CDA set to "not-sent". This models: the case where the x field is not present, and thus TV is set to b''; and the case where the two endpoints run KUDOS with a pre-agreed size of the nonce field as per the m subfield of the x field, as well as with a pre-agreed combination of its modes of operation, as per the bits b and p of the x field.
+* For the x subfield, if both endpoints know the value, then the corresponding Field Descriptor in the SCHC Rule describes the TV set to that value, with the MO set to "equal" and the CDA set to "not-sent". This models the following cases:
 
-   Otherwise, if the value changes over time, then the corresponding Field Descriptor in the SCHC Rule does not set the TV, while it sets the MO to "ignore" and the CDA to "value-sent". The Rule may also use a "match-mapping" MO to compress this field, in case the two endpoints pre-agree on a set of alternative ways to run KUDOS, with respect to the size of the nonce field and the combination of the KUDOS modes of operation to use.
+  - The x subfield is not present, and thus TV is set to b''.
 
-* For the y field, if both endpoints know the value, then the corresponding Field Descriptor in the SCHC Rule describes the TV set to that value, with the MO set to "equal" and the CDA set to "not-sent". This models: the case where the y field is not present, and thus TV is set to b''; and the case where the two endpoints run KUDOS with a pre-agreed size of the old_nonce field as per the w subfield of the y field.
+  - Given a fixed z bit of the x subfield as denoting either a "divergent" or "convergent" KUDOS message, the two endpoints run KUDOS with a pre-agreed size of the nonce subfield as per the value encoded by m within the x subfield, as well as with a pre-agreed combination of its modes of operation, as per the bits b and p of the x subfield.
 
-   Otherwise, if the value changes over time, then the corresponding Field Descriptor in the SCHC Rule does not set the TV, while it sets the MO to "ignore" and the CDA to "value-sent". The Rule may also use a "match-mapping" MO to compress this field, in case the two endpoints pre-agree on a set of sizes of the old_nonce field.
+    Under the assumed pre-agreements above, this requires two distinct SCHC Rules, whose respective TV is set to a value that reflects the z bit as set or not set, respectively.
 
-* If the nonce field is present, then the corresponding Field Descriptor in the SCHC Rule has the TV not set, while the MO is set to "ignore" and the CDA is set to "value-sent".
+  As an alternative that is more flexible to changes in the value of the x subfield, the corresponding Field Descriptor in the SCHC Rule does not set the TV, while it sets the MO to "ignore" and the CDA to "value-sent". In the same spirit, the Rule may also use a "match-mapping" MO to compress this subfield, in case the two endpoints pre-agree on a set of alternative ways to run KUDOS, with respect to the size of the nonce subfield and the combination of the KUDOS modes of operation to use.
 
-  For the value of the nonce field, SCHC MUST NOT send it as variable-length data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the nonce field, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see {{Section 7.4.2 of RFC8724}}).
+* If the nonce subfield is present, then the corresponding Field Descriptor in the SCHC Rule has the TV not set, while the MO is set to "ignore" and the CDA is set to "value-sent".
 
-  Instead, SCHC MUST use the m subfield of the x field to define the size of the Compression Residue. SCHC designates a specific function, "osc.x.m", that the Rule MUST use to complete the Field Descriptor. During the decompression, this function returns the length of the nonce field in bytes, as the value of the m subfield of the x field, plus 1.
+  For the value of the nonce subfield, SCHC MUST NOT send it as variable-length data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the nonce subfield, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see {{Section 7.4.2 of RFC8724}}).
 
-  This construct avoids ambiguity with the length of the nonce field encoded in the x field and results in a more efficient compression of the nonce field.
+  Instead, SCHC MUST use the value encoded by m within the x subfield to define the size of the Compression Residue. SCHC designates a specific function, "osc.x.m", that the Rule MUST use to complete the Field Descriptor. During the decompression, this function returns the length of the nonce subfield in bytes, as the value encoded by m within the x subfield, plus 1.
 
-* If the old_nonce field is present, then the corresponding Field Descriptor in the SCHC Rule has the TV not set, while the MO is set to "ignore" and the CDA is set to "value-sent".
-
-  For the value of the old_nonce field, SCHC MUST NOT send it as variable-length data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the old_nonce field, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see {{Section 7.4.2 of RFC8724}}).
-
-  Instead, SCHC MUST use the w subfield of the y field to define the size of the Compression Residue. SCHC designates a specific function, "osc.y.w", that the Rule MUST use to complete the Field Descriptor. During the decompression, this function returns the length of the old_nonce field in bytes, as the value of the w subfield of the y field, plus 1.
-
-  This construct avoids ambiguity with the length of the old_nonce field encoded in the y field and results in a more efficient compression of the old_nonce field.
+  This construct avoids ambiguity with the value m within the x subfield and results in a more efficient compression of the nonce subfield.
 
 # Compression of the CoAP Payload Marker {#payload-marker}
 
@@ -1025,8 +1003,6 @@ The Outer SCHC Rule shown in {{table-Outer-Rules}} is used, also to process the 
 | CoAP.<br>option(9).<br>kid_ctx   | var            | 1  | Bi | b''                  | equal   | not- <br> sent |                    |
 | CoAP.<br>option(9).<br>x         | 8              | 1  | Bi | b''                  | equal   | not- <br> sent |                    |
 | CoAP.<br>option(9).<br>nonce     | osc.x.m        | 1  | Bi | b''                  | equal   | not- <br> sent |                    |
-| CoAP.<br>option(9).<br>y         | 8              | 1  | Bi | b''                  | equal   | not- <br> sent |                    |
-| CoAP.<br>option(9).<br>old_nonce | osc.y.w        | 1  | Bi | b''                  | equal   | not- <br> sent |                    |
 | CoAP.<br>option(9).<br>kid       | var <br> (bit) | 1  | Up | 0x636c69 <br> 656e70 | MSB(44) | LSB            | KKKK               |
 | CoAP.<br>option(9).<br>kid       | var            | 1  | Dw | b''                  | equal   | not- <br> sent |                    |
 {: #table-Outer-Rules title="Outer SCHC Rule. CoAP Option Numbers: 9 (OSCORE)." align="center"}
@@ -1591,8 +1567,6 @@ The Device and the proxy share the SCHC Rule shown in {{fig-rules-oscore-device-
 | CoAP.<br>option(9).<br>kid_ctx   | var            | 1  | Bi | b''      | equal               | not-sent           |                    |
 | CoAP.<br>option(9).<br>x         | 8              | 1  | Bi | b''      | equal               | not-sent           |                    |
 | CoAP.<br>option(9).<br>nonce     | osc.x.m        | 1  | Bi | b''      | equal               | not-sent           |                    |
-| CoAP.<br>option(9).<br>y         | 8              | 1  | Bi | b''      | equal               | not-sent           |                    |
-| CoAP.<br>option(9).<br>old_nonce | osc.y.w        | 1  | Bi | b''      | equal               | not-sent           |                    |
 | CoAP.<br>option(9).<br>kid       | var <br> (bit) | 1  | Up | 0x0000   | MSB(12)             | LSB                | KKKK               |
 | CoAP.<br>option(9).<br>kid       | var            | 1  | Dw | b''      | equal               | not-sent           |                    |
 | CoAP.<br>option(39)              | var            | 1  | Up | "coap"   | equal               | not-sent           |                    |
@@ -1624,8 +1598,6 @@ The proxy and the Application Server share the SCHC Rule shown in {{fig-rules-os
 | CoAP.<br>option(9).<br>kid_ctx   | var            | 1  | Bi | b''      | equal               | not-sent           |                    |
 | CoAP.<br>option(9).<br>x         | 8              | 1  | Bi | b''      | equal               | not-sent           |                    |
 | CoAP.<br>option(9).<br>nonce     | osc.x.m        | 1  | Bi | b''      | equal               | not-sent           |                    |
-| CoAP.<br>option(9).<br>y         | 8              | 1  | Bi | b''      | equal               | not-sent           |                    |
-| CoAP.<br>option(9).<br>old_nonce | osc.y.w        | 1  | Bi | b''      | equal               | not-sent           |                    |
 | CoAP.<br>option(9).<br>kid       | var <br> (bit) | 1  | Up | 0x0000   | MSB(12)             | LSB                | KKKK               |
 | CoAP.<br>option(9).<br>kid       | var            | 1  | Dw | b''      | equal               | not-sent           |                    |
 {: #fig-rules-oscore-proxy-server title="Outer SCHC Rule between the Proxy and the Application Server. CoAP Option Numbers: 3 (Uri-Host), 9 (OSCORE)." align="center"}
@@ -2049,8 +2021,6 @@ Editor's note: Before publication, confirm or amend the option numbers associate
 | CoAP.option(9).kid_ctx   | CoAP option OSCORE (subfield kid_ctx) {{RFC8613}}                                  |
 | CoAP.option(9).x         | CoAP option OSCORE (subfield x) {{I-D.ietf-core-oscore-key-update}}                |
 | CoAP.option(9).nonce     | CoAP option OSCORE (subfield nonce) {{I-D.ietf-core-oscore-key-update}}            |
-| CoAP.option(9).y         | CoAP option OSCORE (subfield y) {{I-D.ietf-core-oscore-key-update}}                |
-| CoAP.option(9).old_nonce | CoAP option OSCORE (subfield old_nonce) {{I-D.ietf-core-oscore-key-update}}        |
 | CoAP.option(9).kid       | CoAP option OSCORE (subfield kid) {{RFC8613}}                                      |
 | CoAP.option(11)          | CoAP option Uri-Path {{RFC7252}}                                                   |
 | CoAP.option(12)          | CoAP option Content-Format {{RFC7252}}                                             |
@@ -2073,7 +2043,7 @@ Editor's note: Before publication, confirm or amend the option numbers associate
 | CoAP.option(252)         | CoAP option Echo {{RFC9175}}                                                       |
 | CoAP.option(258)         | CoAP option No-Response {{RFC7967}}                                                |
 | CoAP.option(292)         | CoAP option Request-Tag {{RFC9175}}                                                |
-{: #table-coap-fields title="CoAP Fields" align="center"}
+{: #table-coap-fields title="CoAP Fields." align="center"}
 
 # Security Considerations
 
@@ -2392,6 +2362,11 @@ module ietf-schc-coap {
   * Description of Option Value as possibly composed of sub-fields.
   * Both the syntactic approach and the semantics approach are possible (see draft-ietf-schc-universal-option).
   * Updated the FIDs to be consistent with the semantic approach.
+
+* Compression of OSCORE Option:
+
+  * Revised semantics of the x sub-fields related to KUDOS
+  * Removed moot sub-fields related to KUDOS
 
 * Updated author's contact information.
 
