@@ -700,26 +700,26 @@ As per these classes, the Outer options comprise the OSCORE Option, which indica
 
 ~~~~~~~~~~~ aasvg
                  Original CoAP Message
-             +--------------------------------------------+
-             |                                            |
-             |  +-+-+---+-------+------------+            |
-             |  |v|t|TKL| code  | Message ID |            |
-             |  +-+-+---+-------+------------+-- ... --+  |
-             |  | Token                                |  |
-             |  +--------------------------+---- ... --+  |
-             |  | Options (EIU)            |              |
-             |  :                          :              |
-             |  :                          :              |
-             |  |                          |              |
-             |  +------+-------------------+              |
-             |  | 0xFF |                                  |
-             |  +------+-------------------+              |
-             |  | Payload                  |              |
-             |  |                          |              |
-             |  |                          |              |
-             |  +--------------------------+              |
-             |                                            |
-             +--------------------------------------------+
+             +-------------------------------------------+
+             |                                           |
+             |  +-+-+---+------+------------+            |
+             |  |v|t|TKL| code | Message ID |            |
+             |  +-+-+---+------+------------+-- ... --+  |
+             |  | Token                               |  |
+             |  +--------------------------+--- ... --+  |
+             |  | Options (EIU)            |             |
+             |  :                          :             |
+             |  :                          :             |
+             |  |                          |             |
+             |  +------+-------------------+             |
+             |  | 0xFF |                                 |
+             |  +------+-------------------+             |
+             |  | Payload                  |             |
+             |  |                          |             |
+             |  |                          |             |
+             |  +--------------------------+             |
+             |                                           |
+             +-------------------------------------------+
                            /                \
                           /                  \
                          /                    \
@@ -2044,9 +2044,9 @@ Editor's note: Before publication, confirm or amend the option numbers associate
 | CoAP.option(7)           | CoAP option Uri-Port {{RFC7252}}                                                   |
 | CoAP.option(8)           | CoAP option Location-Path {{RFC7252}}                                              |
 | CoAP.option(9)           | CoAP option OSCORE {{RFC8613}}{{I-D.ietf-core-oscore-key-update}}                  |
-| CoAP.option(9).flags     | CoAP option OSCORE (subfield Flags) {{RFC8613}}{{I-D.ietf-core-oscore-key-update}} |
-| CoAP.option(9).piv       | CoAP option OSCORE (subfield PIV) {{RFC8613}}                                      |
-| CoAP.option(9).kid_ctx   | CoAP option OSCORE (subfield kid context) {{RFC8613}}                              |
+| CoAP.option(9).flags     | CoAP option OSCORE (subfield flags) {{RFC8613}}{{I-D.ietf-core-oscore-key-update}} |
+| CoAP.option(9).piv       | CoAP option OSCORE (subfield piv) {{RFC8613}}                                      |
+| CoAP.option(9).kid_ctx   | CoAP option OSCORE (subfield kid_ctx) {{RFC8613}}                                  |
 | CoAP.option(9).x         | CoAP option OSCORE (subfield x) {{I-D.ietf-core-oscore-key-update}}                |
 | CoAP.option(9).nonce     | CoAP option OSCORE (subfield nonce) {{I-D.ietf-core-oscore-key-update}}            |
 | CoAP.option(9).y         | CoAP option OSCORE (subfield y) {{I-D.ietf-core-oscore-key-update}}                |
@@ -2146,14 +2146,14 @@ If the defined SCHC compression considers the CoAP field as composed of subfield
 
 The columns of this registry are:
 
-* Field: a unique identifier of the CoAP field or subfield associated with this entry. This identifier is used as value of the "FID" column in a SCHC compression Rule for compressing/decompressing CoAP messages.
+* Field: a unique identifier of the CoAP field or subfield associated with this entry. This identifier is used as FID in a Field Descriptor of a SCHC compression Rule for compressing/decompressing CoAP messages.
 
   This identifier has two possible formats:
 
   - "CoAP.X", where X is the name of the CoAP field.
   - "CoAP.X.Y", where X is the name of the CoAP field and Y is the name of a subfield of X.
 
-  If the CoAP field in question is specifically a CoAP option, then X has the format option(N), where N is the option number of the CoAP option. The value N is taken from the "Number" column of the corresponding entry in the "CoAP Option Numbers" IANA registry {{CoAP.Option.Numbers}}.
+  If the CoAP field in question is specifically a CoAP option, then X has the format "option(N)", where N is the option number of the CoAP option. The value N is taken from the "Number" column of the corresponding entry in the "CoAP Option Numbers" IANA registry {{CoAP.Option.Numbers}}.
 
   This identifier must have a corresponding item or set of items in the YANG data model for the CoAP field or subfield associated with this entry, as specified in {{Section 6 of RFC9363}} or in {{sec-yang-module}} of {{&SELF}}.
 
