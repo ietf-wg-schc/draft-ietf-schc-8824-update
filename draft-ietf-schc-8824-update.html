@@ -2165,17 +2165,17 @@ However, this adds 4 bits to the variable Compression Residue size (see <span><a
 <p id="section-6.4-2"><a href="#fig-oscore-option" class="auto internal xref">Figure 4</a> shows the OSCORE Option value encoding, as it was originally defined in <span><a href="https://rfc-editor.org/rfc/rfc8613#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>. As explained later in this section, this has been extended in <span>[<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span> and <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. The first byte of the OSCORE Option value specifies information to parse the rest of the value by using flags, as described below.<a href="#section-6.4-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.4-3.1">
-            <p id="section-6.4-3.1.1">As defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-10#section-4.1" class="relref">Section 4.1</a> of [<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>, the eight least significant bit, when set, indicates that the OSCORE Option includes a second byte of flags. The seventh least significant bit is currently unassigned.<a href="#section-6.4-3.1.1" class="pilcrow">¶</a></p>
+            <p id="section-6.4-3.1.1">As defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-10#section-4.1" class="relref">Section 4.1</a> of [<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>, the eight least significant bit, when set, indicates that the OSCORE Option value includes a second byte of flags. The seventh least significant bit is currently unassigned.<a href="#section-6.4-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.4-3.2">
-            <p id="section-6.4-3.2.1">As defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-25#section-5" class="relref">Section 5</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, the sixth least significant bit, when set, indicates that the message including the OSCORE option is protected with the group mode of Group OSCORE (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-25#section-8" class="relref">Section 8</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). When not set, the bit indicates that the message is protected either with OSCORE or with the pairwise mode of Group OSCORE (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-25#section-9" class="relref">Section 9</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), while the specific OSCORE Security Context used to protect the message determines which of the two cases applies.<a href="#section-6.4-3.2.1" class="pilcrow">¶</a></p>
+            <p id="section-6.4-3.2.1">As defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-25#section-5" class="relref">Section 5</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, the sixth least significant bit, when set, indicates that the message including the OSCORE Option is protected with the group mode of Group OSCORE (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-25#section-8" class="relref">Section 8</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). When not set, the bit indicates that the message is protected either with OSCORE or with the pairwise mode of Group OSCORE (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-25#section-9" class="relref">Section 9</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), while the specific OSCORE Security Context used to protect the message determines which of the two cases applies.<a href="#section-6.4-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.4-3.3">
-            <p id="section-6.4-3.3.1">As defined in <span><a href="https://rfc-editor.org/rfc/rfc8613#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>, bit h, when set, indicates the presence of the kid context field in the option. Also, bit k, when set, indicates the presence of the kid field. Finally, the three least significant bits form the n field, which indicates the length of the piv (Partial Initialization Vector) field in bytes. When n = 0, no piv is present.<a href="#section-6.4-3.3.1" class="pilcrow">¶</a></p>
+            <p id="section-6.4-3.3.1">As defined in <span><a href="https://rfc-editor.org/rfc/rfc8613#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>, bit h, when set, indicates the presence of the kid context field in the OSCORE Option value. Also, bit k, when set, indicates the presence of the kid field. Finally, the three least significant bits form the n field, which indicates the length of the Partial IV (Partial Initialization Vector) field in bytes. When n = 0, no Partial IV is present.<a href="#section-6.4-3.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-6.4-4">Assuming the presence of a single flag byte, this is followed by the piv field. After that, if the h bit is set, the kid context field is present, preceded by one byte "s" indicating its length in bytes. After that, if the k bit is set, the kid field is present, and it ends where the OSCORE Option value ends.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
-<span id="name-oscore-option"></span><div id="fig-oscore-option">
+<p id="section-6.4-4">Assuming the presence of a single flag byte, this is followed by the Partial IV field. After that, if the h bit is set, the kid context field is present, preceded by one byte "s" indicating its length in bytes. After that, if the k bit is set, the kid field is present, and it ends where the OSCORE Option value ends.<a href="#section-6.4-4" class="pilcrow">¶</a></p>
+<span id="name-oscore-option-value"></span><div id="fig-oscore-option">
 <figure id="figure-4">
           <div class="alignCenter art-text artwork" id="section-6.4-5.1">
 <pre>
@@ -2196,16 +2196,15 @@ However, this adds 4 bits to the variable Compression Residue size (see <span><a
 </pre>
 </div>
 <figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
-<a href="#name-oscore-option" class="selfRef">OSCORE Option.</a>
+<a href="#name-oscore-option-value" class="selfRef">OSCORE Option Value.</a>
           </figcaption></figure>
 </div>
-<p id="section-6.4-6"><a href="#fig-oscore-option-kudos" class="auto internal xref">Figure 5</a> shows the extended OSCORE Option value encoding, with the second byte of flags also present. As defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-10#section-4.1" class="relref">Section 4.1</a> of [<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>, the least significant bit d of this byte, when set, indicates that two additional fields are included in the option, following the kid context field (if any).<a href="#section-6.4-6" class="pilcrow">¶</a></p>
-<p id="section-6.4-7">These two fields, namely x and nonce, are used when running the key update protocol KUDOS defined in <span>[<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>, with x specifying the length of the nonce field in bytes as well as the specific behavior to adopt during the KUDOS execution.<a href="#section-6.4-7" class="pilcrow">¶</a></p>
-<p id="section-6.4-8">If the seventh least significant bit z of the x field is set, it indicates that two additional fields are included in the option, following the x and nonce fields. These two fields, namely y and old_nonce, are also used when running the key update protocol KUDOS, with y specifying the length of the old_nonce field in bytes.<a href="#section-6.4-8" class="pilcrow">¶</a></p>
-<p id="section-6.4-9"><a href="#fig-oscore-option-kudos" class="auto internal xref">Figure 5</a> provides the breakdown of the x field, where its four least significant bits form the subfield m, which specifies the size of nonce in bytes, minus 1. Also, the figure provides the breakdown of the y field, where its four least significant bits form the subfield w, which specifies the size of old_nonce in bytes, minus 1.<a href="#section-6.4-9" class="pilcrow">¶</a></p>
-<span id="name-oscore-option-extended-to-s"></span><div id="fig-oscore-option-kudos">
+<p id="section-6.4-6"><a href="#fig-oscore-option-kudos" class="auto internal xref">Figure 5</a> shows the extended OSCORE Option value encoding, with the second byte of flags also present. As defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-10#section-4.1" class="relref">Section 4.1</a> of [<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>, the least significant bit d of this byte, when set, indicates that two additional fields are included in the OSCORE Option value, following the kid context field (if any).<a href="#section-6.4-6" class="pilcrow">¶</a></p>
+<p id="section-6.4-7">These two fields, namely x and nonce, are used when running the key update protocol KUDOS defined in <span>[<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>, with x specifying the length of the nonce field in bytes as well as further information concerning the KUDOS execution in question.<a href="#section-6.4-7" class="pilcrow">¶</a></p>
+<p id="section-6.4-8"><a href="#fig-oscore-option-kudos" class="auto internal xref">Figure 5</a> provides the breakdown of the x field, where its four least significant bits encode the value m, which specifies the size of nonce in bytes, minus 1.<a href="#section-6.4-8" class="pilcrow">¶</a></p>
+<span id="name-oscore-option-value-extende"></span><div id="fig-oscore-option-kudos">
 <figure id="figure-5">
-          <div class="alignCenter art-text artwork" id="section-6.4-10.1">
+          <div class="alignCenter art-text artwork" id="section-6.4-9.1">
 <pre>
  0 1 2 3 4 5 6 7  8   9   10  11  12  13  14  15 &lt;----- n bytes -----&gt;
 +-+-+-+-+-+-+-+-+---+---+---+---+---+---+---+---+---------------------+
@@ -2235,18 +2234,6 @@ However, this adds 4 bits to the variable Compression Residue size (see <span><a
 |  +-+-+-+-+-+-+-+-+  |
 
 
- &lt;------ 1 byte -----&gt; &lt;---- w + 1 bytes ---&gt;
-+---------------------+----------------------+
-|     y (if any)      |  old_nonce (if any)  |
-+---------------------+----------------------+
-|&lt;-------- y --------&gt;|&lt;----- old_nonce ----&gt;|
-|                     |
-|   0 1 2 3 4 5 6 7   |
-|  +-+-+-+-+-+-+-+-+  |
-|  |0|0|0|0|   w   |  |
-|  +-+-+-+-+-+-+-+-+  |
-
-
 +---------------------+
 |   kid (if any) ...  |
 +---------------------+
@@ -2255,76 +2242,66 @@ However, this adds 4 bits to the variable Compression Residue size (see <span><a
 </pre>
 </div>
 <figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
-<a href="#name-oscore-option-extended-to-s" class="selfRef">OSCORE Option extended to support a KUDOS execution.</a>
+<a href="#name-oscore-option-value-extende" class="selfRef">OSCORE Option Value Extended to Support a KUDOS Execution.</a>
           </figcaption></figure>
 </div>
-<p id="section-6.4-11">To better perform OSCORE SCHC compression, the Rule description needs to identify the OSCORE Option and the fields it contains.<a href="#section-6.4-11" class="pilcrow">¶</a></p>
-<p id="section-6.4-12">Conceptually, it discerns up to eight distinct pieces of information within the OSCORE Option: the flag bits, the piv, the kid context prepended by its size, the x byte, the nonce, the y byte, the old_nonce, and the kid. The SCHC Rule splits the OSCORE Option into eight corresponding Field Descriptors in order to compress those pieces of information:<a href="#section-6.4-12" class="pilcrow">¶</a></p>
+<p id="section-6.4-10">To better perform OSCORE SCHC compression, the Rule description needs to identify the OSCORE Option value and its inner fields mentioned above.<a href="#section-6.4-10" class="pilcrow">¶</a></p>
+<p id="section-6.4-11">Conceptually, SCHC discerns six distinct pieces of information within the OSCORE Option value: the flag bits, the Partial IV, the kid context prepended by its size s, the x byte, the nonce, and the kid. The SCHC Rule splits the OSCORE Option value into six corresponding Field Descriptors, in order to separateley compress those pieces of information as distinct subfields:<a href="#section-6.4-11" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.4-13.1">
-            <p id="section-6.4-13.1.1">flags<a href="#section-6.4-13.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-6.4-12.1">
+            <p id="section-6.4-12.1.1">flags<a href="#section-6.4-12.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.4-13.2">
-            <p id="section-6.4-13.2.1">piv<a href="#section-6.4-13.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.4-12.2">
+            <p id="section-6.4-12.2.1">piv<a href="#section-6.4-12.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.4-13.3">
-            <p id="section-6.4-13.3.1">kid_ctx<a href="#section-6.4-13.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.4-12.3">
+            <p id="section-6.4-12.3.1">kid_ctx<a href="#section-6.4-12.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.4-13.4">
-            <p id="section-6.4-13.4.1">x<a href="#section-6.4-13.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.4-12.4">
+            <p id="section-6.4-12.4.1">x<a href="#section-6.4-12.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.4-13.5">
-            <p id="section-6.4-13.5.1">nonce<a href="#section-6.4-13.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.4-12.5">
+            <p id="section-6.4-12.5.1">nonce<a href="#section-6.4-12.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.4-13.6">
-            <p id="section-6.4-13.6.1">y<a href="#section-6.4-13.6.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-6.4-13.7">
-            <p id="section-6.4-13.7.1">old_nonce<a href="#section-6.4-13.7.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-6.4-13.8">
-            <p id="section-6.4-13.8.1">kid<a href="#section-6.4-13.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.4-12.6">
+            <p id="section-6.4-12.6.1">kid<a href="#section-6.4-12.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-6.4-14">If a SCHC Rule is intended to compress a CoAP message that specififes the OSCORE Option, then the related Field Descriptors defined above <span class="bcp14">MUST</span> be listed in the same order according to which the corresponding pieces of information appear in the OSCORE Option.<a href="#section-6.4-14" class="pilcrow">¶</a></p>
-<p id="section-6.4-15"><a href="#fig-oscore-option" class="auto internal xref">Figure 4</a> shows the original format of the OSCORE Option with the four fields flags, piv, kid_ctx, and kid superimposed on it. Also, <a href="#fig-oscore-option-kudos" class="auto internal xref">Figure 5</a> shows the extended format of the OSCORE option with all the eight fields superimposed on it.<a href="#section-6.4-15" class="pilcrow">¶</a></p>
-<p id="section-6.4-16">If a field is not present, then the corresponding Field Descriptor in the SCHC Rule describes the TV set to b'', with the MO set to "equal" and the CDA set to "not-sent". Note that, if the field kid_context is present, it directly includes the size octet, i.e., s.<a href="#section-6.4-16" class="pilcrow">¶</a></p>
-<p id="section-6.4-17">In addition, the following applies.<a href="#section-6.4-17" class="pilcrow">¶</a></p>
+<p id="section-6.4-13">If a SCHC Rule is intended to compress a CoAP message that specifies the OSCORE Option, then the related Field Descriptors defined above <span class="bcp14">MUST</span> be listed in the same order according to which the corresponding pieces of information appear in the OSCORE Option value.<a href="#section-6.4-13" class="pilcrow">¶</a></p>
+<p id="section-6.4-14"><a href="#fig-oscore-option" class="auto internal xref">Figure 4</a> shows the original format of the OSCORE Option value with the four subfields flags, piv, kid_ctx, and kid superimposed on it. Also, <a href="#fig-oscore-option-kudos" class="auto internal xref">Figure 5</a> shows the extended format of the OSCORE Option value with all the six subfields superimposed on it.<a href="#section-6.4-14" class="pilcrow">¶</a></p>
+<p id="section-6.4-15">If a subfield is not present, then the corresponding Field Descriptor in the SCHC Rule describes the TV set to b'', with the MO set to "equal" and the CDA set to "not-sent". Note that, if the subfield kid_context is present, it directly includes the size octet, i.e., s.<a href="#section-6.4-15" class="pilcrow">¶</a></p>
+<p id="section-6.4-16">In addition, the following applies.<a href="#section-6.4-16" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.4-18.1">
-            <p id="section-6.4-18.1.1">If the piv field is present, SCHC <span class="bcp14">MUST NOT</span> send it as variable-size data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the piv field, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>).<a href="#section-6.4-18.1.1" class="pilcrow">¶</a></p>
-<p id="section-6.4-18.1.2">
-Instead, SCHC <span class="bcp14">MUST</span> use the value of the n field from the first byte of the OSCORE Option to define the size of the piv field in the Compression Residue. To this end, SCHC designates a specific function, "osc.piv", that the Rule <span class="bcp14">MUST</span> use to complete the Field Descriptor. During the decompression, this function returns the value contained in the n field, hence the length of the piv field.<a href="#section-6.4-18.1.2" class="pilcrow">¶</a></p>
-<p id="section-6.4-18.1.3">
-This construct avoids ambiguity with the n field and results in a more efficient compression of the piv field.<a href="#section-6.4-18.1.3" class="pilcrow">¶</a></p>
+<li class="normal" id="section-6.4-17.1">
+            <p id="section-6.4-17.1.1">If the piv subfield is present, SCHC <span class="bcp14">MUST NOT</span> send it as variable-size data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the piv subfield, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>).<a href="#section-6.4-17.1.1" class="pilcrow">¶</a></p>
+<p id="section-6.4-17.1.2">
+Instead, SCHC <span class="bcp14">MUST</span> use the value n from the first byte of the OSCORE Option value to define the size of the piv subfield in the Compression Residue. To this end, SCHC designates a specific function, "osc.piv", that the Rule <span class="bcp14">MUST</span> use to complete the Field Descriptor. During the decompression, this function returns the value n, hence the length of the piv subfield.<a href="#section-6.4-17.1.2" class="pilcrow">¶</a></p>
+<p id="section-6.4-17.1.3">
+This construct avoids ambiguity with the value n from the first byte of the OSCORE Option value and results in a more efficient compression of the piv subfield.<a href="#section-6.4-17.1.3" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.4-18.2">
-            <p id="section-6.4-18.2.1">For the x field, if both endpoints know the value, then the corresponding Field Descriptor in the SCHC Rule describes the TV set to that value, with the MO set to "equal" and the CDA set to "not-sent". This models: the case where the x field is not present, and thus TV is set to b''; and the case where the two endpoints run KUDOS with a pre-agreed size of the nonce field as per the m subfield of the x field, as well as with a pre-agreed combination of its modes of operation, as per the bits b and p of the x field.<a href="#section-6.4-18.2.1" class="pilcrow">¶</a></p>
-<p id="section-6.4-18.2.2">
-Otherwise, if the value changes over time, then the corresponding Field Descriptor in the SCHC Rule does not set the TV, while it sets the MO to "ignore" and the CDA to "value-sent". The Rule may also use a "match-mapping" MO to compress this field, in case the two endpoints pre-agree on a set of alternative ways to run KUDOS, with respect to the size of the nonce field and the combination of the KUDOS modes of operation to use.<a href="#section-6.4-18.2.2" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.4-17.2">
+            <p id="section-6.4-17.2.1">For the x subfield, if both endpoints know the value, then the corresponding Field Descriptor in the SCHC Rule describes the TV set to that value, with the MO set to "equal" and the CDA set to "not-sent". This models the following cases:<a href="#section-6.4-17.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.4-17.2.2.1">
+                <p id="section-6.4-17.2.2.1.1">The x subfield is not present, and thus TV is set to b''.<a href="#section-6.4-17.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.4-18.3">
-            <p id="section-6.4-18.3.1">For the y field, if both endpoints know the value, then the corresponding Field Descriptor in the SCHC Rule describes the TV set to that value, with the MO set to "equal" and the CDA set to "not-sent". This models: the case where the y field is not present, and thus TV is set to b''; and the case where the two endpoints run KUDOS with a pre-agreed size of the old_nonce field as per the w subfield of the y field.<a href="#section-6.4-18.3.1" class="pilcrow">¶</a></p>
-<p id="section-6.4-18.3.2">
-Otherwise, if the value changes over time, then the corresponding Field Descriptor in the SCHC Rule does not set the TV, while it sets the MO to "ignore" and the CDA to "value-sent". The Rule may also use a "match-mapping" MO to compress this field, in case the two endpoints pre-agree on a set of sizes of the old_nonce field.<a href="#section-6.4-18.3.2" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-6.4-17.2.2.2">
+                <p id="section-6.4-17.2.2.2.1">Given a fixed z bit of the x subfield as denoting either a "divergent" or "convergent" KUDOS message, the two endpoints run KUDOS with a pre-agreed size of the nonce subfield as per the value encoded by m within the x subfield, as well as with a pre-agreed combination of its modes of operation, as per the bits b and p of the x subfield.<a href="#section-6.4-17.2.2.2.1" class="pilcrow">¶</a></p>
+<p id="section-6.4-17.2.2.2.2">
+Under the assumed pre-agreements above, this requires two distinct SCHC Rules, whose respective TV is set to a value that reflects the z bit as set or not set, respectively.<a href="#section-6.4-17.2.2.2.2" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.4-18.4">
-            <p id="section-6.4-18.4.1">If the nonce field is present, then the corresponding Field Descriptor in the SCHC Rule has the TV not set, while the MO is set to "ignore" and the CDA is set to "value-sent".<a href="#section-6.4-18.4.1" class="pilcrow">¶</a></p>
-<p id="section-6.4-18.4.2">
-For the value of the nonce field, SCHC <span class="bcp14">MUST NOT</span> send it as variable-length data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the nonce field, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>).<a href="#section-6.4-18.4.2" class="pilcrow">¶</a></p>
-<p id="section-6.4-18.4.3">
-Instead, SCHC <span class="bcp14">MUST</span> use the m subfield of the x field to define the size of the Compression Residue. SCHC designates a specific function, "osc.x.m", that the Rule <span class="bcp14">MUST</span> use to complete the Field Descriptor. During the decompression, this function returns the length of the nonce field in bytes, as the value of the m subfield of the x field, plus 1.<a href="#section-6.4-18.4.3" class="pilcrow">¶</a></p>
-<p id="section-6.4-18.4.4">
-This construct avoids ambiguity with the length of the nonce field encoded in the x field and results in a more efficient compression of the nonce field.<a href="#section-6.4-18.4.4" class="pilcrow">¶</a></p>
+            </ul>
+<p id="section-6.4-17.2.3">
+As an alternative that is more flexible to changes in the value of the x subfield, the corresponding Field Descriptor in the SCHC Rule does not set the TV, while it sets the MO to "ignore" and the CDA to "value-sent". In the same spirit, the Rule may also use a "match-mapping" MO to compress this subfield, in case the two endpoints pre-agree on a set of alternative ways to run KUDOS, with respect to the size of the nonce subfield and the combination of the KUDOS modes of operation to use.<a href="#section-6.4-17.2.3" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.4-18.5">
-            <p id="section-6.4-18.5.1">If the old_nonce field is present, then the corresponding Field Descriptor in the SCHC Rule has the TV not set, while the MO is set to "ignore" and the CDA is set to "value-sent".<a href="#section-6.4-18.5.1" class="pilcrow">¶</a></p>
-<p id="section-6.4-18.5.2">
-For the value of the old_nonce field, SCHC <span class="bcp14">MUST NOT</span> send it as variable-length data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the old_nonce field, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>).<a href="#section-6.4-18.5.2" class="pilcrow">¶</a></p>
-<p id="section-6.4-18.5.3">
-Instead, SCHC <span class="bcp14">MUST</span> use the w subfield of the y field to define the size of the Compression Residue. SCHC designates a specific function, "osc.y.w", that the Rule <span class="bcp14">MUST</span> use to complete the Field Descriptor. During the decompression, this function returns the length of the old_nonce field in bytes, as the value of the w subfield of the y field, plus 1.<a href="#section-6.4-18.5.3" class="pilcrow">¶</a></p>
-<p id="section-6.4-18.5.4">
-This construct avoids ambiguity with the length of the old_nonce field encoded in the y field and results in a more efficient compression of the old_nonce field.<a href="#section-6.4-18.5.4" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.4-17.3">
+            <p id="section-6.4-17.3.1">If the nonce subfield is present, then the corresponding Field Descriptor in the SCHC Rule has the TV not set, while the MO is set to "ignore" and the CDA is set to "value-sent".<a href="#section-6.4-17.3.1" class="pilcrow">¶</a></p>
+<p id="section-6.4-17.3.2">
+For the value of the nonce subfield, SCHC <span class="bcp14">MUST NOT</span> send it as variable-length data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the nonce subfield, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>).<a href="#section-6.4-17.3.2" class="pilcrow">¶</a></p>
+<p id="section-6.4-17.3.3">
+Instead, SCHC <span class="bcp14">MUST</span> use the value encoded by m within the x subfield to define the size of the Compression Residue. SCHC designates a specific function, "osc.x.m", that the Rule <span class="bcp14">MUST</span> use to complete the Field Descriptor. During the decompression, this function returns the length of the nonce subfield in bytes, as the value encoded by m within the x subfield, plus 1.<a href="#section-6.4-17.3.3" class="pilcrow">¶</a></p>
+<p id="section-6.4-17.3.4">
+This construct avoids ambiguity with the value m within the x subfield and results in a more efficient compression of the nonce subfield.<a href="#section-6.4-17.3.4" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -3289,26 +3266,6 @@ Original message length: 10 bytes
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>nonce</td>
               <td class="text-left" rowspan="1" colspan="1">osc.x.m</td>
-              <td class="text-left" rowspan="1" colspan="1">1</td>
-              <td class="text-left" rowspan="1" colspan="1">Bi</td>
-              <td class="text-left" rowspan="1" colspan="1">b''</td>
-              <td class="text-left" rowspan="1" colspan="1">equal</td>
-              <td class="text-left" rowspan="1" colspan="1">not- <br> sent</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>y</td>
-              <td class="text-left" rowspan="1" colspan="1">8</td>
-              <td class="text-left" rowspan="1" colspan="1">1</td>
-              <td class="text-left" rowspan="1" colspan="1">Bi</td>
-              <td class="text-left" rowspan="1" colspan="1">b''</td>
-              <td class="text-left" rowspan="1" colspan="1">equal</td>
-              <td class="text-left" rowspan="1" colspan="1">not- <br> sent</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>old_nonce</td>
-              <td class="text-left" rowspan="1" colspan="1">osc.y.w</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Bi</td>
               <td class="text-left" rowspan="1" colspan="1">b''</td>
@@ -4519,26 +4476,6 @@ Compressed message length: 7 bytes
               <td class="text-left" rowspan="1" colspan="1"> </td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>y</td>
-              <td class="text-left" rowspan="1" colspan="1">8</td>
-              <td class="text-left" rowspan="1" colspan="1">1</td>
-              <td class="text-left" rowspan="1" colspan="1">Bi</td>
-              <td class="text-left" rowspan="1" colspan="1">b''</td>
-              <td class="text-left" rowspan="1" colspan="1">equal</td>
-              <td class="text-left" rowspan="1" colspan="1">not-sent</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>old_nonce</td>
-              <td class="text-left" rowspan="1" colspan="1">osc.y.w</td>
-              <td class="text-left" rowspan="1" colspan="1">1</td>
-              <td class="text-left" rowspan="1" colspan="1">Bi</td>
-              <td class="text-left" rowspan="1" colspan="1">b''</td>
-              <td class="text-left" rowspan="1" colspan="1">equal</td>
-              <td class="text-left" rowspan="1" colspan="1">not-sent</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
-            </tr>
-            <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>kid</td>
               <td class="text-left" rowspan="1" colspan="1">var <br> (bit)</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
@@ -4751,26 +4688,6 @@ Compressed message length: 7 bytes
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>nonce</td>
               <td class="text-left" rowspan="1" colspan="1">osc.x.m</td>
-              <td class="text-left" rowspan="1" colspan="1">1</td>
-              <td class="text-left" rowspan="1" colspan="1">Bi</td>
-              <td class="text-left" rowspan="1" colspan="1">b''</td>
-              <td class="text-left" rowspan="1" colspan="1">equal</td>
-              <td class="text-left" rowspan="1" colspan="1">not-sent</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>y</td>
-              <td class="text-left" rowspan="1" colspan="1">8</td>
-              <td class="text-left" rowspan="1" colspan="1">1</td>
-              <td class="text-left" rowspan="1" colspan="1">Bi</td>
-              <td class="text-left" rowspan="1" colspan="1">b''</td>
-              <td class="text-left" rowspan="1" colspan="1">equal</td>
-              <td class="text-left" rowspan="1" colspan="1">not-sent</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
-            </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>old_nonce</td>
-              <td class="text-left" rowspan="1" colspan="1">osc.y.w</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Bi</td>
               <td class="text-left" rowspan="1" colspan="1">b''</td>
@@ -5320,7 +5237,7 @@ Compressed message length: 16 bytes
 <table class="center" id="table-12">
         <caption>
 <a href="#table-12" class="selfRef">Table 12</a>:
-<a href="#name-coap-fields-2" class="selfRef">CoAP Fields</a>
+<a href="#name-coap-fields-2" class="selfRef">CoAP Fields.</a>
         </caption>
 <thead>
           <tr>
@@ -5432,16 +5349,6 @@ Compressed message length: 16 bytes
           <tr>
             <td class="text-left" rowspan="1" colspan="1">CoAP.option(9).nonce</td>
             <td class="text-left" rowspan="1" colspan="1">CoAP option OSCORE (subfield nonce) <span>[<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>
-</td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">CoAP.option(9).y</td>
-            <td class="text-left" rowspan="1" colspan="1">CoAP option OSCORE (subfield y) <span>[<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>
-</td>
-          </tr>
-          <tr>
-            <td class="text-left" rowspan="1" colspan="1">CoAP.option(9).old_nonce</td>
-            <td class="text-left" rowspan="1" colspan="1">CoAP option OSCORE (subfield old_nonce) <span>[<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>
 </td>
           </tr>
           <tr>
@@ -6103,10 +6010,21 @@ module ietf-schc-coap {
             </ul>
 </li>
           <li class="normal" id="appendix-B.1-1.2">
-            <p id="appendix-B.1-1.2.1">Updated author's contact information.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.2.1">Compression of OSCORE Option:<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-B.1-1.2.2.1">
+                <p id="appendix-B.1-1.2.2.1.1">Revised semantics of the x sub-fields related to KUDOS<a href="#appendix-B.1-1.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-B.1-1.2.2.2">
+                <p id="appendix-B.1-1.2.2.2.1">Removed moot sub-fields related to KUDOS<a href="#appendix-B.1-1.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="appendix-B.1-1.3">
-            <p id="appendix-B.1-1.3.1">Fixes and editorial improvements.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.3.1">Updated author's contact information.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.4">
+            <p id="appendix-B.1-1.4.1">Fixes and editorial improvements.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
