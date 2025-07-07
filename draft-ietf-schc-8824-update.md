@@ -2326,7 +2326,7 @@ module ietf-schc-coap {
 }
 
 ~~~~~~~~~~~
-{: sourcecode-name="ietf-schc-coap@2025-03-03.yang" sourcecode-markers="true" #fig-yang-data-model title="SCHC CoAP Extension YANG Data Model."}
+{: sourcecode-name="ietf-schc-coap@2025-07-07.yang" sourcecode-markers="true" #fig-yang-data-model title="SCHC CoAP Extension YANG Data Model."}
 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
