@@ -6,11 +6,11 @@ SCHC Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Obsoletes: 8824 (if approved)                                 L. Toutain
 Intended status: Standards Track                          IMT Atlantique
-Expires: 23 December 2025                                    I. Martínez
+Expires: 8 January 2026                                      I. Martínez
                                                                    IRISA
                                                              A. Minaburo
                                                               Consultant
-                                                            21 June 2025
+                                                             7 July 2025
 
 
 Static Context Header Compression (SCHC) for the Constrained Application
@@ -62,7 +62,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 December 2025.
+   This Internet-Draft will expire on 8 January 2026.
 
 Copyright Notice
 
@@ -3465,16 +3465,16 @@ Table of Contents
               Tiloca, M., Selander, G., Palombini, F., Mattsson, J. P.,
               and R. Höglund, "Group Object Security for Constrained
               RESTful Environments (Group OSCORE)", Work in Progress,
-              Internet-Draft, draft-ietf-core-oscore-groupcomm-25, 16
-              March 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-core-oscore-groupcomm-25>.
+              Internet-Draft, draft-ietf-core-oscore-groupcomm-26, 5
+              July 2025, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-core-oscore-groupcomm-26>.
 
    [I-D.ietf-core-oscore-key-update]
               Höglund, R. and M. Tiloca, "Key Update for OSCORE
               (KUDOS)", Work in Progress, Internet-Draft, draft-ietf-
-              core-oscore-key-update-10, 3 March 2025,
+              core-oscore-key-update-11, 7 July 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              oscore-key-update-10>.
+              oscore-key-update-11>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -3589,9 +3589,8 @@ Table of Contents
               Dijk, E. and M. Tiloca, "Group Communication for the
               Constrained Application Protocol (CoAP)", Work in
               Progress, Internet-Draft, draft-ietf-core-groupcomm-bis-
-              13, 24 February 2025,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              groupcomm-bis-13>.
+              14, 2 July 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-core-groupcomm-bis-14>.
 
    [I-D.ietf-schc-universal-option]
               Lampin, Q., Minaburo, A., Tiloca, M., and L. Toutain,
@@ -3623,7 +3622,7 @@ Appendix A.  YANG Data Model
    ietf-schc module defined in [RFC9363] to include the new CoAP options
    as defined in the present document.
 
-   <CODE BEGINS> file "ietf-schc-coap@2025-03-03.yang"
+   <CODE BEGINS> file "ietf-schc-coap@2025-07-07.yang"
    module ietf-schc-coap {
      yang-version 1.1;
      namespace "urn:ietf:params:xml:ns:yang:ietf-schc-coap";
