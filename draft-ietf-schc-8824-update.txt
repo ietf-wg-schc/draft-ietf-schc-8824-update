@@ -576,8 +576,8 @@ Table of Contents
    the CDA to "value-sent".  The Rule may also use a "match-mapping" MO
    to compress the value.
 
-   Editor's note: in the YANG data model created by [RFC9363], the Field
-   Descriptor for the Token Length field should be updated by adding a
+   Editor's note: in the YANG data model created by [RFC9363], the
+   description of the Token Length field should be updated by adding a
    reference to [RFC8974].
 
 4.4.  CoAP Code Field
@@ -629,8 +629,8 @@ Table of Contents
    This construct avoids ambiguity with the Token Length field and
    results in a more efficient compression of the Token field.
 
-   Editor's note: in the YANG data model created by [RFC9363], the "tkl"
-   function and the Field Descriptor for the Token field should be
+   Editor's note: in the YANG data model created by [RFC9363], the
+   description of the "tkl" function and of the Token field should be
    updated by adding a reference to [RFC8974].
 
 5.  Compression of CoAP Options
