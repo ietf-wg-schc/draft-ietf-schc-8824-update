@@ -135,6 +135,8 @@ In particular, this documents replaces and obsoletes {{RFC8824}} as follows:
 
 * It clarifies the use of the FL within Field Descriptors corresponding to variable-length header fields (see {{ssec-differences-with-udp-ip}}).
 
+* It generalizes the handling of the Token Length field and of the Token field as well as the use of the "tkl" function to comply with {{RFC8974}} (see {{ssec-coap-tkl-field}} and {{ssec-coap-token-field}}).
+
 * It clarifies how the SCHC compression handles CoAP options in general (see {{sec-field-descriptors-coap-options}}).
 
 * It clarifies the SCHC compression for the CoAP options: Size1, Size2, Proxy-Uri, and Proxy-Scheme (see {{ssec-size1-size2-proxy-uri-proxy-scheme-option}}); ETag and If-Match (see {{ssec-etag-if-match-option}}); and If-None-Match (see {{ssec-if-none-match}}).
@@ -265,7 +267,7 @@ CoAP compression differs from IPv6 and UDP compression in the following aspects:
 
 * In SCHC, the Rule defines the different header fields' length, so SCHC does not need to send it. In IPv6 and UDP headers, the fields have a fixed size, known by definition.
 
-  On the other hand, some CoAP header fields have variable lengths and the Rule description makes it possible to specify it. For example, the size of the Token field may vary from 0 to 8 bytes, and the CoAP options rely on the Type-Length-Value encoding format to specify the size of the actual option value in bytes.
+  On the other hand, some CoAP header fields have variable lengths and the Rule description makes it possible to specify it. For example, the size of the Token field may vary from 0 to 65804 bytes {{RFC8974}}, and the CoAP options rely on the Type-Length-Value encoding format to specify the size of the actual option value in bytes.
 
   Given a Rule description, the following defines how the FL is used within the Field Descriptor corresponding to a variable-length field.
 
@@ -299,11 +301,17 @@ The SCHC compression scheme SHOULD elide this field if, for instance, a client i
 
 ## CoAP Token Length (TKL) Field # {#ssec-coap-tkl-field}
 
-The Token Length (TKL) field specifies the size in bytes of the later Token field (see {{ssec-coap-token-field}}), and is described as bidirectional in a SCHC Rule.
+The Token Length (TKL) field specifies the size in bytes of the later Token field (see {{ssec-coap-token-field}}) and is described as bidirectional in a SCHC Rule.
 
-If the field value does not change over time, the SCHC Rule describes the TV set to that value, the MO set to "equal", and the CDA set to "not-sent", thereby eliding the field.
+The Token Length field was originally defined to have a fixed length of 4 bits (see {{Section 3 of RFC7252}}). Later on, its definition was updated by {{Section 2.1 of RFC8974}}, thus making Token Length a variable-length field that can have a length of 4, 12, or 20 bits.
 
-Otherwise, if the field value changes over time, the SCHC Rule does not set the TV, while setting the MO to "ignore" and the CDA to "value-sent". The Rule may also use a "match-mapping" MO to compress the value.
+In particular, the first 4 bits are always present and directly precede the Code field. The value of the first 4 bits determines whether the field comprises 8 or 16 additional bits. In such a case, the additional 8 or 16 bits immediately precede the Token field. In any case, SCHC treats Token Length as a single field of size 4, 12, or 20 bits, which still specifies the size in bytes of the later Token field, as per {{Section 2.1 of RFC8974}}.
+
+If the Token Length field value does not change over time, the SCHC Rule describes the TV set to that value, the MO set to "equal", and the CDA set to "not-sent", thereby eliding the field.
+
+Otherwise, if the Token Length field value changes over time, the SCHC Rule does not set the TV, while setting the MO to "ignore" and the CDA to "value-sent". The Rule may also use a "match-mapping" MO to compress the value.
+
+Editor's note: in the YANG data model created by {{RFC9363}}, the Field Descriptor for the Token Length field should be updated by adding a reference to {{RFC8974}}.
 
 ## CoAP Code Field # {#ssec-coap-code-field}
 
@@ -323,9 +331,11 @@ A CoAP message fully specifies the Token by using two CoAP fields: the Token Len
 
 For the Token field, SCHC MUST NOT send it as variable-size data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the Token field, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see {{Section 7.4.2 of RFC8724}}).
 
-Instead, SCHC MUST use the value of the Token Length field to define the size of the Token field in the Compression Residue. To this end, SCHC designates a specific function, "tkl", that the Rule MUST use to complete the Field Descriptor. During the decompression, this function returns the value contained in the Token Length field, hence the length of the Token field in bytes.
+Instead, SCHC MUST use the value of the Token Length field to define the size of the Token field in the Compression Residue. To this end, SCHC designates a specific function, "tkl", that the Rule MUST use to complete the Field Descriptor. During the decompression, this function returns the length of the Token field in bytes, which is specified by the Token Length field as per {{Section 2.1 of RFC8974}}.
 
 This construct avoids ambiguity with the Token Length field and results in a more efficient compression of the Token field.
+
+Editor's note: in the YANG data model created by {{RFC9363}}, the "tkl" function and the Field Descriptor for the Token field should be updated by adding a reference to {{RFC8974}}.
 
 # Compression of CoAP Options # {#sec-coap-options}
 
@@ -658,7 +668,7 @@ In this first scenario, the SCHC compressor on the NGW side receives a POST mess
 | CoAP.<br>Version    | 2  | 1  | Bi | 1                            | equal               | not-sent           |                    |
 | CoAP.<br>Type       | 2  | 1  | Dw | CON                          | equal               | not-sent           |                    |
 | CoAP.<br>Type       | 2  | 1  | Up | \[ACK, <br> RST\]            | match- <br> mapping | mapping- <br> sent | T                  |
-| CoAP.<br>TKL        | 4  | 1  | Bi | 0                            | equal               | not-sent           |                    |
+| CoAP.<br>TKL        |    | 1  | Bi | 0b0000                       | equal               | not-sent           |                    |
 | CoAP.<br>Code       | 8  | 1  | Bi | \[0.00, <br> ... <br> 5.05\] | match- <br> mapping | mapping- <br> sent | CC CCC             |
 | CoAP.<br>MID        | 16 | 1  | Bi | 0x0000                       | MSB(7)              | LSB                | MID                |
 | CoAP.<br>option(11) |    | 1  | Dw | "status"                     | equal               | not-sent           |                    |
@@ -1002,7 +1012,7 @@ The Outer SCHC Rule shown in {{table-Outer-Rules}} is used, also to process the 
 | CoAP.<br>Version                 | 2       | 1  | Bi | 1                    | equal   | not- <br> sent |                    |
 | CoAP.<br>Type                    | 2       | 1  | Up | 0                    | equal   | not- <br> sent |                    |
 | CoAP.<br>Type                    | 2       | 1  | Dw | 2                    | equal   | not- <br> sent |                    |
-| CoAP.<br>TKL                     | 4       | 1  | Bi | 1                    | equal   | not- <br> sent |                    |
+| CoAP.<br>TKL                     |         | 1  | Bi | 0b0001               | equal   | not- <br> sent |                    |
 | CoAP.<br>Code                    | 8       | 1  | Up | 2                    | equal   | not- <br> sent |                    |
 | CoAP.<br>Code                    | 8       | 1  | Dw | 68                   | equal   | not- <br> sent |                    |
 | CoAP.<br>MID                     | 16      | 1  | Bi | 0x0000               | MSB(12) | LSB            | MMMM               |
@@ -1141,7 +1151,7 @@ In contrast, the following compares these results with what would be obtained by
 | CoAP.<br>Version    | 2   | 1  | Bi | 1             | equal               | not-sent           |                    |
 | CoAP.<br>Type       | 2   | 1  | Up | 0             | equal               | not-sent           |                    |
 | CoAP.<br>Type       | 2   | 1  | Dw | 2             | equal               | not-sent           |                    |
-| CoAP.<br>TKL        | 4   | 1  | Bi | 1             | equal               | not-sent           |                    |
+| CoAP.<br>TKL        | 4   | 1  | Bi | 0b0001        | equal               | not-sent           |                    |
 | CoAP.<br>Code       | 8   | 1  | Up | 2             | equal               | not-sent           |                    |
 | CoAP.<br>Code       | 8   | 1  | Dw | \[69, 132\]   | match- <br> mapping | mapping- <br> sent | C                  |
 | CoAP.<br>MID        | 16  | 1  | Bi | 0x0000        | MSB(12)             | LSB                | MMMM               |
@@ -1339,7 +1349,7 @@ The Device and the proxy share the SCHC Rule shown in {{fig-rules-device-proxy}}
 | CoAP.<br>Version    | 2   | 1  | Bi | 1                        | equal               | not-sent           |                    |
 | CoAP.<br>Type       | 2   | 1  | Up | 0                        | equal               | not-sent           |                    |
 | CoAP.<br>Type       | 2   | 1  | Dw | \[0, 2\]                 | match- <br> mapping | mapping- <br> sent | T                  |
-| CoAP.<br>TKL        | 4   | 1  | Bi | 1                        | equal               | not-sent           |                    |
+| CoAP.<br>TKL        | 4   | 1  | Bi | 0b0001                   | equal               | not-sent           |                    |
 | CoAP.<br>Code       | 8   | 1  | Up | \[1, 2, <br> 3, 4\]      | match- <br> mapping | mapping- <br> sent | CC                 |
 | CoAP.<br>Code       | 8   | 1  | Dw | \[65, 68, <br> 69, 132\] | match- <br> mapping | mapping- <br> sent | CC                 |
 | CoAP.<br>MID        | 16  | 1  | Bi | 0x0000                   | MSB(12)             | LSB                | MMMM               |
@@ -1362,7 +1372,7 @@ Instead, the proxy and the Application Server share the SCHC Rule shown in {{fig
 | CoAP.<br>Version    | 2   | 1  | Bi | 1                        | equal               | not-sent           |                    |
 | CoAP.<br>Type       | 2   | 1  | Up | 0                        | equal               | not-sent           |                    |
 | CoAP.<br>Type       | 2   | 1  | Dw | \[0, 2\]                 | match- <br> mapping | mapping- <br> sent | T                  |
-| CoAP.<br>TKL        | 4   | 1  | Bi | 1                        | equal               | not-sent           |                    |
+| CoAP.<br>TKL        | 4   | 1  | Bi | 0b0001                   | equal               | not-sent           |                    |
 | CoAP.<br>Code       | 8   | 1  | Up | \[1, 2, <br> 3, 4\]      | match- <br> mapping | mapping- <br> sent | CC                 |
 | CoAP.<br>Code       | 8   | 1  | Dw | \[65, 68, <br> 69, 132\] | match- <br> mapping | mapping- <br> sent | CC                 |
 | CoAP.<br>MID        | 16  | 1  | Bi | 0x0000                   | MSB(12)             | LSB                | MMMM               |
@@ -1565,7 +1575,7 @@ The Device and the proxy share the SCHC Rule shown in {{fig-rules-oscore-device-
 | CoAP.<br>Version                 | 2       | 1  | Bi | 1        | equal               | not-sent           |                    |
 | CoAP.<br>Type                    | 2       | 1  | Up | 0        | equal               | not-sent           |                    |
 | CoAP.<br>Type                    | 2       | 1  | Dw | \[0, 2\] | match- <br> mapping | mapping- <br> sent | T                  |
-| CoAP.<br>TKL                     | 4       | 1  | Bi | 1        | equal               | not-sent           |                    |
+| CoAP.<br>TKL                     | 4       | 1  | Bi | 0b0001   | equal               | not-sent           |                    |
 | CoAP.<br>Code                    | 8       | 1  | Up | 2        | equal               | not-sent           |                    |
 | CoAP.<br>Code                    | 8       | 1  | Dw | 68       | equal               | not-sent           |                    |
 | CoAP.<br>MID                     | 16      | 1  | Bi | 0x0000   | MSB(12)             | LSB                | MMMM               |
@@ -1596,7 +1606,7 @@ The proxy and the Application Server share the SCHC Rule shown in {{fig-rules-os
 | CoAP.<br>Version                 | 2       | 1  | Bi | 1        | equal               | not-sent           |                    |
 | CoAP.<br>Type                    | 2       | 1  | Up | 0        | equal               | not-sent           |                    |
 | CoAP.<br>Type                    | 2       | 1  | Dw | \[0, 2\] | match- <br> mapping | mapping- <br> sent | T                  |
-| CoAP.<br>TKL                     | 4       | 1  | Bi | 1        | equal               | not-sent           |                    |
+| CoAP.<br>TKL                     | 4       | 1  | Bi | 0b0001   | equal               | not-sent           |                    |
 | CoAP.<br>Code                    | 8       | 1  | Up | 2        | equal               | not-sent           |                    |
 | CoAP.<br>Code                    | 8       | 1  | Dw | 68       | equal               | not-sent           |                    |
 | CoAP.<br>MID                     | 16      | 1  | Bi | 0x0000   | MSB(12)             | LSB                | MMMM               |
@@ -2342,6 +2352,8 @@ module ietf-schc-coap {
 {:removeinrfc}
 
 ## Version -05 to -06 ## {#sec-05-06}
+
+* Generalized the Token Length field, the Token field, and the "tkl" function to comply with RFC 8974.
 
 * Clarified use of the FL for variable-length fields.
 
