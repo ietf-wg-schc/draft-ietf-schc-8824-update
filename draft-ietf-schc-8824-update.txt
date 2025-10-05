@@ -3397,10 +3397,10 @@ Table of Contents
       corresponding entry in the "CoAP Option Numbers" IANA registry
       [CoAP.Option.Numbers].
 
-      This identifier must have a corresponding item or set of items in
-      the YANG data model for the CoAP field or subfield associated with
-      this entry, as specified in Section 6 of [RFC9363] or in
-      Appendix A of [RFC-XXXX].
+      Within the YANG data model originally specified in Section 6 of
+      [RFC9363], this identifier must have a corresponding item or set
+      of items for the CoAP field or subfield associated with this
+      entry.
 
    *  Description: a short description of the CoAP field or subfield
       associated with this entry, together with public references to the
@@ -3802,6 +3802,8 @@ Appendix B.  Document Updates
    This section is to be removed before publishing as an RFC.
 
 B.1.  Version -05 to -06
+
+   *  More robust reference to the YANG data model of RFC 9363.
 
    *  Editorial fixes in the examples.
 
