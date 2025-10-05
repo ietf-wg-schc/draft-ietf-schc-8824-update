@@ -265,7 +265,11 @@ CoAP compression differs from IPv6 and UDP compression in the following aspects:
 
   On the other hand, some CoAP header fields have variable lengths, and the Rule description specifies it. For example, the size of the Token field may vary from 0 to 8 bytes, and the CoAP options rely on the Type-Length-Value encoding format to specify the size of the actual option value in bytes.
 
-  When doing SCHC compression of a variable-length field, {{Section 7.4.2 of RFC8724}} makes it possible to define a function for the Field Length in the Field Descriptor, in order to determine the length before compression. If the Field Length is unknown, the Rule will set it as a variable, and SCHC will send the compressed field's length in the Compression Residue.
+  Building on {{Section 7.4.2 of RFC8724}}, the following applies when doing SCHC compression of a variable-length field.
+
+  If the field compression relies on the CDA "value-sent" or LSB, then a function "var" is used for the Field Length in the Field Descriptor, with byte being the unit used for the residue value's size. Alternatively, a function "var_X" can be used for the Field Length in the Field Descriptor, with X being the unit other than byte used for the residue value's size. In particular, the function "var_bit" is defined and indicates bit as the unit used for the residue value's size. Consequently, SCHC will send the residue value's size in the Compression Residue as specified in {{Section 7.4.2 of RFC8724}}.
+
+  As an alternative, if the length of the present field can be determined from the value of a previous field in the CoAP header, then it is possible to define a specific function for the Field Length in the Field Descriptor of the present field, with that function returning the length of the field in the unit specified with the function (e.g., see the "tkl" function defined in {{ssec-coap-token-field}}). This holds irrespective of the CDA used for compressing the field.
 
 * A field can appear several times in a CoAP header. This is typically the case for elements of a URI (i.e., path segments or query parameters). The SCHC specification {{RFC8724}} allows a FID to appear several times in the Rule and uses the Field Position (FP) to identify the correct instance, thus preventing MO's possible ambiguities.
 
@@ -2332,6 +2336,8 @@ module ietf-schc-coap {
 {:removeinrfc}
 
 ## Version -05 to -06 ## {#sec-05-06}
+
+* Explicit definition and use of "var" in the FL of a Field Descriptor.
 
 * More robust reference to the YANG data model of RFC 9363.
 
