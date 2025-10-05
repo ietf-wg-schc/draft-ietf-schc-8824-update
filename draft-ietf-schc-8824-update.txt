@@ -6,11 +6,11 @@ SCHC Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Obsoletes: 8824 (if approved)                                 L. Toutain
 Intended status: Standards Track                          IMT Atlantique
-Expires: 8 January 2026                                      I. Martínez
+Expires: 8 April 2026                                        I. Martínez
                                                                    IRISA
                                                              A. Minaburo
                                                               Consultant
-                                                             7 July 2025
+                                                          5 October 2025
 
 
 Static Context Header Compression (SCHC) for the Constrained Application
@@ -62,7 +62,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 January 2026.
+   This Internet-Draft will expire on 8 April 2026.
 
 Copyright Notice
 
@@ -140,11 +140,12 @@ Table of Contents
      14.2.  Informative References
    Appendix A.  YANG Data Model
    Appendix B.  Document Updates
-     B.1.  Version -04 to -05
-     B.2.  Version -03 to -04
-     B.3.  Version -02 to -03
-     B.4.  Version -01 to -02
-     B.5.  Version -00 to -01
+     B.1.  Version -05 to -06
+     B.2.  Version -04 to -05
+     B.3.  Version -03 to -04
+     B.4.  Version -02 to -03
+     B.5.  Version -01 to -02
+     B.6.  Version -00 to -01
    Acknowledgments
    Authors' Addresses
 
@@ -1563,16 +1564,16 @@ Table of Contents
    01   Ver
      00   CON
        0001   TKL
-           00000001   Request Code 1 "GET"
+           00000001   Request Code 1 (GET)
 
-   0x0001 = mid
-   0x82 = token
+   0x0001   MID
+   0x82   Token
 
    Options:
 
    0xbb74656d7065726174757265
    Option 11: Uri-Path
-   Value = temperature
+   Value = "temperature"
 
    Original message length: 17 bytes
 
@@ -1589,10 +1590,10 @@ Table of Contents
    01   Ver
      10   ACK
        0001   TKL
-           01000101 Successful Response Code 69 "2.05 Content"
+           01000101 Successful Response Code 69 (2.05 Content)
 
-   0x0001 = mid
-   0x82 = token
+   0x0001   MID
+   0x82   Token
 
    0xFF  Payload marker
 
@@ -1828,17 +1829,17 @@ Table of Contents
    01   Ver
      00   CON
        0001   TKL
-           00000010   Request Code 2 "POST"
+           00000010   Request Code 2 (POST)
 
-   0x0001 = mid
-   0x82 = token
+   0x0001   MID
+   0x82   Token
 
    Options:
 
    0x98 0904636c69656e74 (9 bytes)
    Option 9: OSCORE
    Value = 0x0904636c69656e74
-             09 = 000 0 1 001 flag byte
+             09 = 000 0 1 001 flags
                       h k  n
                04 piv
                  636c69656e74 kid
@@ -1860,16 +1861,16 @@ Table of Contents
    01   Ver
      10   ACK
        0001   TKL
-           01000100   Successful Response Code 68 "2.04 Changed"
+           01000100   Successful Response Code 68 (2.04 Changed)
 
-   0x0001 = mid
-   0x82 = token
+   0x0001   MID
+   0x82   Token
 
    Options:
 
    0x90 (1 byte)
    Option 9: OSCORE
-   Value = b''
+   Value = 0x (empty)
 
    0xFF  Payload marker
 
@@ -1917,8 +1918,8 @@ Table of Contents
              58a9fc3686852f6c40 padded payload
 
    Compression Residue:
-   0b0001 010 0100  0100 0100
-      mid tkn  piv   kid (residue size and residue)
+   0b0001   010 0100  0100 0100
+      MID Token  piv   kid (residue size and residue)
 
      (19 bits -> 3 bytes with padding)
 
@@ -1937,8 +1938,8 @@ Table of Contents
          218daf84d983d35de7e48c3c1852 Padded payload
 
    Compression Residue:
-   0b0001 010 (7 bits -> 1 byte with padding)
-      mid tkn
+   0b0001   010 (7 bits -> 1 byte with padding)
+      MID Token
 
    Payload
    0x10c6d7c26cc1e9aef3f2461e0c29 (14 bytes)
@@ -2179,24 +2180,24 @@ Table of Contents
    01   Ver
      00   CON
        0001   TKL
-           00000001   Request Code 1 "GET"
+           00000001   Request Code 1 (GET)
 
-   0x0001 = mid
-   0x82 = token
+   0x0001   MID
+   0x82   Token
 
    Options:
 
    0x3b6578616d706c652e636f6d
    Option 3: Uri-Host
-   Value = example.com
+   Value = "example.com"
 
    0x8b74656d7065726174757265
    Option 11: Uri-Path
-   Value = temperature
+   Value = "temperature"
 
    0xd40f636f6170
    Option 39: Proxy-Scheme
-   Value = coap
+   Value = "coap"
 
    Original message length: 35 bytes
 
@@ -2211,10 +2212,10 @@ Table of Contents
    01   Ver
      10   ACK
        0001   TKL
-           01000101 Successful Response Code 69 "2.05 Content"
+           01000101 Successful Response Code 69 (2.05 Content)
 
-   0x0004 = mid
-   0x75 = token
+   0x0004   MID
+   0x75   Token
 
 
    0xFF Payload marker
@@ -2338,8 +2339,8 @@ Table of Contents
                                    and padded payload
 
    Compression Residue (101 bits -> 13 bytes with padding)
-   0b   00 0001 010      1011  |  0x6578616d706c652e636f6d
-      code  mid tkn  Uri-Host (residue size and residue)
+   0b   00 0001   010      1011  |  0x6578616d706c652e636f6d
+      Code  MID Token  Uri-Host (residue size and residue)
 
    Compressed message length: 14 bytes
 
@@ -2364,20 +2365,20 @@ Table of Contents
    01   Ver
      00   CON
        0001   TKL
-           00000001   Request Code 1 "GET"
+           00000001   Request Code 1 (GET)
 
-   0x0004 = mid
-   0x75 = token
+   0x0004   MID
+   0x75   Token
 
    Options:
 
    0x3b6578616d706c652e636f6d
    Option 3: Uri-Host
-   Value = example.com
+   Value = "example.com"
 
    0x8b74656d7065726174757265
    Option 11: Uri-Path
-   Value = temperature
+   Value = "temperature"
 
    Original message length: 29 bytes
 
@@ -2398,8 +2399,8 @@ Table of Contents
 
 
    Compression Residue (101 bits -> 13 bytes with padding)
-   0b   00 0100 101      1011  |  0x6578616d706c652e636f6d
-      code  mid tkn  Uri-Host (residue size and residue)
+   0b   00 0100   101      1011  |  0x6578616d706c652e636f6d
+      Code  MID Token  Uri-Host (residue size and residue)
 
    Compressed message length: 14 bytes
 
@@ -2424,8 +2425,8 @@ Table of Contents
 
 
    Compression Residue (10 bits -> 2 bytes with padding)
-   0b    1   10 0100 101
-      type code  mid tkn
+   0b    1   10 0100   101
+      Type Code  MID Token
 
    Payload
    0x32332043 (4 bytes)
@@ -2451,10 +2452,10 @@ Table of Contents
    01   Ver
      10   ACK
        0001   TKL
-           01000101 Successful Response Code 69 "2.05 Content"
+           01000101 Successful Response Code 69 (2.05 Content)
 
-   0x0001 = mid
-   0x82 = token
+   0x0001   MID
+   0x82   Token
 
 
    0xFF Payload marker
@@ -2480,8 +2481,8 @@ Table of Contents
 
 
    Compression Residue (10 bits -> 2 bytes with padding)
-   0b    1   10 0001 010
-      type code  mid tkn
+   0b    1   10 0001   010
+      Type Code  MID Token
 
    Payload
    0x32332043 (4 bytes)
@@ -2827,28 +2828,28 @@ Table of Contents
    01   Ver
      00   CON
        0001   TKL
-           00000010   Request Code 2 "POST"
+           00000010   Request Code 2 (POST)
 
-   0x0001 = mid
-   0x82 = token
+   0x0001   MID
+   0x82   Token
 
    Options:
 
    0x3b6578616d706c652e636f6d
    Option 3: Uri-Host
-   Value = example.com
+   Value = "example.com"
 
    0x6409040005
    Option 9: OSCORE
    Value = 0x09040005
-             09 = 000 0 1 001 flag byte
+             09 = 000 0 1 001 flags
                       h k  n
                04 piv
                  0005 kid
 
    0xd411636f6170
    Option 39: Proxy-Scheme
-   Value = coap
+   Value = "coap"
 
 
    0xFF Payload marker
@@ -2872,8 +2873,8 @@ Table of Contents
                                    459f8a9fc3686852f6c4 padded payload
 
    Compression Residue
-   0b0001 010      1011 | 0x6578616d706c652e636f6d |
-      mid tkn  Uri-Host (residue size and residue)
+   0b0001   010      1011 | 0x6578616d706c652e636f6d |
+      MID Token  Uri-Host (residue size and residue)
 
    0b0100  0100 0101
       piv   kid (residue size and residue)
@@ -2909,21 +2910,21 @@ Table of Contents
    01   Ver
      00   CON
        0001   TKL
-           00000010   Request Code 2 "POST"
+           00000010   Request Code 2 (POST)
 
-   0x0004 = mid
-   0x75 = token
+   0x0004   MID
+   0x75   Token
 
    Options:
 
    0x3b6578616d706c652e636f6d
    Option 3: Uri-Host
-   Value = example.com
+   Value = "example.com"
 
    0x6409040005
    Option 9: OSCORE
    Value = 0x09040005
-             09 = 000 0 1 001 flag byte
+             09 = 000 0 1 001 flags
                       h k  n
                04 piv
                  0005 kid
@@ -2952,8 +2953,8 @@ Table of Contents
 
 
    Compression Residue
-   0b0100 101      1011 | 0x6578616d706c652e636f6d |
-      mid tkn  Uri-Host (residue size and residue)
+   0b0100   101      1011 | 0x6578616d706c652e636f6d |
+      MID Token  Uri-Host (residue size and residue)
 
    0b0100  0100 0101
       piv   kid (residue size and residue)
@@ -2995,16 +2996,16 @@ Table of Contents
    01   Ver
      10   ACK
        0001   TKL
-           01000100   Successful Response Code 68 "2.04 Changed"
+           01000100   Successful Response Code 68 (2.04 Changed)
 
-   0x0004 = mid
-   0x75 = token
+   0x0004   MID
+   0x75   Token
 
    Options:
 
    0x90
    Option 9: OSCORE
-   Value = b''
+   Value = 0x (empty)
 
 
    0xFF Payload marker
@@ -3029,8 +3030,8 @@ Table of Contents
 
 
    Compression Residue (8 bits -> 1 byte with padding)
-   0b    1 0100 101
-      type  mid tkn
+   0b    1 0100   101
+      Type  MID Token
 
    Payload
    0x10c6d7c26cc1e9aef3f2461e0c29 (14 bytes)
@@ -3059,16 +3060,16 @@ Table of Contents
    01   Ver
      10   ACK
        0001   TKL
-           01000100   Successful Response Code 68 "2.04 Changed"
+           01000100   Successful Response Code 68 (2.04 Changed)
 
-   0x0001 = mid
-   0x82 = token
+   0x0001   MID
+   0x82   Token
 
    Options:
 
    0x90
    Option 9: OSCORE
-   Value = b''
+   Value = 0x (empty)
 
 
    0xFF Payload marker
@@ -3094,8 +3095,8 @@ Table of Contents
 
 
    Compression Residue (8 bits -> 1 byte with padding)
-   0b    1 0001 010
-      type  mid tkn
+   0b    1 0001   010
+      Type  MID Token
 
    Payload
    0x10c6d7c26cc1e9aef3f2461e0c29 (14 bytes)
@@ -3457,17 +3458,17 @@ Table of Contents
    [I-D.ietf-core-href]
               Bormann, C. and H. Birkholz, "Constrained Resource
               Identifiers", Work in Progress, Internet-Draft, draft-
-              ietf-core-href-22, 20 March 2025,
+              ietf-core-href-25, 27 September 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              href-22>.
+              href-25>.
 
    [I-D.ietf-core-oscore-groupcomm]
               Tiloca, M., Selander, G., Palombini, F., Mattsson, J. P.,
               and R. Höglund, "Group Object Security for Constrained
               RESTful Environments (Group OSCORE)", Work in Progress,
-              Internet-Draft, draft-ietf-core-oscore-groupcomm-26, 5
-              July 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-core-oscore-groupcomm-26>.
+              Internet-Draft, draft-ietf-core-oscore-groupcomm-27, 12
+              September 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-core-oscore-groupcomm-27>.
 
    [I-D.ietf-core-oscore-key-update]
               Höglund, R. and M. Tiloca, "Key Update for OSCORE
@@ -3589,8 +3590,9 @@ Table of Contents
               Dijk, E. and M. Tiloca, "Group Communication for the
               Constrained Application Protocol (CoAP)", Work in
               Progress, Internet-Draft, draft-ietf-core-groupcomm-bis-
-              14, 2 July 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-core-groupcomm-bis-14>.
+              15, 25 September 2025,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-core-
+              groupcomm-bis-15>.
 
    [I-D.ietf-schc-universal-option]
               Lampin, Q., Minaburo, A., Tiloca, M., and L. Toutain,
@@ -3799,7 +3801,13 @@ Appendix B.  Document Updates
 
    This section is to be removed before publishing as an RFC.
 
-B.1.  Version -04 to -05
+B.1.  Version -05 to -06
+
+   *  Editorial fixes in the examples.
+
+   *  Editorial improvements.
+
+B.2.  Version -04 to -05
 
    *  Compression of CoAP options:
 
@@ -3827,7 +3835,7 @@ B.1.  Version -04 to -05
 
    *  Fixes and editorial improvements.
 
-B.2.  Version -03 to -04
+B.3.  Version -03 to -04
 
    *  Clarified the rationale for using the "tkl" function.
 
@@ -3851,7 +3859,7 @@ B.2.  Version -03 to -04
 
    *  Fixes and editorial improvements.
 
-B.3.  Version -02 to -03
+B.4.  Version -02 to -03
 
    *  Consistent representation of "CoAP Version" 1 in example Rules.
 
@@ -3866,7 +3874,7 @@ B.3.  Version -02 to -03
 
    *  Fixes and editorial improvements.
 
-B.4.  Version -01 to -02
+B.5.  Version -01 to -02
 
    *  Added compression for the CoAP options Proxy-Cri and Proxy-Scheme-
       Number.
@@ -3877,7 +3885,7 @@ B.4.  Version -01 to -02
 
    *  Fixes and editorial improvements.
 
-B.5.  Version -00 to -01
+B.6.  Version -00 to -01
 
    *  Fixed an example, as per the erratum with Errata ID 7623.
 
