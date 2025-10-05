@@ -2214,7 +2214,7 @@ module ietf-schc-coap {
      This module extends the ietf-schc module defined in RFC 9363 to
      include the new CoAP options as defined in RFC YYYY.";
 
-  revision 2025-07-07 {
+  revision 2025-10-20 {
     description
       "New CoAP extensions and extended OSCORE fields.";
     reference
@@ -2346,7 +2346,7 @@ module ietf-schc-coap {
 }
 
 ~~~~~~~~~~~
-{: sourcecode-name="ietf-schc-coap@2025-07-07.yang" sourcecode-markers="true" #fig-yang-data-model title="SCHC CoAP Extension YANG Data Model."}
+{: sourcecode-name="ietf-schc-coap@2025-10-20.yang" sourcecode-markers="true" #fig-yang-data-model title="SCHC CoAP Extension YANG Data Model."}
 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
