@@ -2025,7 +2025,7 @@ Table of Contents
    | CoAP.      |2  |1 |Dw| 2             | equal   | not-sent |      |
    | Type       |   |  |  |               |         |          |      |
    +------------+---+--+--+---------------+---------+----------+------+
-   | CoAP.      |4  |1 |Bi| 0b0001        | equal   | not-sent |      |
+   | CoAP.      |   |1 |Bi| 0b0001        | equal   | not-sent |      |
    | TKL        |   |  |  |               |         |          |      |
    +------------+---+--+--+---------------+---------+----------+------+
    | CoAP.      |8  |1 |Up| 2             | equal   | not-sent |      |
@@ -2312,7 +2312,7 @@ Table of Contents
    | CoAP.      |2  |1 |Dw| [0, 2]        | match-  | mapping- |T     |
    | Type       |   |  |  |               | mapping | sent     |      |
    +------------+---+--+--+---------------+---------+----------+------+
-   | CoAP.      |4  |1 |Bi| 0b0001        | equal   | not-sent |      |
+   | CoAP.      |   |1 |Bi| 0b0001        | equal   | not-sent |      |
    | TKL        |   |  |  |               |         |          |      |
    +------------+---+--+--+---------------+---------+----------+------+
    | CoAP.      |8  |1 |Up| [1, 2,        | match-  | mapping- |CC    |
@@ -2360,7 +2360,7 @@ Table of Contents
    | CoAP.      |2  |1 |Dw| [0, 2]        | match-  | mapping- |T     |
    | Type       |   |  |  |               | mapping | sent     |      |
    +------------+---+--+--+---------------+---------+----------+------+
-   | CoAP.      |4  |1 |Bi| 0b0001        | equal   | not-sent |      |
+   | CoAP.      |   |1 |Bi| 0b0001        | equal   | not-sent |      |
    | TKL        |   |  |  |               |         |          |      |
    +------------+---+--+--+---------------+---------+----------+------+
    | CoAP.      |8  |1 |Up| [1, 2,        | match-  | mapping- |CC    |
@@ -2609,7 +2609,7 @@ Table of Contents
     | CoAP.      | 2       |1 |Dw|[0, 2]| match-  | mapping- | T      |
     | Type       |         |  |  |      | mapping | sent     |        |
     +------------+---------+--+--+------+---------+----------+--------+
-    | CoAP.      | 4       |1 |Bi|0b0001| equal   | not-sent |        |
+    | CoAP.      |         |1 |Bi|0b0001| equal   | not-sent |        |
     | TKL        |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
     | CoAP.      | 8       |1 |Up|2     | equal   | not-sent |        |
@@ -2693,7 +2693,7 @@ Table of Contents
     | CoAP.      | 2       |1 |Dw|[0, 2]| match-  | mapping- | T      |
     | Type       |         |  |  |      | mapping | sent     |        |
     +------------+---------+--+--+------+---------+----------+--------+
-    | CoAP.      | 4       |1 |Bi|0b0001| equal   | not-sent |        |
+    | CoAP.      |         |1 |Bi|0b0001| equal   | not-sent |        |
     | TKL        |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
     | CoAP.      | 8       |1 |Up|2     | equal   | not-sent |        |
