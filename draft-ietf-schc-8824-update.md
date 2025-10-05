@@ -2126,7 +2126,7 @@ The columns of this registry are:
 
   If the CoAP field in question is specifically a CoAP option, then X has the format "option(N)", where N is the option number of the CoAP option. The value N is taken from the "Number" column of the corresponding entry in the "CoAP Option Numbers" IANA registry {{CoAP.Option.Numbers}}.
 
-  This identifier must have a corresponding item or set of items in the YANG data model for the CoAP field or subfield associated with this entry, as specified in {{Section 6 of RFC9363}} or in {{sec-yang-module}} of {{&SELF}}.
+  Within the YANG data model originally specified in {{Section 6 of RFC9363}}, this identifier must have a corresponding item or set of items for the CoAP field or subfield associated with this entry.
 
 * Description: a short description of the CoAP field or subfield associated with this entry, together with public references to the resources that define it.
 
@@ -2332,6 +2332,8 @@ module ietf-schc-coap {
 {:removeinrfc}
 
 ## Version -05 to -06 ## {#sec-05-06}
+
+* More robust reference to the YANG data model of RFC 9363.
 
 * Editorial fixes in the examples.
 
