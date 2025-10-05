@@ -313,7 +313,7 @@ A CoAP message fully specifies the Token by using two CoAP fields: the Token Len
 
 For the Token field, SCHC MUST NOT send it as variable-size data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the Token field, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see {{Section 7.4.2 of RFC8724}}).
 
-Instead, SCHC MUST use the value of the Token Length field to define the size of the Token field in the Compression Residue. To this end, SCHC designates a specific function, "tkl", that the Rule MUST use to complete the Field Descriptor. During the decompression, this function returns the value contained in the Token Length field, hence the length of the Token field.
+Instead, SCHC MUST use the value of the Token Length field to define the size of the Token field in the Compression Residue. To this end, SCHC designates a specific function, "tkl", that the Rule MUST use to complete the Field Descriptor. During the decompression, this function returns the value contained in the Token Length field, hence the length of the Token field in bytes.
 
 This construct avoids ambiguity with the Token Length field and results in a more efficient compression of the Token field.
 
@@ -599,7 +599,7 @@ In addition, the following applies.
 
 * If the piv subfield is present, SCHC MUST NOT send it as variable-size data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the piv subfield, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see {{Section 7.4.2 of RFC8724}}).
 
-  Instead, SCHC MUST use the value n from the first byte of the OSCORE Option value to define the size of the piv subfield in the Compression Residue. To this end, SCHC designates a specific function, "osc.piv", that the Rule MUST use to complete the Field Descriptor. During the decompression, this function returns the value n, hence the length of the piv subfield.
+  Instead, SCHC MUST use the value n from the first byte of the OSCORE Option value to define the size of the piv subfield in the Compression Residue. To this end, SCHC designates a specific function, "osc.piv", that the Rule MUST use to complete the Field Descriptor. During the decompression, this function returns the value n, hence the length of the piv subfield in bytes.
 
   This construct avoids ambiguity with the value n from the first byte of the OSCORE Option value and results in a more efficient compression of the piv subfield.
 
@@ -2335,7 +2335,7 @@ module ietf-schc-coap {
 
 * Editorial fixes in the examples.
 
-* Editorial improvements.
+* Minor clarifications and editorial improvements.
 
 ## Version -04 to -05 ## {#sec-04-05}
 
