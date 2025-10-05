@@ -3682,7 +3682,7 @@ Appendix A.  YANG Data Model
    ietf-schc module defined in [RFC9363] to include the new CoAP options
    as defined in the present document.
 
-   <CODE BEGINS> file "ietf-schc-coap@2025-07-07.yang"
+   <CODE BEGINS> file "ietf-schc-coap@2025-10-20.yang"
    module ietf-schc-coap {
      yang-version 1.1;
      namespace "urn:ietf:params:xml:ns:yang:ietf-schc-coap";
@@ -3721,7 +3721,7 @@ Appendix A.  YANG Data Model
         This module extends the ietf-schc module defined in RFC 9363 to
         include the new CoAP options as defined in RFC YYYY.";
 
-     revision 2025-07-07 {
+     revision 2025-10-20 {
        description
          "New CoAP extensions and extended OSCORE fields.";
        reference
