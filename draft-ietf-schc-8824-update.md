@@ -825,16 +825,16 @@ Header:
 01   Ver
   00   CON
     0001   TKL
-        00000001   Request Code 1 "GET"
+        00000001   Request Code 1 (GET)
 
-0x0001 = mid
-0x82 = token
+0x0001   MID
+0x82   Token
 
 Options:
 
 0xbb74656d7065726174757265
 Option 11: Uri-Path
-Value = temperature
+Value = "temperature"
 
 Original message length: 17 bytes
 ~~~~~~~~~~~
@@ -852,10 +852,10 @@ Header:
 01   Ver
   10   ACK
     0001   TKL
-        01000101 Successful Response Code 69 "2.05 Content"
+        01000101 Successful Response Code 69 (2.05 Content)
 
-0x0001 = mid
-0x82 = token
+0x0001   MID
+0x82   Token
 
 0xFF  Payload marker
 
@@ -1019,17 +1019,17 @@ Header:
 01   Ver
   00   CON
     0001   TKL
-        00000010   Request Code 2 "POST"
+        00000010   Request Code 2 (POST)
 
-0x0001 = mid
-0x82 = token
+0x0001   MID
+0x82   Token
 
 Options:
 
 0x98 0904636c69656e74 (9 bytes)
 Option 9: OSCORE
 Value = 0x0904636c69656e74
-          09 = 000 0 1 001 flag byte
+          09 = 000 0 1 001 flags
                    h k  n
             04 piv
               636c69656e74 kid
@@ -1052,16 +1052,16 @@ Header:
 01   Ver
   10   ACK
     0001   TKL
-        01000100   Successful Response Code 68 "2.04 Changed"
+        01000100   Successful Response Code 68 (2.04 Changed)
 
-0x0001 = mid
-0x82 = token
+0x0001   MID
+0x82   Token
 
 Options:
 
 0x90 (1 byte)
 Option 9: OSCORE
-Value = b''
+Value = 0x (empty)
 
 0xFF  Payload marker
 
@@ -1089,8 +1089,8 @@ Compressed message:
           58a9fc3686852f6c40 padded payload
 
 Compression Residue:
-0b0001 010 0100  0100 0100
-   mid tkn  piv   kid (residue size and residue)
+0b0001   010 0100  0100 0100
+   MID Token  piv   kid (residue size and residue)
 
   (19 bits -> 3 bytes with padding)
 
@@ -1110,8 +1110,8 @@ Compressed message:
       218daf84d983d35de7e48c3c1852 Padded payload
 
 Compression Residue:
-0b0001 010 (7 bits -> 1 byte with padding)
-   mid tkn
+0b0001   010 (7 bits -> 1 byte with padding)
+   MID Token
 
 Payload
 0x10c6d7c26cc1e9aef3f2461e0c29 (14 bytes)
@@ -1260,24 +1260,24 @@ Header:
 01   Ver
   00   CON
     0001   TKL
-        00000001   Request Code 1 "GET"
+        00000001   Request Code 1 (GET)
 
-0x0001 = mid
-0x82 = token
+0x0001   MID
+0x82   Token
 
 Options:
 
 0x3b6578616d706c652e636f6d
 Option 3: Uri-Host
-Value = example.com
+Value = "example.com"
 
 0x8b74656d7065726174757265
 Option 11: Uri-Path
-Value = temperature
+Value = "temperature"
 
 0xd40f636f6170
 Option 39: Proxy-Scheme
-Value = coap
+Value = "coap"
 
 Original message length: 35 bytes
 
@@ -1295,10 +1295,10 @@ Header:
 01   Ver
   10   ACK
     0001   TKL
-        01000101 Successful Response Code 69 "2.05 Content"
+        01000101 Successful Response Code 69 (2.05 Content)
 
-0x0004 = mid
-0x75 = token
+0x0004   MID
+0x75   Token
 
 
 0xFF Payload marker
@@ -1373,8 +1373,8 @@ Compressed message:
                                 and padded payload
 
 Compression Residue (101 bits -> 13 bytes with padding)
-0b   00 0001 010      1011  |  0x6578616d706c652e636f6d
-   code  mid tkn  Uri-Host (residue size and residue)
+0b   00 0001   010      1011  |  0x6578616d706c652e636f6d
+   Code  MID Token  Uri-Host (residue size and residue)
 
 Compressed message length: 14 bytes
 
@@ -1397,20 +1397,20 @@ Header:
 01   Ver
   00   CON
     0001   TKL
-        00000001   Request Code 1 "GET"
+        00000001   Request Code 1 (GET)
 
-0x0004 = mid
-0x75 = token
+0x0004   MID
+0x75   Token
 
 Options:
 
 0x3b6578616d706c652e636f6d
 Option 3: Uri-Host
-Value = example.com
+Value = "example.com"
 
 0x8b74656d7065726174757265
 Option 11: Uri-Path
-Value = temperature
+Value = "temperature"
 
 Original message length: 29 bytes
 
@@ -1432,8 +1432,8 @@ Compressed message to forward:
 
 
 Compression Residue (101 bits -> 13 bytes with padding)
-0b   00 0100 101      1011  |  0x6578616d706c652e636f6d
-   code  mid tkn  Uri-Host (residue size and residue)
+0b   00 0100   101      1011  |  0x6578616d706c652e636f6d
+   Code  MID Token  Uri-Host (residue size and residue)
 
 Compressed message length: 14 bytes
 
@@ -1455,8 +1455,8 @@ Compressed message:
 
 
 Compression Residue (10 bits -> 2 bytes with padding)
-0b    1   10 0100 101
-   type code  mid tkn
+0b    1   10 0100   101
+   Type Code  MID Token
 
 Payload
 0x32332043 (4 bytes)
@@ -1481,10 +1481,10 @@ Header:
 01   Ver
   10   ACK
     0001   TKL
-        01000101 Successful Response Code 69 "2.05 Content"
+        01000101 Successful Response Code 69 (2.05 Content)
 
-0x0001 = mid
-0x82 = token
+0x0001   MID
+0x82   Token
 
 
 0xFF Payload marker
@@ -1510,8 +1510,8 @@ Compressed message:
 
 
 Compression Residue (10 bits -> 2 bytes with padding)
-0b    1   10 0001 010
-   type code  mid tkn
+0b    1   10 0001   010
+   Type Code  MID Token
 
 Payload
 0x32332043 (4 bytes)
@@ -1732,28 +1732,28 @@ Header:
 01   Ver
   00   CON
     0001   TKL
-        00000010   Request Code 2 "POST"
+        00000010   Request Code 2 (POST)
 
-0x0001 = mid
-0x82 = token
+0x0001   MID
+0x82   Token
 
 Options:
 
 0x3b6578616d706c652e636f6d
 Option 3: Uri-Host
-Value = example.com
+Value = "example.com"
 
 0x6409040005
 Option 9: OSCORE
 Value = 0x09040005
-          09 = 000 0 1 001 flag byte
+          09 = 000 0 1 001 flags
                    h k  n
             04 piv
               0005 kid
 
 0xd411636f6170
 Option 39: Proxy-Scheme
-Value = coap
+Value = "coap"
 
 
 0xFF Payload marker
@@ -1776,8 +1776,8 @@ Compressed message:
                                 459f8a9fc3686852f6c4 padded payload
 
 Compression Residue
-0b0001 010      1011 | 0x6578616d706c652e636f6d |
-   mid tkn  Uri-Host (residue size and residue)
+0b0001   010      1011 | 0x6578616d706c652e636f6d |
+   MID Token  Uri-Host (residue size and residue)
 
 0b0100  0100 0101
    piv   kid (residue size and residue)
@@ -1809,21 +1809,21 @@ Header:
 01   Ver
   00   CON
     0001   TKL
-        00000010   Request Code 2 "POST"
+        00000010   Request Code 2 (POST)
 
-0x0004 = mid
-0x75 = token
+0x0004   MID
+0x75   Token
 
 Options:
 
 0x3b6578616d706c652e636f6d
 Option 3: Uri-Host
-Value = example.com
+Value = "example.com"
 
 0x6409040005
 Option 9: OSCORE
 Value = 0x09040005
-          09 = 000 0 1 001 flag byte
+          09 = 000 0 1 001 flags
                    h k  n
             04 piv
               0005 kid
@@ -1850,8 +1850,8 @@ Compressed message:
 
 
 Compression Residue
-0b0100 101      1011 | 0x6578616d706c652e636f6d |
-   mid tkn  Uri-Host (residue size and residue)
+0b0100   101      1011 | 0x6578616d706c652e636f6d |
+   MID Token  Uri-Host (residue size and residue)
 
 0b0100  0100 0101
    piv   kid (residue size and residue)
@@ -1885,16 +1885,16 @@ Header:
 01   Ver
   10   ACK
     0001   TKL
-        01000100   Successful Response Code 68 "2.04 Changed"
+        01000100   Successful Response Code 68 (2.04 Changed)
 
-0x0004 = mid
-0x75 = token
+0x0004   MID
+0x75   Token
 
 Options:
 
 0x90
 Option 9: OSCORE
-Value = b''
+Value = 0x (empty)
 
 
 0xFF Payload marker
@@ -1918,8 +1918,8 @@ Compressed message:
 
 
 Compression Residue (8 bits -> 1 byte with padding)
-0b    1 0100 101
-   type  mid tkn
+0b    1 0100   101
+   Type  MID Token
 
 Payload
 0x10c6d7c26cc1e9aef3f2461e0c29 (14 bytes)
@@ -1945,16 +1945,16 @@ Header:
 01   Ver
   10   ACK
     0001   TKL
-        01000100   Successful Response Code 68 "2.04 Changed"
+        01000100   Successful Response Code 68 (2.04 Changed)
 
-0x0001 = mid
-0x82 = token
+0x0001   MID
+0x82   Token
 
 Options:
 
 0x90
 Option 9: OSCORE
-Value = b''
+Value = 0x (empty)
 
 
 0xFF Payload marker
@@ -1978,8 +1978,8 @@ Compressed message:
 
 
 Compression Residue (8 bits -> 1 byte with padding)
-0b    1 0001 010
-   type  mid tkn
+0b    1 0001   010
+   Type  MID Token
 
 Payload
 0x10c6d7c26cc1e9aef3f2461e0c29 (14 bytes)
@@ -2330,6 +2330,12 @@ module ietf-schc-coap {
 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
+
+## Version -05 to -06 ## {#sec-05-06}
+
+* Editorial fixes in the examples.
+
+* Editorial improvements.
 
 ## Version -04 to -05 ## {#sec-04-05}
 
