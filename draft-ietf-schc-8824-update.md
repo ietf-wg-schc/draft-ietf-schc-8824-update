@@ -997,25 +997,25 @@ The Outer SCHC Rule shown in {{table-Outer-Rules}} is used, also to process the 
 +----------+
 ~~~~
 
-| FID                              | FL             | FP | DI | TV                   | MO      | CDA            | Sent <br> \[bits\] |
-|----------------------------------|----------------|----|----|----------------------|---------|----------------|--------------------|
-| CoAP.<br>Version                 | 2              | 1  | Bi | 1                    | equal   | not- <br> sent |                    |
-| CoAP.<br>Type                    | 2              | 1  | Up | 0                    | equal   | not- <br> sent |                    |
-| CoAP.<br>Type                    | 2              | 1  | Dw | 2                    | equal   | not- <br> sent |                    |
-| CoAP.<br>TKL                     | 4              | 1  | Bi | 1                    | equal   | not- <br> sent |                    |
-| CoAP.<br>Code                    | 8              | 1  | Up | 2                    | equal   | not- <br> sent |                    |
-| CoAP.<br>Code                    | 8              | 1  | Dw | 68                   | equal   | not- <br> sent |                    |
-| CoAP.<br>MID                     | 16             | 1  | Bi | 0x0000               | MSB(12) | LSB            | MMMM               |
-| CoAP.<br>Token                   | tkl            | 1  | Bi | 0x80                 | MSB(5)  | LSB            | TTT                |
-| CoAP.<br>option(9).<br>flags     |                | 1  | Up | 0x09                 | equal   | not- <br> sent |                    |
-| CoAP.<br>option(9).<br>flags     |                | 1  | Dw | b''                  | equal   | not- <br> sent |                    |
-| CoAP.<br>option(9).<br>piv       | osc.piv        | 1  | Up | 0x00                 | MSB(4)  | LSB            | PPPP               |
-| CoAP.<br>option(9).<br>piv       |                | 1  | Dw | b''                  | equal   | not- <br> sent |                    |
-| CoAP.<br>option(9).<br>kid_ctx   |                | 1  | Bi | b''                  | equal   | not- <br> sent |                    |
-| CoAP.<br>option(9).<br>x         | 8              | 1  | Bi | b''                  | equal   | not- <br> sent |                    |
-| CoAP.<br>option(9).<br>nonce     |                | 1  | Bi | b''                  | equal   | not- <br> sent |                    |
-| CoAP.<br>option(9).<br>kid       | var_(bit)      | 1  | Up | 0x636c69 <br> 656e70 | MSB(44) | LSB            | KKKK               |
-| CoAP.<br>option(9).<br>kid       |                | 1  | Dw | b''                  | equal   | not- <br> sent |                    |
+| FID                              | FL      | FP | DI | TV                   | MO      | CDA            | Sent <br> \[bits\] |
+|----------------------------------|---------|----|----|----------------------|---------|----------------|--------------------|
+| CoAP.<br>Version                 | 2       | 1  | Bi | 1                    | equal   | not- <br> sent |                    |
+| CoAP.<br>Type                    | 2       | 1  | Up | 0                    | equal   | not- <br> sent |                    |
+| CoAP.<br>Type                    | 2       | 1  | Dw | 2                    | equal   | not- <br> sent |                    |
+| CoAP.<br>TKL                     | 4       | 1  | Bi | 1                    | equal   | not- <br> sent |                    |
+| CoAP.<br>Code                    | 8       | 1  | Up | 2                    | equal   | not- <br> sent |                    |
+| CoAP.<br>Code                    | 8       | 1  | Dw | 68                   | equal   | not- <br> sent |                    |
+| CoAP.<br>MID                     | 16      | 1  | Bi | 0x0000               | MSB(12) | LSB            | MMMM               |
+| CoAP.<br>Token                   | tkl     | 1  | Bi | 0x80                 | MSB(5)  | LSB            | TTT                |
+| CoAP.<br>option(9).<br>flags     |         | 1  | Up | 0x09                 | equal   | not- <br> sent |                    |
+| CoAP.<br>option(9).<br>flags     |         | 1  | Dw | b''                  | equal   | not- <br> sent |                    |
+| CoAP.<br>option(9).<br>piv       | osc.piv | 1  | Up | 0x00                 | MSB(4)  | LSB            | PPPP               |
+| CoAP.<br>option(9).<br>piv       |         | 1  | Dw | b''                  | equal   | not- <br> sent |                    |
+| CoAP.<br>option(9).<br>kid_ctx   |         | 1  | Bi | b''                  | equal   | not- <br> sent |                    |
+| CoAP.<br>option(9).<br>x         | 8       | 1  | Bi | b''                  | equal   | not- <br> sent |                    |
+| CoAP.<br>option(9).<br>nonce     |         | 1  | Bi | b''                  | equal   | not- <br> sent |                    |
+| CoAP.<br>option(9).<br>kid       | var_bit | 1  | Up | 0x636c69 <br> 656e70 | MSB(44) | LSB            | KKKK               |
+| CoAP.<br>option(9).<br>kid       |         | 1  | Dw | b''                  | equal   | not- <br> sent |                    |
 {: #table-Outer-Rules title="Outer SCHC Rule. CoAP Option Numbers: 9 (OSCORE)." align="center"}
 
 ~~~~~~~~~~~
