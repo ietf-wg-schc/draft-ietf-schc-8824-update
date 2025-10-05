@@ -570,7 +570,7 @@ Table of Contents
    SCHC designates a specific function, "tkl", that the Rule MUST use to
    complete the Field Descriptor.  During the decompression, this
    function returns the value contained in the Token Length field, hence
-   the length of the Token field.
+   the length of the Token field in bytes.
 
    This construct avoids ambiguity with the Token Length field and
    results in a more efficient compression of the Token field.
@@ -1193,7 +1193,7 @@ Table of Contents
       Compression Residue.  To this end, SCHC designates a specific
       function, "osc.piv", that the Rule MUST use to complete the Field
       Descriptor.  During the decompression, this function returns the
-      value n, hence the length of the piv subfield.
+      value n, hence the length of the piv subfield in bytes.
 
       This construct avoids ambiguity with the value n from the first
       byte of the OSCORE Option value and results in a more efficient
@@ -3805,7 +3805,7 @@ B.1.  Version -05 to -06
 
    *  Editorial fixes in the examples.
 
-   *  Editorial improvements.
+   *  Minor clarifications and editorial improvements.
 
 B.2.  Version -04 to -05
 

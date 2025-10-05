@@ -1827,7 +1827,7 @@ When doing SCHC compression of a variable-length field, <span><a href="https://r
         </h3>
 <p id="section-4.6-1">A CoAP message fully specifies the Token by using two CoAP fields: the Token Length (TKL) field in the mandatory header (see <a href="#ssec-coap-tkl-field" class="auto internal xref">Section 4.3</a>) and the variable-length Token field that directly follows the mandatory CoAP header and specifies the Token value.<a href="#section-4.6-1" class="pilcrow">¶</a></p>
 <p id="section-4.6-2">For the Token field, SCHC <span class="bcp14">MUST NOT</span> send it as variable-size data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the Token field, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>).<a href="#section-4.6-2" class="pilcrow">¶</a></p>
-<p id="section-4.6-3">Instead, SCHC <span class="bcp14">MUST</span> use the value of the Token Length field to define the size of the Token field in the Compression Residue. To this end, SCHC designates a specific function, "tkl", that the Rule <span class="bcp14">MUST</span> use to complete the Field Descriptor. During the decompression, this function returns the value contained in the Token Length field, hence the length of the Token field.<a href="#section-4.6-3" class="pilcrow">¶</a></p>
+<p id="section-4.6-3">Instead, SCHC <span class="bcp14">MUST</span> use the value of the Token Length field to define the size of the Token field in the Compression Residue. To this end, SCHC designates a specific function, "tkl", that the Rule <span class="bcp14">MUST</span> use to complete the Field Descriptor. During the decompression, this function returns the value contained in the Token Length field, hence the length of the Token field in bytes.<a href="#section-4.6-3" class="pilcrow">¶</a></p>
 <p id="section-4.6-4">This construct avoids ambiguity with the Token Length field and results in a more efficient compression of the Token field.<a href="#section-4.6-4" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2278,7 +2278,7 @@ However, this adds 4 bits to the variable Compression Residue size (see <span><a
 <li class="normal" id="section-6.4-17.1">
             <p id="section-6.4-17.1.1">If the piv subfield is present, SCHC <span class="bcp14">MUST NOT</span> send it as variable-size data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the piv subfield, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>).<a href="#section-6.4-17.1.1" class="pilcrow">¶</a></p>
 <p id="section-6.4-17.1.2">
-Instead, SCHC <span class="bcp14">MUST</span> use the value n from the first byte of the OSCORE Option value to define the size of the piv subfield in the Compression Residue. To this end, SCHC designates a specific function, "osc.piv", that the Rule <span class="bcp14">MUST</span> use to complete the Field Descriptor. During the decompression, this function returns the value n, hence the length of the piv subfield.<a href="#section-6.4-17.1.2" class="pilcrow">¶</a></p>
+Instead, SCHC <span class="bcp14">MUST</span> use the value n from the first byte of the OSCORE Option value to define the size of the piv subfield in the Compression Residue. To this end, SCHC designates a specific function, "osc.piv", that the Rule <span class="bcp14">MUST</span> use to complete the Field Descriptor. During the decompression, this function returns the value n, hence the length of the piv subfield in bytes.<a href="#section-6.4-17.1.2" class="pilcrow">¶</a></p>
 <p id="section-6.4-17.1.3">
 This construct avoids ambiguity with the value n from the first byte of the OSCORE Option value and results in a more efficient compression of the piv subfield.<a href="#section-6.4-17.1.3" class="pilcrow">¶</a></p>
 </li>
@@ -5991,7 +5991,7 @@ module ietf-schc-coap {
             <p id="appendix-B.1-1.1.1">Editorial fixes in the examples.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.2">
-            <p id="appendix-B.1-1.2.1">Editorial improvements.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.2.1">Minor clarifications and editorial improvements.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
