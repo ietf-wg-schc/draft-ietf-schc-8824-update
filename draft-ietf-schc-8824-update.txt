@@ -6,11 +6,11 @@ SCHC Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Obsoletes: 8824 (if approved)                                 L. Toutain
 Intended status: Standards Track                          IMT Atlantique
-Expires: 8 April 2026                                        I. Martínez
+Expires: 22 May 2026                                         I. Martínez
                                                                    IRISA
                                                              A. Minaburo
                                                               Consultant
-                                                          5 October 2025
+                                                        18 November 2025
 
 
 Static Context Header Compression (SCHC) for the Constrained Application
@@ -62,7 +62,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 April 2026.
+   This Internet-Draft will expire on 22 May 2026.
 
 Copyright Notice
 
@@ -131,21 +131,23 @@ Table of Contents
    13. IANA Considerations
      13.1.  IETF XML
      13.2.  YANG Module Names
-     13.3.  SCHC Compression of CoAP Fields
-       13.3.1.  Intended Use
-       13.3.2.  Structure of Entries
-     13.4.  Expert Review Instructions
+     13.3.  Static Context Header Compression (SCHC) Parameters
+     13.4.  SCHC Compression of CoAP Fields
+       13.4.1.  Intended Use
+       13.4.2.  Structure of Entries
+     13.5.  Expert Review Instructions
    14. References
      14.1.  Normative References
      14.2.  Informative References
    Appendix A.  YANG Data Model
    Appendix B.  Document Updates
-     B.1.  Version -05 to -06
-     B.2.  Version -04 to -05
-     B.3.  Version -03 to -04
-     B.4.  Version -02 to -03
-     B.5.  Version -01 to -02
-     B.6.  Version -00 to -01
+     B.1.  Version -06 to -07
+     B.2.  Version -05 to -06
+     B.3.  Version -04 to -05
+     B.4.  Version -03 to -04
+     B.5.  Version -02 to -03
+     B.6.  Version -01 to -02
+     B.7.  Version -00 to -01
    Acknowledgments
    Authors' Addresses
 
@@ -3391,16 +3393,25 @@ Table of Contents
 
    *  Reference: [RFC-XXXX]
 
-13.3.  SCHC Compression of CoAP Fields
+13.3.  Static Context Header Compression (SCHC) Parameters
 
-   IANA is asked to establish the "SCHC Compression of CoAP Fields" IANA
-   registry.
+   IANA is asked to establish the "Static Context Header Compression
+   (SCHC) Parameters" registry group.
+
+   The registry group has been initially populated with the registry
+   established as per Section 13.4.
+
+13.4.  SCHC Compression of CoAP Fields
+
+   IANA is asked to establish the "SCHC Compression of CoAP Fields"
+   registry within the "Static Context Header Compression (SCHC)
+   Parameters" registry group established as per Section 13.3.
 
    As registration policy, the registry uses "Specification Required"
    per Section 4.6 of [RFC8126].  Expert Review guidelines are provided
-   in Section 13.4.
+   in Section 13.5.
 
-13.3.1.  Intended Use
+13.4.1.  Intended Use
 
    The objective of this registry is to collect a list of CoAP fields
    and subfields, for which it has been defined how to perform SCHC
@@ -3433,7 +3444,7 @@ Table of Contents
    of subfields, it is strongly encouraged that the same as above is
    also performed for each subfield and the associated registry entry.
 
-13.3.2.  Structure of Entries
+13.4.2.  Structure of Entries
 
    The columns of this registry are:
 
@@ -3472,7 +3483,7 @@ Table of Contents
    Table 12.  The "Reference" column for all these entries refers to
    this document.
 
-13.4.  Expert Review Instructions
+13.5.  Expert Review Instructions
 
    The IANA registry established in this document is defined as
    "Specification Required".  This section gives some general guidelines
@@ -3516,9 +3527,9 @@ Table of Contents
    [I-D.ietf-core-href]
               Bormann, C. and H. Birkholz, "Constrained Resource
               Identifiers", Work in Progress, Internet-Draft, draft-
-              ietf-core-href-25, 27 September 2025,
+              ietf-core-href-29, 17 November 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              href-25>.
+              href-29>.
 
    [I-D.ietf-core-oscore-groupcomm]
               Tiloca, M., Selander, G., Palombini, F., Mattsson, J. P.,
@@ -3531,9 +3542,9 @@ Table of Contents
    [I-D.ietf-core-oscore-key-update]
               Höglund, R. and M. Tiloca, "Key Update for OSCORE
               (KUDOS)", Work in Progress, Internet-Draft, draft-ietf-
-              core-oscore-key-update-11, 7 July 2025,
+              core-oscore-key-update-12, 20 October 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              oscore-key-update-11>.
+              oscore-key-update-12>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -3656,9 +3667,9 @@ Table of Contents
               Lampin, Q., Minaburo, A., Tiloca, M., and L. Toutain,
               "Options representation in SCHC YANG Data Models", Work in
               Progress, Internet-Draft, draft-ietf-schc-universal-
-              option-00, 15 May 2025,
+              option-01, 17 October 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-schc-
-              universal-option-00>.
+              universal-option-01>.
 
    [RFC8824]  Minaburo, A., Toutain, L., and R. Andreasen, "Static
               Context Header Compression (SCHC) for the Constrained
@@ -3859,7 +3870,11 @@ Appendix B.  Document Updates
 
    This section is to be removed before publishing as an RFC.
 
-B.1.  Version -05 to -06
+B.1.  Version -06 to -07
+
+   *  Requested creation of new IANA registry group.
+
+B.2.  Version -05 to -06
 
    *  Generalized the Token Length field, the Token field, and the "tkl"
       function to comply with RFC 8974.
@@ -3877,7 +3892,7 @@ B.1.  Version -05 to -06
 
    *  Minor clarifications and editorial improvements.
 
-B.2.  Version -04 to -05
+B.3.  Version -04 to -05
 
    *  Compression of CoAP options:
 
@@ -3905,7 +3920,7 @@ B.2.  Version -04 to -05
 
    *  Fixes and editorial improvements.
 
-B.3.  Version -03 to -04
+B.4.  Version -03 to -04
 
    *  Clarified the rationale for using the "tkl" function.
 
@@ -3929,7 +3944,7 @@ B.3.  Version -03 to -04
 
    *  Fixes and editorial improvements.
 
-B.4.  Version -02 to -03
+B.5.  Version -02 to -03
 
    *  Consistent representation of "CoAP Version" 1 in example Rules.
 
@@ -3944,7 +3959,7 @@ B.4.  Version -02 to -03
 
    *  Fixes and editorial improvements.
 
-B.5.  Version -01 to -02
+B.6.  Version -01 to -02
 
    *  Added compression for the CoAP options Proxy-Cri and Proxy-Scheme-
       Number.
@@ -3955,7 +3970,7 @@ B.5.  Version -01 to -02
 
    *  Fixes and editorial improvements.
 
-B.6.  Version -00 to -01
+B.7.  Version -00 to -01
 
    *  Fixed an example, as per the erratum with Errata ID 7623.
 

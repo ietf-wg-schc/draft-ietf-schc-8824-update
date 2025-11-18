@@ -12,22 +12,21 @@
 <meta content="
        This document defines how to compress Constrained Application Protocol (CoAP) headers using the Static Context Header Compression and fragmentation (SCHC) framework. SCHC defines a header compression mechanism adapted for constrained devices. SCHC uses a static description of the header to reduce the header's redundancy and size. While RFC 8724 describes the SCHC compression and fragmentation framework and its application for IPv6 and UDP headers, this document applies SCHC to CoAP headers. The CoAP header structure differs from that of IPv6 and UDP headers, since CoAP uses a flexible header with a variable number of options that are in turn of variable length. The CoAP message format is asymmetric, i.e., request messages have a header format different from that of response messages. This specification gives guidance on applying SCHC to flexible headers and on leveraging the message format asymmetry for defining more efficient compression Rules. This document replaces and obsoletes RFC 8824. 
     " name="description">
-<meta content="xml2rfc 3.30.2" name="generator">
+<meta content="xml2rfc 3.31.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-schc-8824-update-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.30.2
-    Python 3.12.11
+  xml2rfc 3.31.0
+    Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
     lxml 5.3.1
-    platformdirs 4.4.0
+    platformdirs 4.5.0
     pycountry 24.6.1
     PyYAML 6.0.2
     requests 2.32.5
-    setuptools 80.9.0
     wcwidth 0.2.14
 -->
 <link href="draft-ietf-schc-8824-update.xml" rel="alternate" type="application/rfc+xml">
@@ -1047,11 +1046,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">SCHC for CoAP</td>
-<td class="right">October 2025</td>
+<td class="right">November 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tiloca, et al.</td>
-<td class="center">Expires 8 April 2026</td>
+<td class="center">Expires 22 May 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc8824" class="eref">8824</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-10-05" class="published">5 October 2025</time>
+<time datetime="2025-11-18" class="published">18 November 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-04-08">8 April 2026</time></dd>
+<dd class="expires"><time datetime="2026-05-22">22 May 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1129,7 +1128,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 8 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 22 May 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1331,18 +1330,21 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.13.2.2.1"><a href="#section-13.2" class="auto internal xref">13.2</a>.  <a href="#name-yang-module-names" class="internal xref">YANG Module Names</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.3">
-                <p id="section-toc.1-1.13.2.3.1"><a href="#section-13.3" class="auto internal xref">13.3</a>.  <a href="#name-schc-compression-of-coap-fi" class="internal xref">SCHC Compression of CoAP Fields</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.3.2.1">
-                    <p id="section-toc.1-1.13.2.3.2.1.1"><a href="#section-13.3.1" class="auto internal xref">13.3.1</a>.  <a href="#name-intended-use" class="internal xref">Intended Use</a></p>
+                <p id="section-toc.1-1.13.2.3.1"><a href="#section-13.3" class="auto internal xref">13.3</a>.  <a href="#name-static-context-header-compr" class="internal xref">Static Context Header Compression (SCHC) Parameters</a></p>
 </li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.3.2.2">
-                    <p id="section-toc.1-1.13.2.3.2.2.1"><a href="#section-13.3.2" class="auto internal xref">13.3.2</a>.  <a href="#name-structure-of-entries" class="internal xref">Structure of Entries</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.4">
+                <p id="section-toc.1-1.13.2.4.1"><a href="#section-13.4" class="auto internal xref">13.4</a>.  <a href="#name-schc-compression-of-coap-fi" class="internal xref">SCHC Compression of CoAP Fields</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.4.2.1">
+                    <p id="section-toc.1-1.13.2.4.2.1.1"><a href="#section-13.4.1" class="auto internal xref">13.4.1</a>.  <a href="#name-intended-use" class="internal xref">Intended Use</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.4.2.2">
+                    <p id="section-toc.1-1.13.2.4.2.2.1"><a href="#section-13.4.2" class="auto internal xref">13.4.2</a>.  <a href="#name-structure-of-entries" class="internal xref">Structure of Entries</a></p>
 </li>
                 </ul>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.4">
-                <p id="section-toc.1-1.13.2.4.1"><a href="#section-13.4" class="auto internal xref">13.4</a>.  <a href="#name-expert-review-instructions" class="internal xref">Expert Review Instructions</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.5">
+                <p id="section-toc.1-1.13.2.5.1"><a href="#section-13.5" class="auto internal xref">13.5</a>.  <a href="#name-expert-review-instructions" class="internal xref">Expert Review Instructions</a></p>
 </li>
             </ul>
 </li>
@@ -1364,22 +1366,25 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.16.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-document-updates" class="internal xref">Document Updates</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.1">
-                <p id="section-toc.1-1.16.2.1.1"><a href="#appendix-B.1" class="auto internal xref">B.1</a>.  <a href="#name-version-05-to-06" class="internal xref">Version -05 to -06</a></p>
+                <p id="section-toc.1-1.16.2.1.1"><a href="#appendix-B.1" class="auto internal xref">B.1</a>.  <a href="#name-version-06-to-07" class="internal xref">Version -06 to -07</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.2">
-                <p id="section-toc.1-1.16.2.2.1"><a href="#appendix-B.2" class="auto internal xref">B.2</a>.  <a href="#name-version-04-to-05" class="internal xref">Version -04 to -05</a></p>
+                <p id="section-toc.1-1.16.2.2.1"><a href="#appendix-B.2" class="auto internal xref">B.2</a>.  <a href="#name-version-05-to-06" class="internal xref">Version -05 to -06</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.3">
-                <p id="section-toc.1-1.16.2.3.1"><a href="#appendix-B.3" class="auto internal xref">B.3</a>.  <a href="#name-version-03-to-04" class="internal xref">Version -03 to -04</a></p>
+                <p id="section-toc.1-1.16.2.3.1"><a href="#appendix-B.3" class="auto internal xref">B.3</a>.  <a href="#name-version-04-to-05" class="internal xref">Version -04 to -05</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.4">
-                <p id="section-toc.1-1.16.2.4.1"><a href="#appendix-B.4" class="auto internal xref">B.4</a>.  <a href="#name-version-02-to-03" class="internal xref">Version -02 to -03</a></p>
+                <p id="section-toc.1-1.16.2.4.1"><a href="#appendix-B.4" class="auto internal xref">B.4</a>.  <a href="#name-version-03-to-04" class="internal xref">Version -03 to -04</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.5">
-                <p id="section-toc.1-1.16.2.5.1"><a href="#appendix-B.5" class="auto internal xref">B.5</a>.  <a href="#name-version-01-to-02" class="internal xref">Version -01 to -02</a></p>
+                <p id="section-toc.1-1.16.2.5.1"><a href="#appendix-B.5" class="auto internal xref">B.5</a>.  <a href="#name-version-02-to-03" class="internal xref">Version -02 to -03</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.6">
-                <p id="section-toc.1-1.16.2.6.1"><a href="#appendix-B.6" class="auto internal xref">B.6</a>.  <a href="#name-version-00-to-01" class="internal xref">Version -00 to -01</a></p>
+                <p id="section-toc.1-1.16.2.6.1"><a href="#appendix-B.6" class="auto internal xref">B.6</a>.  <a href="#name-version-01-to-02" class="internal xref">Version -01 to -02</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.7">
+                <p id="section-toc.1-1.16.2.7.1"><a href="#appendix-B.7" class="auto internal xref">B.7</a>.  <a href="#name-version-00-to-01" class="internal xref">Version -00 to -01</a></p>
 </li>
             </ul>
 </li>
@@ -2077,8 +2082,8 @@ However, this adds 4 bits to the variable Compression Residue size (see <span><a
         <h3 id="name-coap-option-proxy-cri-and-p">
 <a href="#section-5.6" class="section-number selfRef">5.6. </a><a href="#name-coap-option-proxy-cri-and-p" class="section-name selfRef">CoAP Option Proxy-Cri and Proxy-Scheme-Number Fields</a>
         </h3>
-<p id="section-5.6-1">The Proxy-Cri field is an option defined in <span>[<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>. The option carries an encoded CBOR data item <span>[<a href="#RFC8949" class="cite xref">RFC8949</a>]</span> that represents an absolute CRI reference (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-href-25#section-5" class="relref">Section 5</a> of [<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>). The option is used analogously to the Proxy-Uri option as defined in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-5.10.2" class="relref">Section 5.10.2</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
-<p id="section-5.6-2">The Proxy-Scheme-Number field is an option defined in <span>[<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>. The option carries a CRI Scheme Number represented as a CoAP unsigned integer (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-href-25#section-5.1.1" class="relref">5.1.1</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-href-25#section-8.1" class="relref">8.1</a> of <span>[<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>). The option is used analogously to the Proxy-Scheme option as defined in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-5.10.2" class="relref">Section 5.10.2</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>.<a href="#section-5.6-2" class="pilcrow">¶</a></p>
+<p id="section-5.6-1">The Proxy-Cri field is an option defined in <span>[<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>. The option carries an encoded CBOR data item <span>[<a href="#RFC8949" class="cite xref">RFC8949</a>]</span> that represents an absolute CRI reference (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-href-29#section-5" class="relref">Section 5</a> of [<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>). The option is used analogously to the Proxy-Uri option as defined in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-5.10.2" class="relref">Section 5.10.2</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>.<a href="#section-5.6-1" class="pilcrow">¶</a></p>
+<p id="section-5.6-2">The Proxy-Scheme-Number field is an option defined in <span>[<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>. The option carries a CRI Scheme Number represented as a CoAP unsigned integer (see Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-href-29#section-5.1.1" class="relref">5.1.1</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-href-29#section-8.1" class="relref">8.1</a> of <span>[<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>). The option is used analogously to the Proxy-Scheme option as defined in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-5.10.2" class="relref">Section 5.10.2</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>.<a href="#section-5.6-2" class="pilcrow">¶</a></p>
 <p id="section-5.6-3">The SCHC Rule description <span class="bcp14">MAY</span> define sending some field values by not setting the TV, while setting the MO to "ignore" and the CDA to "value-sent". A Rule <span class="bcp14">MAY</span> also use a "match-mapping" MO when there are different alternatives for the same FID. Otherwise, the Rule sets the TV to a specific value, the MO to "equal", and the CDA to "not-sent".<a href="#section-5.6-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2186,7 +2191,7 @@ However, this adds 4 bits to the variable Compression Residue size (see <span><a
 <p id="section-6.4-2"><a href="#fig-oscore-option" class="auto internal xref">Figure 4</a> shows the OSCORE Option value encoding, as it was originally defined in <span><a href="https://rfc-editor.org/rfc/rfc8613#section-6.1" class="relref">Section 6.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>. As explained later in this section, this has been extended in <span>[<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span> and <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. The first byte of the OSCORE Option value specifies information to parse the rest of the value by using flags, as described below.<a href="#section-6.4-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.4-3.1">
-            <p id="section-6.4-3.1.1">As defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-11#section-4.1" class="relref">Section 4.1</a> of [<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>, the eight least significant bit, when set, indicates that the OSCORE Option value includes a second byte of flags. The seventh least significant bit is currently unassigned.<a href="#section-6.4-3.1.1" class="pilcrow">¶</a></p>
+            <p id="section-6.4-3.1.1">As defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-12#section-4.1" class="relref">Section 4.1</a> of [<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>, the eight least significant bit, when set, indicates that the OSCORE Option value includes a second byte of flags. The seventh least significant bit is currently unassigned.<a href="#section-6.4-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.4-3.2">
             <p id="section-6.4-3.2.1">As defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-5" class="relref">Section 5</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, the sixth least significant bit, when set, indicates that the message including the OSCORE Option is protected with the group mode of Group OSCORE (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-8" class="relref">Section 8</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>). When not set, the bit indicates that the message is protected either with OSCORE or with the pairwise mode of Group OSCORE (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-27#section-9" class="relref">Section 9</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>), while the specific OSCORE Security Context used to protect the message determines which of the two cases applies.<a href="#section-6.4-3.2.1" class="pilcrow">¶</a></p>
@@ -2220,7 +2225,7 @@ However, this adds 4 bits to the variable Compression Residue size (see <span><a
 <a href="#name-oscore-option-value" class="selfRef">OSCORE Option Value.</a>
           </figcaption></figure>
 </div>
-<p id="section-6.4-6"><a href="#fig-oscore-option-kudos" class="auto internal xref">Figure 5</a> shows the extended OSCORE Option value encoding, with the second byte of flags also present. As defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-11#section-4.1" class="relref">Section 4.1</a> of [<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>, the least significant bit d of this byte, when set, indicates that two additional fields are included in the OSCORE Option value, following the kid context field (if any).<a href="#section-6.4-6" class="pilcrow">¶</a></p>
+<p id="section-6.4-6"><a href="#fig-oscore-option-kudos" class="auto internal xref">Figure 5</a> shows the extended OSCORE Option value encoding, with the second byte of flags also present. As defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-12#section-4.1" class="relref">Section 4.1</a> of [<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>, the least significant bit d of this byte, when set, indicates that two additional fields are included in the OSCORE Option value, following the kid context field (if any).<a href="#section-6.4-6" class="pilcrow">¶</a></p>
 <p id="section-6.4-7">These two fields, namely x and nonce, are used when running the key update protocol KUDOS defined in <span>[<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>, with x specifying the length of the nonce field in bytes as well as further information concerning the KUDOS execution in question.<a href="#section-6.4-7" class="pilcrow">¶</a></p>
 <p id="section-6.4-8"><a href="#fig-oscore-option-kudos" class="auto internal xref">Figure 5</a> provides the breakdown of the x field, where its four least significant bits encode the value m, which specifies the size of nonce in bytes, minus 1.<a href="#section-6.4-8" class="pilcrow">¶</a></p>
 <span id="name-oscore-option-value-extende"></span><div id="fig-oscore-option-kudos">
@@ -5574,87 +5579,96 @@ Compressed message length: 16 bytes
         </ul>
 </section>
 </div>
-<div id="sec-iana-coap-fields">
+<div id="sec-iana-registry-group">
 <section id="section-13.3">
-        <h3 id="name-schc-compression-of-coap-fi">
-<a href="#section-13.3" class="section-number selfRef">13.3. </a><a href="#name-schc-compression-of-coap-fi" class="section-name selfRef">SCHC Compression of CoAP Fields</a>
+        <h3 id="name-static-context-header-compr">
+<a href="#section-13.3" class="section-number selfRef">13.3. </a><a href="#name-static-context-header-compr" class="section-name selfRef">Static Context Header Compression (SCHC) Parameters</a>
         </h3>
-<p id="section-13.3-1">IANA is asked to establish the "SCHC Compression of CoAP Fields" IANA registry.<a href="#section-13.3-1" class="pilcrow">¶</a></p>
-<p id="section-13.3-2">As registration policy, the registry uses "Specification Required" per <span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.6" class="relref">Section 4.6</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. Expert Review guidelines are provided in <a href="#sec-iana-expert-review" class="auto internal xref">Section 13.4</a>.<a href="#section-13.3-2" class="pilcrow">¶</a></p>
+<p id="section-13.3-1">IANA is asked to establish the "Static Context Header Compression (SCHC) Parameters" registry group.<a href="#section-13.3-1" class="pilcrow">¶</a></p>
+<p id="section-13.3-2">The registry group has been initially populated with the registry established as per <a href="#sec-iana-coap-fields" class="auto internal xref">Section 13.4</a>.<a href="#section-13.3-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-iana-coap-fields">
+<section id="section-13.4">
+        <h3 id="name-schc-compression-of-coap-fi">
+<a href="#section-13.4" class="section-number selfRef">13.4. </a><a href="#name-schc-compression-of-coap-fi" class="section-name selfRef">SCHC Compression of CoAP Fields</a>
+        </h3>
+<p id="section-13.4-1">IANA is asked to establish the "SCHC Compression of CoAP Fields" registry within the "Static Context Header Compression (SCHC) Parameters" registry group established as per <a href="#sec-iana-registry-group" class="auto internal xref">Section 13.3</a>.<a href="#section-13.4-1" class="pilcrow">¶</a></p>
+<p id="section-13.4-2">As registration policy, the registry uses "Specification Required" per <span><a href="https://rfc-editor.org/rfc/rfc8126#section-4.6" class="relref">Section 4.6</a> of [<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. Expert Review guidelines are provided in <a href="#sec-iana-expert-review" class="auto internal xref">Section 13.5</a>.<a href="#section-13.4-2" class="pilcrow">¶</a></p>
 <div id="intended-use">
-<section id="section-13.3.1">
+<section id="section-13.4.1">
           <h4 id="name-intended-use">
-<a href="#section-13.3.1" class="section-number selfRef">13.3.1. </a><a href="#name-intended-use" class="section-name selfRef">Intended Use</a>
+<a href="#section-13.4.1" class="section-number selfRef">13.4.1. </a><a href="#name-intended-use" class="section-name selfRef">Intended Use</a>
           </h4>
-<p id="section-13.3.1-1">The objective of this registry is to collect a list of CoAP fields and subfields, for which it has been defined how to perform SCHC compression.<a href="#section-13.3.1-1" class="pilcrow">¶</a></p>
-<p id="section-13.3.1-2">Such a definition does not necessarily have to be in the same documentation that defines the CoAP fields and subfields in question. While that can be the case, it is also possible to provide that definition in a separate specification.<a href="#section-13.3.1-2" class="pilcrow">¶</a></p>
-<p id="section-13.3.1-3">Each entry of the registry is intended to include references to the documentation that defines the associated CoAP field or subfield, as well as references to the specifications that define the SCHC compression of that CoAP field or subfield.<a href="#section-13.3.1-3" class="pilcrow">¶</a></p>
-<p id="section-13.3.1-4">When a specification defines how to perform SCHC compression of a CoAP field, the following applies.<a href="#section-13.3.1-4" class="pilcrow">¶</a></p>
+<p id="section-13.4.1-1">The objective of this registry is to collect a list of CoAP fields and subfields, for which it has been defined how to perform SCHC compression.<a href="#section-13.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-13.4.1-2">Such a definition does not necessarily have to be in the same documentation that defines the CoAP fields and subfields in question. While that can be the case, it is also possible to provide that definition in a separate specification.<a href="#section-13.4.1-2" class="pilcrow">¶</a></p>
+<p id="section-13.4.1-3">Each entry of the registry is intended to include references to the documentation that defines the associated CoAP field or subfield, as well as references to the specifications that define the SCHC compression of that CoAP field or subfield.<a href="#section-13.4.1-3" class="pilcrow">¶</a></p>
+<p id="section-13.4.1-4">When a specification defines how to perform SCHC compression of a CoAP field, the following applies.<a href="#section-13.4.1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-13.3.1-5.1">
-              <p id="section-13.3.1-5.1.1">If a registry entry for the CoAP field does not already exist, it is strongly encouraged to register an associated new entry.<a href="#section-13.3.1-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-13.4.1-5.1">
+              <p id="section-13.4.1-5.1.1">If a registry entry for the CoAP field does not already exist, it is strongly encouraged to register an associated new entry.<a href="#section-13.4.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-13.3.1-5.2">
-              <p id="section-13.3.1-5.2.1">If a registry entry for the CoAP field already exists, it is strongly encouraged to update its list of references. The update is intended to add references to the specification that provides the new or updated SCHC compression of the CoAP field, as well as to any documentation that updates the definition of the CoAP field itself.<a href="#section-13.3.1-5.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.4.1-5.2">
+              <p id="section-13.4.1-5.2.1">If a registry entry for the CoAP field already exists, it is strongly encouraged to update its list of references. The update is intended to add references to the specification that provides the new or updated SCHC compression of the CoAP field, as well as to any documentation that updates the definition of the CoAP field itself.<a href="#section-13.4.1-5.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-13.3.1-6">If the defined SCHC compression considers the CoAP field as composed of subfields, it is strongly encouraged that the same as above is also performed for each subfield and the associated registry entry.<a href="#section-13.3.1-6" class="pilcrow">¶</a></p>
+<p id="section-13.4.1-6">If the defined SCHC compression considers the CoAP field as composed of subfields, it is strongly encouraged that the same as above is also performed for each subfield and the associated registry entry.<a href="#section-13.4.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="structure-of-entries">
-<section id="section-13.3.2">
+<section id="section-13.4.2">
           <h4 id="name-structure-of-entries">
-<a href="#section-13.3.2" class="section-number selfRef">13.3.2. </a><a href="#name-structure-of-entries" class="section-name selfRef">Structure of Entries</a>
+<a href="#section-13.4.2" class="section-number selfRef">13.4.2. </a><a href="#name-structure-of-entries" class="section-name selfRef">Structure of Entries</a>
           </h4>
-<p id="section-13.3.2-1">The columns of this registry are:<a href="#section-13.3.2-1" class="pilcrow">¶</a></p>
+<p id="section-13.4.2-1">The columns of this registry are:<a href="#section-13.4.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-13.3.2-2.1">
-              <p id="section-13.3.2-2.1.1">Field: a unique identifier of the CoAP field or subfield associated with this entry. This identifier is used as FID in a Field Descriptor of a SCHC compression Rule for compressing/decompressing CoAP messages.<a href="#section-13.3.2-2.1.1" class="pilcrow">¶</a></p>
-<p id="section-13.3.2-2.1.2">
-This identifier has two possible formats:<a href="#section-13.3.2-2.1.2" class="pilcrow">¶</a></p>
+<li class="normal" id="section-13.4.2-2.1">
+              <p id="section-13.4.2-2.1.1">Field: a unique identifier of the CoAP field or subfield associated with this entry. This identifier is used as FID in a Field Descriptor of a SCHC compression Rule for compressing/decompressing CoAP messages.<a href="#section-13.4.2-2.1.1" class="pilcrow">¶</a></p>
+<p id="section-13.4.2-2.1.2">
+This identifier has two possible formats:<a href="#section-13.4.2-2.1.2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-13.3.2-2.1.3.1">
-                  <p id="section-13.3.2-2.1.3.1.1">"CoAP.X", where X is the name of the CoAP field.<a href="#section-13.3.2-2.1.3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-13.4.2-2.1.3.1">
+                  <p id="section-13.4.2-2.1.3.1.1">"CoAP.X", where X is the name of the CoAP field.<a href="#section-13.4.2-2.1.3.1.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-13.3.2-2.1.3.2">
-                  <p id="section-13.3.2-2.1.3.2.1">"CoAP.X.Y", where X is the name of the CoAP field and Y is the name of a subfield of X.<a href="#section-13.3.2-2.1.3.2.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-13.4.2-2.1.3.2">
+                  <p id="section-13.4.2-2.1.3.2.1">"CoAP.X.Y", where X is the name of the CoAP field and Y is the name of a subfield of X.<a href="#section-13.4.2-2.1.3.2.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
-<p id="section-13.3.2-2.1.4">
-If the CoAP field in question is specifically a CoAP option, then X has the format "option(N)", where N is the option number of the CoAP option. The value N is taken from the "Number" column of the corresponding entry in the "CoAP Option Numbers" IANA registry <span>[<a href="#CoAP.Option.Numbers" class="cite xref">CoAP.Option.Numbers</a>]</span>.<a href="#section-13.3.2-2.1.4" class="pilcrow">¶</a></p>
-<p id="section-13.3.2-2.1.5">
-Within the YANG data model originally specified in <span><a href="https://rfc-editor.org/rfc/rfc9363#section-6" class="relref">Section 6</a> of [<a href="#RFC9363" class="cite xref">RFC9363</a>]</span>, this identifier must have a corresponding item or set of items for the CoAP field or subfield associated with this entry.<a href="#section-13.3.2-2.1.5" class="pilcrow">¶</a></p>
+<p id="section-13.4.2-2.1.4">
+If the CoAP field in question is specifically a CoAP option, then X has the format "option(N)", where N is the option number of the CoAP option. The value N is taken from the "Number" column of the corresponding entry in the "CoAP Option Numbers" IANA registry <span>[<a href="#CoAP.Option.Numbers" class="cite xref">CoAP.Option.Numbers</a>]</span>.<a href="#section-13.4.2-2.1.4" class="pilcrow">¶</a></p>
+<p id="section-13.4.2-2.1.5">
+Within the YANG data model originally specified in <span><a href="https://rfc-editor.org/rfc/rfc9363#section-6" class="relref">Section 6</a> of [<a href="#RFC9363" class="cite xref">RFC9363</a>]</span>, this identifier must have a corresponding item or set of items for the CoAP field or subfield associated with this entry.<a href="#section-13.4.2-2.1.5" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-13.3.2-2.2">
-              <p id="section-13.3.2-2.2.1">Description: a short description of the CoAP field or subfield associated with this entry, together with public references to the resources that define it.<a href="#section-13.3.2-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.4.2-2.2">
+              <p id="section-13.4.2-2.2.1">Description: a short description of the CoAP field or subfield associated with this entry, together with public references to the resources that define it.<a href="#section-13.4.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-13.3.2-2.3">
-              <p id="section-13.3.2-2.3.1">Reference: public references to the resources that define how a SCHC compression Rule works for the CoAP field or subfield associated with this entry.<a href="#section-13.3.2-2.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.4.2-2.3">
+              <p id="section-13.4.2-2.3.1">Reference: public references to the resources that define how a SCHC compression Rule works for the CoAP field or subfield associated with this entry.<a href="#section-13.4.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-13.3.2-3">This registry has been initially populated with the values in <a href="#_table-coap-fields" class="auto internal xref">Table 12</a>. The "Reference" column for all these entries refers to this document.<a href="#section-13.3.2-3" class="pilcrow">¶</a></p>
+<p id="section-13.4.2-3">This registry has been initially populated with the values in <a href="#_table-coap-fields" class="auto internal xref">Table 12</a>. The "Reference" column for all these entries refers to this document.<a href="#section-13.4.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="sec-iana-expert-review">
-<section id="section-13.4">
+<section id="section-13.5">
         <h3 id="name-expert-review-instructions">
-<a href="#section-13.4" class="section-number selfRef">13.4. </a><a href="#name-expert-review-instructions" class="section-name selfRef">Expert Review Instructions</a>
+<a href="#section-13.5" class="section-number selfRef">13.5. </a><a href="#name-expert-review-instructions" class="section-name selfRef">Expert Review Instructions</a>
         </h3>
-<p id="section-13.4-1">The IANA registry established in this document is defined as "Specification Required". This section gives some general guidelines for what the experts should be looking for, but they are being designated as experts for a reason so they should be given substantial latitude.<a href="#section-13.4-1" class="pilcrow">¶</a></p>
-<p id="section-13.4-2">Expert reviewers should take into consideration the following points:<a href="#section-13.4-2" class="pilcrow">¶</a></p>
+<p id="section-13.5-1">The IANA registry established in this document is defined as "Specification Required". This section gives some general guidelines for what the experts should be looking for, but they are being designated as experts for a reason so they should be given substantial latitude.<a href="#section-13.5-1" class="pilcrow">¶</a></p>
+<p id="section-13.5-2">Expert reviewers should take into consideration the following points:<a href="#section-13.5-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-13.4-3.1">
-            <p id="section-13.4-3.1.1">Point squatting should be discouraged. Reviewers are encouraged to get sufficient information for registration requests to ensure that the usage is not going to duplicate one that is already registered and that the point is likely to be used in deployments.<a href="#section-13.4-3.1.1" class="pilcrow">¶</a></p>
-<p id="section-13.4-3.1.2">
-Specifically, for every CoAP field, only one corresponding registry entry is allowed. Also, for every CoAP subfield, only one corresponding registry entry is allowed.<a href="#section-13.4-3.1.2" class="pilcrow">¶</a></p>
+<li class="normal" id="section-13.5-3.1">
+            <p id="section-13.5-3.1.1">Point squatting should be discouraged. Reviewers are encouraged to get sufficient information for registration requests to ensure that the usage is not going to duplicate one that is already registered and that the point is likely to be used in deployments.<a href="#section-13.5-3.1.1" class="pilcrow">¶</a></p>
+<p id="section-13.5-3.1.2">
+Specifically, for every CoAP field, only one corresponding registry entry is allowed. Also, for every CoAP subfield, only one corresponding registry entry is allowed.<a href="#section-13.5-3.1.2" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.4-3.2">
-            <p id="section-13.4-3.2.1">Consistent with the "Specification Required" registration policy, specifications should exist, but early assignment before a specification is available is considered to be permissible. When specifications are not provided, the description provided needs to have sufficient information to identify what the point is being used for.<a href="#section-13.4-3.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.5-3.2">
+            <p id="section-13.5-3.2.1">Consistent with the "Specification Required" registration policy, specifications should exist, but early assignment before a specification is available is considered to be permissible. When specifications are not provided, the description provided needs to have sufficient information to identify what the point is being used for.<a href="#section-13.5-3.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-13.4-4">If the expert becomes aware of a definition for SCHC compression of CoAP fields and subfields that is deployed and in use, the expert may also initiate a registration or update an existing one on their own, if they deem important that the definition in question gains visibility through the registry entry.<a href="#section-13.4-4" class="pilcrow">¶</a></p>
+<p id="section-13.5-4">If the expert becomes aware of a definition for SCHC compression of CoAP fields and subfields that is deployed and in use, the expert may also initiate a registration or update an existing one on their own, if they deem important that the definition in question gains visibility through the registry entry.<a href="#section-13.5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -5676,7 +5690,7 @@ Specifically, for every CoAP field, only one corresponding registry entry is all
 <dd class="break"></dd>
 <dt id="I-D.ietf-core-href">[I-D.ietf-core-href]</dt>
         <dd>
-<span class="refAuthor">Bormann, C.</span> and <span class="refAuthor">H. Birkholz</span>, <span class="refTitle">"Constrained Resource Identifiers"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-href-25</span>, <time datetime="2025-09-27" class="refDate">27 September 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-href-25">https://datatracker.ietf.org/doc/html/draft-ietf-core-href-25</a>&gt;</span>. </dd>
+<span class="refAuthor">Bormann, C.</span> and <span class="refAuthor">H. Birkholz</span>, <span class="refTitle">"Constrained Resource Identifiers"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-href-29</span>, <time datetime="2025-11-17" class="refDate">17 November 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-href-29">https://datatracker.ietf.org/doc/html/draft-ietf-core-href-29</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-core-oscore-groupcomm">[I-D.ietf-core-oscore-groupcomm]</dt>
         <dd>
@@ -5684,7 +5698,7 @@ Specifically, for every CoAP field, only one corresponding registry entry is all
 <dd class="break"></dd>
 <dt id="I-D.ietf-core-oscore-key-update">[I-D.ietf-core-oscore-key-update]</dt>
         <dd>
-<span class="refAuthor">Höglund, R.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Key Update for OSCORE (KUDOS)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-key-update-11</span>, <time datetime="2025-07-07" class="refDate">7 July 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-11">https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-11</a>&gt;</span>. </dd>
+<span class="refAuthor">Höglund, R.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Key Update for OSCORE (KUDOS)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-key-update-12</span>, <time datetime="2025-10-20" class="refDate">20 October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-12">https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-12</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
@@ -5785,7 +5799,7 @@ Specifically, for every CoAP field, only one corresponding registry entry is all
 <dd class="break"></dd>
 <dt id="I-D.ietf-schc-universal-option">[I-D.ietf-schc-universal-option]</dt>
         <dd>
-<span class="refAuthor">Lampin, Q.</span>, <span class="refAuthor">Minaburo, A.</span>, <span class="refAuthor">Tiloca, M.</span>, and <span class="refAuthor">L. Toutain</span>, <span class="refTitle">"Options representation in SCHC YANG Data Models"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-schc-universal-option-00</span>, <time datetime="2025-05-15" class="refDate">15 May 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-schc-universal-option-00">https://datatracker.ietf.org/doc/html/draft-ietf-schc-universal-option-00</a>&gt;</span>. </dd>
+<span class="refAuthor">Lampin, Q.</span>, <span class="refAuthor">Minaburo, A.</span>, <span class="refAuthor">Tiloca, M.</span>, and <span class="refAuthor">L. Toutain</span>, <span class="refTitle">"Options representation in SCHC YANG Data Models"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-schc-universal-option-01</span>, <time datetime="2025-10-17" class="refDate">17 October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-schc-universal-option-01">https://datatracker.ietf.org/doc/html/draft-ietf-schc-universal-option-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8824">[RFC8824]</dt>
         <dd>
@@ -5999,201 +6013,213 @@ module ietf-schc-coap {
 <a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-document-updates" class="section-name selfRef">Document Updates</a>
       </h2>
 <p id="appendix-B-1">This section is to be removed before publishing as an RFC.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
-<div id="sec-05-06">
+<div id="sec-06-07">
 <section id="appendix-B.1">
-        <h3 id="name-version-05-to-06">
-<a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-version-05-to-06" class="section-name selfRef">Version -05 to -06</a>
+        <h3 id="name-version-06-to-07">
+<a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-version-06-to-07" class="section-name selfRef">Version -06 to -07</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="appendix-B.1-1.1">
-            <p id="appendix-B.1-1.1.1">Generalized the Token Length field, the Token field, and the "tkl" function to comply with RFC 8974.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.1.1">Requested creation of new IANA registry group.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.2">
-            <p id="appendix-B.1-1.2.1">Clarified use of the FL for variable-length fields.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+        </ul>
+</section>
+</div>
+<div id="sec-05-06">
+<section id="appendix-B.2">
+        <h3 id="name-version-05-to-06">
+<a href="#appendix-B.2" class="section-number selfRef">B.2. </a><a href="#name-version-05-to-06" class="section-name selfRef">Version -05 to -06</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-B.2-1.1">
+            <p id="appendix-B.2-1.1.1">Generalized the Token Length field, the Token field, and the "tkl" function to comply with RFC 8974.<a href="#appendix-B.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.3">
-            <p id="appendix-B.1-1.3.1">Explicit definition and use of "var" in the FL of a Field Descriptor.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.2-1.2">
+            <p id="appendix-B.2-1.2.1">Clarified use of the FL for variable-length fields.<a href="#appendix-B.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.4">
-            <p id="appendix-B.1-1.4.1">Consistent use of "var" in the examples of Rules.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.2-1.3">
+            <p id="appendix-B.2-1.3.1">Explicit definition and use of "var" in the FL of a Field Descriptor.<a href="#appendix-B.2-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.5">
-            <p id="appendix-B.1-1.5.1">More robust reference to the YANG data model of RFC 9363.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.2-1.4">
+            <p id="appendix-B.2-1.4.1">Consistent use of "var" in the examples of Rules.<a href="#appendix-B.2-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.6">
-            <p id="appendix-B.1-1.6.1">Editorial fixes in the examples.<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.2-1.5">
+            <p id="appendix-B.2-1.5.1">More robust reference to the YANG data model of RFC 9363.<a href="#appendix-B.2-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.7">
-            <p id="appendix-B.1-1.7.1">Minor clarifications and editorial improvements.<a href="#appendix-B.1-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.2-1.6">
+            <p id="appendix-B.2-1.6.1">Editorial fixes in the examples.<a href="#appendix-B.2-1.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.7">
+            <p id="appendix-B.2-1.7.1">Minor clarifications and editorial improvements.<a href="#appendix-B.2-1.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-04-05">
-<section id="appendix-B.2">
+<section id="appendix-B.3">
         <h3 id="name-version-04-to-05">
-<a href="#appendix-B.2" class="section-number selfRef">B.2. </a><a href="#name-version-04-to-05" class="section-name selfRef">Version -04 to -05</a>
+<a href="#appendix-B.3" class="section-number selfRef">B.3. </a><a href="#name-version-04-to-05" class="section-name selfRef">Version -04 to -05</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-B.2-1.1">
-            <p id="appendix-B.2-1.1.1">Compression of CoAP options:<a href="#appendix-B.2-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B.3-1.1">
+            <p id="appendix-B.3-1.1.1">Compression of CoAP options:<a href="#appendix-B.3-1.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-B.2-1.1.2.1">
-                <p id="appendix-B.2-1.1.2.1.1">Clarified definition of Field Descriptors in SCHC Rules.<a href="#appendix-B.2-1.1.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B.3-1.1.2.1">
+                <p id="appendix-B.3-1.1.2.1.1">Clarified definition of Field Descriptors in SCHC Rules.<a href="#appendix-B.3-1.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-B.2-1.1.2.2">
-                <p id="appendix-B.2-1.1.2.2.1">Description of Option Value as possibly composed of sub-fields.<a href="#appendix-B.2-1.1.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-B.3-1.1.2.2">
+                <p id="appendix-B.3-1.1.2.2.1">Description of Option Value as possibly composed of sub-fields.<a href="#appendix-B.3-1.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-B.2-1.1.2.3">
-                <p id="appendix-B.2-1.1.2.3.1">Both the syntactic approach and the semantics approach are possible (see draft-ietf-schc-universal-option).<a href="#appendix-B.2-1.1.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-B.3-1.1.2.3">
+                <p id="appendix-B.3-1.1.2.3.1">Both the syntactic approach and the semantics approach are possible (see draft-ietf-schc-universal-option).<a href="#appendix-B.3-1.1.2.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-B.2-1.1.2.4">
-                <p id="appendix-B.2-1.1.2.4.1">Updated the FIDs to be consistent with the semantic approach.<a href="#appendix-B.2-1.1.2.4.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-B.3-1.1.2.4">
+                <p id="appendix-B.3-1.1.2.4.1">Updated the FIDs to be consistent with the semantic approach.<a href="#appendix-B.3-1.1.2.4.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="normal" id="appendix-B.2-1.2">
-            <p id="appendix-B.2-1.2.1">Compression of OSCORE Option:<a href="#appendix-B.2-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.2">
+            <p id="appendix-B.3-1.2.1">Compression of OSCORE Option:<a href="#appendix-B.3-1.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-B.2-1.2.2.1">
-                <p id="appendix-B.2-1.2.2.1.1">Revised semantics of the x sub-field related to KUDOS.<a href="#appendix-B.2-1.2.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B.3-1.2.2.1">
+                <p id="appendix-B.3-1.2.2.1.1">Revised semantics of the x sub-field related to KUDOS.<a href="#appendix-B.3-1.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-B.2-1.2.2.2">
-                <p id="appendix-B.2-1.2.2.2.1">Removed moot sub-fields related to KUDOS.<a href="#appendix-B.2-1.2.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-B.3-1.2.2.2">
+                <p id="appendix-B.3-1.2.2.2.1">Removed moot sub-fields related to KUDOS.<a href="#appendix-B.3-1.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="normal" id="appendix-B.2-1.3">
-            <p id="appendix-B.2-1.3.1">Clarified OSCORE compression when using the group mode of Group OSCORE.<a href="#appendix-B.2-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.3">
+            <p id="appendix-B.3-1.3.1">Clarified OSCORE compression when using the group mode of Group OSCORE.<a href="#appendix-B.3-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.2-1.4">
-            <p id="appendix-B.2-1.4.1">Updated YANG data model.<a href="#appendix-B.2-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.4">
+            <p id="appendix-B.3-1.4.1">Updated YANG data model.<a href="#appendix-B.3-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.2-1.5">
-            <p id="appendix-B.2-1.5.1">Updated author's contact information.<a href="#appendix-B.2-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.5">
+            <p id="appendix-B.3-1.5.1">Updated author's contact information.<a href="#appendix-B.3-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.2-1.6">
-            <p id="appendix-B.2-1.6.1">Fixes and editorial improvements.<a href="#appendix-B.2-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.6">
+            <p id="appendix-B.3-1.6.1">Fixes and editorial improvements.<a href="#appendix-B.3-1.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-03-04">
-<section id="appendix-B.3">
+<section id="appendix-B.4">
         <h3 id="name-version-03-to-04">
-<a href="#appendix-B.3" class="section-number selfRef">B.3. </a><a href="#name-version-03-to-04" class="section-name selfRef">Version -03 to -04</a>
+<a href="#appendix-B.4" class="section-number selfRef">B.4. </a><a href="#name-version-03-to-04" class="section-name selfRef">Version -03 to -04</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-B.3-1.1">
-            <p id="appendix-B.3-1.1.1">Clarified the rationale for using the "tkl" function.<a href="#appendix-B.3-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B.4-1.1">
+            <p id="appendix-B.4-1.1.1">Clarified the rationale for using the "tkl" function.<a href="#appendix-B.4-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.2">
-            <p id="appendix-B.3-1.2.1">Added the "osc.piv" function to determine the length of the OSCORE piv field.<a href="#appendix-B.3-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.2">
+            <p id="appendix-B.4-1.2.1">Added the "osc.piv" function to determine the length of the OSCORE piv field.<a href="#appendix-B.4-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.3">
-            <p id="appendix-B.3-1.3.1">Consistent formulation of "tkl", "osc.x.m", and "osc.y.w".<a href="#appendix-B.3-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.3">
+            <p id="appendix-B.4-1.3.1">Consistent formulation of "tkl", "osc.x.m", and "osc.y.w".<a href="#appendix-B.4-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.4">
-            <p id="appendix-B.3-1.4.1">Explicitly stated that Field Descriptors have to be ordered in a determistic way.<a href="#appendix-B.3-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.4">
+            <p id="appendix-B.4-1.4.1">Explicitly stated that Field Descriptors have to be ordered in a determistic way.<a href="#appendix-B.4-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.5">
-            <p id="appendix-B.3-1.5.1">Fixed format of TV in Rule Descriptors for CoAP MID.<a href="#appendix-B.3-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.5">
+            <p id="appendix-B.4-1.5.1">Fixed format of TV in Rule Descriptors for CoAP MID.<a href="#appendix-B.4-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.6">
-            <p id="appendix-B.3-1.6.1">Fixed order of OSCORE-related Field Descriptors in example Rules.<a href="#appendix-B.3-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.6">
+            <p id="appendix-B.4-1.6.1">Fixed order of OSCORE-related Field Descriptors in example Rules.<a href="#appendix-B.4-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.7">
-            <p id="appendix-B.3-1.7.1">Use "bit" instead of "b" as symbol for bit (per ISO/IEC 80000-13).<a href="#appendix-B.3-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.7">
+            <p id="appendix-B.4-1.7.1">Use "bit" instead of "b" as symbol for bit (per ISO/IEC 80000-13).<a href="#appendix-B.4-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.8">
-            <p id="appendix-B.3-1.8.1">Made YANG extractable.<a href="#appendix-B.3-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.8">
+            <p id="appendix-B.4-1.8.1">Made YANG extractable.<a href="#appendix-B.4-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.9">
-            <p id="appendix-B.3-1.9.1">Updated references.<a href="#appendix-B.3-1.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.9">
+            <p id="appendix-B.4-1.9.1">Updated references.<a href="#appendix-B.4-1.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.10">
-            <p id="appendix-B.3-1.10.1">Fixes and editorial improvements.<a href="#appendix-B.3-1.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.10">
+            <p id="appendix-B.4-1.10.1">Fixes and editorial improvements.<a href="#appendix-B.4-1.10.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-02-03">
-<section id="appendix-B.4">
+<section id="appendix-B.5">
         <h3 id="name-version-02-to-03">
-<a href="#appendix-B.4" class="section-number selfRef">B.4. </a><a href="#name-version-02-to-03" class="section-name selfRef">Version -02 to -03</a>
+<a href="#appendix-B.5" class="section-number selfRef">B.5. </a><a href="#name-version-02-to-03" class="section-name selfRef">Version -02 to -03</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-B.4-1.1">
-            <p id="appendix-B.4-1.1.1">Consistent representation of "CoAP Version" 1 in example Rules.<a href="#appendix-B.4-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B.5-1.1">
+            <p id="appendix-B.5-1.1.1">Consistent representation of "CoAP Version" 1 in example Rules.<a href="#appendix-B.5-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.4-1.2">
-            <p id="appendix-B.4-1.2.1">Split the compression of Token Length and Token into two sections.<a href="#appendix-B.4-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.2">
+            <p id="appendix-B.5-1.2.1">Split the compression of Token Length and Token into two sections.<a href="#appendix-B.5-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.4-1.3">
-            <p id="appendix-B.4-1.3.1">Disambiguated example of Rule on eliding a Uri-Path option.<a href="#appendix-B.4-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.3">
+            <p id="appendix-B.5-1.3.1">Disambiguated example of Rule on eliding a Uri-Path option.<a href="#appendix-B.5-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.4-1.4">
-            <p id="appendix-B.4-1.4.1">Fixed compression examples with OSCORE.<a href="#appendix-B.4-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.4">
+            <p id="appendix-B.5-1.4.1">Fixed compression examples with OSCORE.<a href="#appendix-B.5-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.4-1.5">
-            <p id="appendix-B.4-1.5.1">Inherited security considerations on the YANG module from RFC 9363.<a href="#appendix-B.4-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.5">
+            <p id="appendix-B.5-1.5.1">Inherited security considerations on the YANG module from RFC 9363.<a href="#appendix-B.5-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.4-1.6">
-            <p id="appendix-B.4-1.6.1">Fixes and editorial improvements.<a href="#appendix-B.4-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.6">
+            <p id="appendix-B.5-1.6.1">Fixes and editorial improvements.<a href="#appendix-B.5-1.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-01-02">
-<section id="appendix-B.5">
+<section id="appendix-B.6">
         <h3 id="name-version-01-to-02">
-<a href="#appendix-B.5" class="section-number selfRef">B.5. </a><a href="#name-version-01-to-02" class="section-name selfRef">Version -01 to -02</a>
+<a href="#appendix-B.6" class="section-number selfRef">B.6. </a><a href="#name-version-01-to-02" class="section-name selfRef">Version -01 to -02</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-B.5-1.1">
-            <p id="appendix-B.5-1.1.1">Added compression for the CoAP options Proxy-Cri and Proxy-Scheme-Number.<a href="#appendix-B.5-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B.6-1.1">
+            <p id="appendix-B.6-1.1.1">Added compression for the CoAP options Proxy-Cri and Proxy-Scheme-Number.<a href="#appendix-B.6-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.5-1.2">
-            <p id="appendix-B.5-1.2.1">Defined new IANA registry "SCHC Compression of CoAP Fields".<a href="#appendix-B.5-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.6-1.2">
+            <p id="appendix-B.6-1.2.1">Defined new IANA registry "SCHC Compression of CoAP Fields".<a href="#appendix-B.6-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.5-1.3">
-            <p id="appendix-B.5-1.3.1">Updated the YANG data model.<a href="#appendix-B.5-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.6-1.3">
+            <p id="appendix-B.6-1.3.1">Updated the YANG data model.<a href="#appendix-B.6-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.5-1.4">
-            <p id="appendix-B.5-1.4.1">Fixes and editorial improvements.<a href="#appendix-B.5-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.6-1.4">
+            <p id="appendix-B.6-1.4.1">Fixes and editorial improvements.<a href="#appendix-B.6-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-00-01">
-<section id="appendix-B.6">
+<section id="appendix-B.7">
         <h3 id="name-version-00-to-01">
-<a href="#appendix-B.6" class="section-number selfRef">B.6. </a><a href="#name-version-00-to-01" class="section-name selfRef">Version -00 to -01</a>
+<a href="#appendix-B.7" class="section-number selfRef">B.7. </a><a href="#name-version-00-to-01" class="section-name selfRef">Version -00 to -01</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-B.6-1.1">
-            <p id="appendix-B.6-1.1.1">Fixed an example, as per the erratum with Errata ID 7623.<a href="#appendix-B.6-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B.7-1.1">
+            <p id="appendix-B.7-1.1.1">Fixed an example, as per the erratum with Errata ID 7623.<a href="#appendix-B.7-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.6-1.2">
-            <p id="appendix-B.6-1.2.1">Clarified building of Field Descriptor for CoAP options.<a href="#appendix-B.6-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.7-1.2">
+            <p id="appendix-B.7-1.2.1">Clarified building of Field Descriptor for CoAP options.<a href="#appendix-B.7-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.6-1.3">
-            <p id="appendix-B.6-1.3.1">Clarified what SCHC compression considers for CoAP options.<a href="#appendix-B.6-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.7-1.3">
+            <p id="appendix-B.7-1.3.1">Clarified what SCHC compression considers for CoAP options.<a href="#appendix-B.7-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.6-1.4">
-            <p id="appendix-B.6-1.4.1">Revised SCHC compression of the ETag and If-Match CoAP option.<a href="#appendix-B.6-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.7-1.4">
+            <p id="appendix-B.7-1.4.1">Revised SCHC compression of the ETag and If-Match CoAP option.<a href="#appendix-B.7-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.6-1.5">
-            <p id="appendix-B.6-1.5.1">Revised SCHC compression of the If-None-Match CoAP option.<a href="#appendix-B.6-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.7-1.5">
+            <p id="appendix-B.7-1.5.1">Revised SCHC compression of the If-None-Match CoAP option.<a href="#appendix-B.7-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.6-1.6">
-            <p id="appendix-B.6-1.6.1">Added YANG data model for the YANG module.<a href="#appendix-B.6-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.7-1.6">
+            <p id="appendix-B.7-1.6.1">Added YANG data model for the YANG module.<a href="#appendix-B.7-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.6-1.7">
-            <p id="appendix-B.6-1.7.1">Added IANA considerations.<a href="#appendix-B.6-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.7-1.7">
+            <p id="appendix-B.7-1.7.1">Added IANA considerations.<a href="#appendix-B.7-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.6-1.8">
-            <p id="appendix-B.6-1.8.1">Fixes and editorial improvements.<a href="#appendix-B.6-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.7-1.8">
+            <p id="appendix-B.7-1.8.1">Fixes and editorial improvements.<a href="#appendix-B.7-1.8.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
