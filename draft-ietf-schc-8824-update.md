@@ -2111,9 +2111,15 @@ IANA is asked to register the following entry in the "YANG Module Names" registr
 * Prefix: schc-coap
 * Reference: {{&SELF}}
 
+## Static Context Header Compression (SCHC) Parameters # {#sec-iana-registry-group}
+
+IANA is asked to establish the "Static Context Header Compression (SCHC) Parameters" registry group.
+
+The registry group has been initially populated with the registry established as per {{sec-iana-coap-fields}}.
+
 ## SCHC Compression of CoAP Fields # {#sec-iana-coap-fields}
 
-IANA is asked to establish the "SCHC Compression of CoAP Fields" IANA registry.
+IANA is asked to establish the "SCHC Compression of CoAP Fields" registry within the "Static Context Header Compression (SCHC) Parameters" registry group established as per {{sec-iana-registry-group}}.
 
 As registration policy, the registry uses "Specification Required" per {{Section 4.6 of RFC8126}}. Expert Review guidelines are provided in {{sec-iana-expert-review}}.
 
@@ -2350,6 +2356,10 @@ module ietf-schc-coap {
 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
+
+## Version -06 to -07 ## {#sec-06-07}
+
+* Requested creation of new IANA registry group.
 
 ## Version -05 to -06 ## {#sec-05-06}
 
