@@ -2137,7 +2137,7 @@ When a specification defines how to perform SCHC compression of a CoAP field, th
 
 If the defined SCHC compression considers the CoAP field as composed of subfields, it is strongly encouraged that the same as above is also performed for each subfield and the associated registry entry.
 
-### Structure of Entries
+### Structure of Entries # {#sec-iana-coap-fields-structure}
 
 The columns of this registry are:
 
@@ -2156,6 +2156,16 @@ The columns of this registry are:
 
 * Reference: public references to the resources that define how a SCHC compression Rule works for the CoAP field or subfield associated with this entry.
 
+In order to make the registry easier to parse, its entries are ordered based on the value of the "Field" column and according to the following criteria:
+
+* Given any two entries for CoAP fields, those entries are in the same relative order as those two fields in a CoAP message.
+
+  Consequently, given any two entries related to CoAP options, those entries are in the same relative order as the option numbers of the two CoAP options.
+
+* Given any two entries for subfields of the same field, those entries are in the same relative order as those two subfields in a CoAP message.
+
+* Given an entry "CoAP.X" for the field X, any entry "CoAP.X.Y" for the subfield Y of X appears after the entry "CoAP.X" and before the entry for any other field.
+
 This registry has been initially populated with the values in {{table-coap-fields}}. The "Reference" column for all these entries refers to this document.
 
 ## Expert Review Instructions {#sec-iana-expert-review}
@@ -2167,6 +2177,8 @@ Expert reviewers should take into consideration the following points:
 * Point squatting should be discouraged. Reviewers are encouraged to get sufficient information for registration requests to ensure that the usage is not going to duplicate one that is already registered and that the point is likely to be used in deployments.
 
   Specifically, for every CoAP field, only one corresponding registry entry is allowed. Also, for every CoAP subfield, only one corresponding registry entry is allowed.
+
+* For a new registry entry, it has to be clear where that entry has to be positioned within the registry, according to the criteria compiled in {{sec-iana-coap-fields-structure}}.
 
 * Consistent with the "Specification Required" registration policy, specifications should exist, but early assignment before a specification is available is considered to be permissible. When specifications are not provided, the description provided needs to have sufficient information to identify what the point is being used for.
 
@@ -2358,6 +2370,8 @@ module ietf-schc-coap {
 ## Version -06 to -07 ## {#sec-06-07}
 
 * Requested creation of new IANA registry group.
+
+* Explicit criteria for ordering entries in the new IANA registry.
 
 * Editorial fixes in the initial list of CoAP fields to register.
 
