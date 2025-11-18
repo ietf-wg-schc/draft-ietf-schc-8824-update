@@ -5274,7 +5274,6 @@ Compressed message length: 16 bytes
 <a href="#section-11" class="section-number selfRef">11. </a><a href="#name-coap-fields" class="section-name selfRef">CoAP Fields</a>
       </h2>
 <p id="section-11-1"><a href="#_table-coap-fields" class="auto internal xref">Table 12</a> lists the CoAP fields and subfields for which SCHC compression has been defined or revised in this document.<a href="#section-11-1" class="pilcrow">¶</a></p>
-<p id="section-11-2">Editor's note: Before publication, confirm or amend the option numbers associated with the CoAP options Proxy-Cri and Proxy-Scheme-Number defined in <span>[<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>, to ensure that they are consistent with those registered in the "CoAP Option Numbers" registry.<a href="#section-11-2" class="pilcrow">¶</a></p>
 <span id="name-coap-fields-2"></span><div id="_table-coap-fields">
 <table class="center" id="table-12">
         <caption>
@@ -5365,12 +5364,12 @@ Compressed message length: 16 bytes
           </tr>
           <tr>
             <td class="text-left" rowspan="1" colspan="1">CoAP.option(9)</td>
-            <td class="text-left" rowspan="1" colspan="1">CoAP option OSCORE <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span><span>[<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>
+            <td class="text-left" rowspan="1" colspan="1">CoAP option OSCORE <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span><span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span><span>[<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>
 </td>
           </tr>
           <tr>
             <td class="text-left" rowspan="1" colspan="1">CoAP.option(9).flags</td>
-            <td class="text-left" rowspan="1" colspan="1">CoAP option OSCORE (subfield flags) <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span><span>[<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>
+            <td class="text-left" rowspan="1" colspan="1">CoAP option OSCORE (subfield flags) <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span><span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span><span>[<a href="#I-D.ietf-core-oscore-key-update" class="cite xref">I-D.ietf-core-oscore-key-update</a>]</span>
 </td>
           </tr>
           <tr>
@@ -6021,6 +6020,9 @@ module ietf-schc-coap {
 <ul class="normal">
 <li class="normal" id="appendix-B.1-1.1">
             <p id="appendix-B.1-1.1.1">Requested creation of new IANA registry group.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.2">
+            <p id="appendix-B.1-1.2.1">Editorial fixes in the initial list of CoAP fields to register.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
