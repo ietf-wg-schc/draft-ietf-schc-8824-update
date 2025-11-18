@@ -3464,6 +3464,25 @@ Table of Contents
       SCHC compression Rule works for the CoAP field or subfield
       associated with this entry.
 
+   In order to make the registry easier to parse, its entries are
+   ordered based on the value of the "Field" column and according to the
+   following criteria:
+
+   *  Given any two entries for CoAP fields, those entries are in the
+      same relative order as those two fields in a CoAP message.
+
+      Consequently, given any two entries related to CoAP options, those
+      entries are in the same relative order as the option numbers of
+      the two CoAP options.
+
+   *  Given any two entries for subfields of the same field, those
+      entries are in the same relative order as those two subfields in a
+      CoAP message.
+
+   *  Given an entry "CoAP.X" for the field X, any entry "CoAP.X.Y" for
+      the subfield Y of X appears after the entry "CoAP.X" and before
+      the entry for any other field.
+
    This registry has been initially populated with the values in
    Table 12.  The "Reference" column for all these entries refers to
    this document.
@@ -3486,6 +3505,10 @@ Table of Contents
       Specifically, for every CoAP field, only one corresponding
       registry entry is allowed.  Also, for every CoAP subfield, only
       one corresponding registry entry is allowed.
+
+   *  For a new registry entry, it has to be clear where that entry has
+      to be positioned within the registry, according to the criteria
+      compiled in Section 13.4.2.
 
    *  Consistent with the "Specification Required" registration policy,
       specifications should exist, but early assignment before a
@@ -3858,6 +3881,8 @@ Appendix B.  Document Updates
 B.1.  Version -06 to -07
 
    *  Requested creation of new IANA registry group.
+
+   *  Explicit criteria for ordering entries in the new IANA registry.
 
    *  Editorial fixes in the initial list of CoAP fields to register.
 

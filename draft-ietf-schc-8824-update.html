@@ -5614,7 +5614,7 @@ Compressed message length: 16 bytes
 <p id="section-13.4.1-6">If the defined SCHC compression considers the CoAP field as composed of subfields, it is strongly encouraged that the same as above is also performed for each subfield and the associated registry entry.<a href="#section-13.4.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="structure-of-entries">
+<div id="sec-iana-coap-fields-structure">
 <section id="section-13.4.2">
           <h4 id="name-structure-of-entries">
 <a href="#section-13.4.2" class="section-number selfRef">13.4.2. </a><a href="#name-structure-of-entries" class="section-name selfRef">Structure of Entries</a>
@@ -5645,7 +5645,21 @@ Within the YANG data model originally specified in <span><a href="https://rfc-ed
               <p id="section-13.4.2-2.3.1">Reference: public references to the resources that define how a SCHC compression Rule works for the CoAP field or subfield associated with this entry.<a href="#section-13.4.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-13.4.2-3">This registry has been initially populated with the values in <a href="#_table-coap-fields" class="auto internal xref">Table 12</a>. The "Reference" column for all these entries refers to this document.<a href="#section-13.4.2-3" class="pilcrow">¶</a></p>
+<p id="section-13.4.2-3">In order to make the registry easier to parse, its entries are ordered based on the value of the "Field" column and according to the following criteria:<a href="#section-13.4.2-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-13.4.2-4.1">
+              <p id="section-13.4.2-4.1.1">Given any two entries for CoAP fields, those entries are in the same relative order as those two fields in a CoAP message.<a href="#section-13.4.2-4.1.1" class="pilcrow">¶</a></p>
+<p id="section-13.4.2-4.1.2">
+Consequently, given any two entries related to CoAP options, those entries are in the same relative order as the option numbers of the two CoAP options.<a href="#section-13.4.2-4.1.2" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-13.4.2-4.2">
+              <p id="section-13.4.2-4.2.1">Given any two entries for subfields of the same field, those entries are in the same relative order as those two subfields in a CoAP message.<a href="#section-13.4.2-4.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-13.4.2-4.3">
+              <p id="section-13.4.2-4.3.1">Given an entry "CoAP.X" for the field X, any entry "CoAP.X.Y" for the subfield Y of X appears after the entry "CoAP.X" and before the entry for any other field.<a href="#section-13.4.2-4.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-13.4.2-5">This registry has been initially populated with the values in <a href="#_table-coap-fields" class="auto internal xref">Table 12</a>. The "Reference" column for all these entries refers to this document.<a href="#section-13.4.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -5664,7 +5678,10 @@ Within the YANG data model originally specified in <span><a href="https://rfc-ed
 Specifically, for every CoAP field, only one corresponding registry entry is allowed. Also, for every CoAP subfield, only one corresponding registry entry is allowed.<a href="#section-13.5-3.1.2" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.5-3.2">
-            <p id="section-13.5-3.2.1">Consistent with the "Specification Required" registration policy, specifications should exist, but early assignment before a specification is available is considered to be permissible. When specifications are not provided, the description provided needs to have sufficient information to identify what the point is being used for.<a href="#section-13.5-3.2.1" class="pilcrow">¶</a></p>
+            <p id="section-13.5-3.2.1">For a new registry entry, it has to be clear where that entry has to be positioned within the registry, according to the criteria compiled in <a href="#sec-iana-coap-fields-structure" class="auto internal xref">Section 13.4.2</a>.<a href="#section-13.5-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-13.5-3.3">
+            <p id="section-13.5-3.3.1">Consistent with the "Specification Required" registration policy, specifications should exist, but early assignment before a specification is available is considered to be permissible. When specifications are not provided, the description provided needs to have sufficient information to identify what the point is being used for.<a href="#section-13.5-3.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-13.5-4">If the expert becomes aware of a definition for SCHC compression of CoAP fields and subfields that is deployed and in use, the expert may also initiate a registration or update an existing one on their own, if they deem important that the definition in question gains visibility through the registry entry.<a href="#section-13.5-4" class="pilcrow">¶</a></p>
@@ -6022,7 +6039,10 @@ module ietf-schc-coap {
             <p id="appendix-B.1-1.1.1">Requested creation of new IANA registry group.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.2">
-            <p id="appendix-B.1-1.2.1">Editorial fixes in the initial list of CoAP fields to register.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.2.1">Explicit criteria for ordering entries in the new IANA registry.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.3">
+            <p id="appendix-B.1-1.3.1">Editorial fixes in the initial list of CoAP fields to register.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
