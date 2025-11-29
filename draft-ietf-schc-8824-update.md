@@ -74,7 +74,6 @@ normative:
   RFC9363:
   RFC9668:
   I-D.ietf-core-oscore-groupcomm:
-  I-D.ietf-core-oscore-key-update:
   I-D.ietf-core-href:
   CoAP.Option.Numbers:
     author:
@@ -89,6 +88,7 @@ informative:
   RFC9528:
   I-D.ietf-core-groupcomm-bis:
   I-D.ietf-schc-universal-option:
+  I-D.ietf-core-oscore-key-update:
 
 entity:
   SELF: "[RFC-XXXX]"
@@ -147,7 +147,7 @@ In particular, this documents replaces and obsoletes {{RFC8824}} as follows:
 
 * It defines the SCHC compression for the recently defined CoAP options Echo (see {{coap-options-echo}}), Request-Tag (see {{coap-options-request-tag}}), EDHOC (see {{coap-options-edhoc}}), as well as Q-Block1 and Q-Block2 (see {{ssec-coap-extensions-block}}).
 
-* It updates the SCHC compression processing for the CoAP option OSCORE (see {{ssec-coap-extensions-oscore}}), also in the light of recent developments related to the security protocol Object Security for Constrained RESTful Environments (OSCORE) as defined in {{I-D.ietf-core-oscore-key-update}} and {{I-D.ietf-core-oscore-groupcomm}}.
+* It updates the SCHC compression processing for the CoAP option OSCORE (see {{ssec-coap-extensions-oscore}}), also in the light of recent developments related to the security protocol Object Security for Constrained RESTful Environments (OSCORE) as defined in {{I-D.ietf-core-oscore-groupcomm}}.
 
 * It clarifies how the SCHC compression handles the CoAP payload marker (see {{payload-marker}}).
 
@@ -527,15 +527,17 @@ Otherwise, if the value changes over time, the SCHC Rule does not set the TV, wh
 
 The security protocol OSCORE {{RFC8613}} provides end-to-end protection for CoAP messages. Group OSCORE {{I-D.ietf-core-oscore-groupcomm}} builds on OSCORE and defines end-to-end protection of CoAP messages in group communication {{I-D.ietf-core-groupcomm-bis}}. This section describes how SCHC Rules can be applied to compress messages protected with OSCORE or Group OSCORE.
 
-{{fig-oscore-option}} shows the OSCORE Option value encoding, as it was originally defined in {{Section 6.1 of RFC8613}}. As explained later in this section, this has been extended in {{I-D.ietf-core-oscore-key-update}} and {{I-D.ietf-core-oscore-groupcomm}}. The first byte of the OSCORE Option value specifies information to parse the rest of the value by using flags, as described below.
+{{fig-oscore-option}} shows the OSCORE Option value encoding, as it was originally defined in {{Section 6.1 of RFC8613}}. As explained below, this has been extended in {{I-D.ietf-core-oscore-groupcomm}}.
 
-* As defined in {{Section 4.1 of I-D.ietf-core-oscore-key-update}}, the eight least significant bit, when set, indicates that the OSCORE Option value includes a second byte of flags. The seventh least significant bit is currently unassigned.
+The first byte of the OSCORE Option value specifies information to parse the rest of the value by using flags. In particular:
 
 * As defined in {{Section 5 of I-D.ietf-core-oscore-groupcomm}}, the sixth least significant bit, when set, indicates that the message including the OSCORE Option is protected with the group mode of Group OSCORE (see {{Section 8 of I-D.ietf-core-oscore-groupcomm}}). When not set, the bit indicates that the message is protected either with OSCORE or with the pairwise mode of Group OSCORE (see {{Section 9 of I-D.ietf-core-oscore-groupcomm}}), while the specific OSCORE Security Context used to protect the message determines which of the two cases applies.
 
 * As defined in {{Section 6.1 of RFC8613}}, bit h, when set, indicates the presence of the kid context field in the OSCORE Option value. Also, bit k, when set, indicates the presence of the kid field. Finally, the three least significant bits form the n field, which indicates the length of the Partial IV (Partial Initialization Vector) field in bytes. When n = 0, no Partial IV is present.
 
-Assuming the presence of a single flag byte, this is followed by the Partial IV field. After that, if the h bit is set, the kid context field is present, preceded by one byte "s" indicating its length in bytes. After that, if the k bit is set, the kid field is present, and it ends where the OSCORE Option value ends.
+The flag byte is followed by the Partial IV field. After that, if the h bit is set, the kid context field is present, preceded by one byte "s" indicating its length in bytes. After that, if the k bit is set, the kid field is present, and it ends where the OSCORE Option value ends.
+
+Within the flag byte, the eight and seventh least significant bits have been originally defined as reserved and are always set to 0. Future specifications might extend the OSCORE Option value encoding, e.g., by defining the use of the eight and seventh least significant bits in the flag byte. In turn, the use of such bits can result in expanding the space for the OSCORE flag bits by means of additional flag bytes that follow the first flag byte, or in introducing additional fields in the OSCORE Option value besides the original ones.
 
 ~~~~~~~~~~~
  0 1 2 3 4 5 6 7 <------ n bytes ------->
@@ -555,91 +557,26 @@ Assuming the presence of a single flag byte, this is followed by the Partial IV 
 ~~~~~~~~~~~
 {: #fig-oscore-option title="OSCORE Option Value." artwork-align="center"}
 
-{{fig-oscore-option-kudos}} shows the extended OSCORE Option value encoding, with the second byte of flags also present. As defined in {{Section 4.1 of I-D.ietf-core-oscore-key-update}}, the least significant bit d of this byte, when set, indicates that two additional fields are included in the OSCORE Option value, following the kid context field (if any).
-
-These two fields, namely x and nonce, are used when running the key update protocol KUDOS defined in {{I-D.ietf-core-oscore-key-update}}, with x specifying the length of the nonce field in bytes as well as further information concerning the KUDOS execution in question.
-
-{{fig-oscore-option-kudos}} provides the breakdown of the x field, where its four least significant bits encode the value m, which specifies the size of nonce in bytes, minus 1.
-
-~~~~~~~~~~~
- 0 1 2 3 4 5 6 7  8   9   10  11  12  13  14  15 <----- n bytes ----->
-+-+-+-+-+-+-+-+-+---+---+---+---+---+---+---+---+---------------------+
-|1|0|0|h|k|  n  | 0 | 0 | 0 | 0 | 0 | 0 | 0 | d | Partial IV (if any) |
-+-+-+-+-+-+-+-+-+---+---+---+---+---+---+---+---+---------------------+
-|                                               |                     |
-|<------------------- flags ------------------->|<------- piv ------->|
-
-
- <- 1 byte -> <--------- s bytes --------->
-+------------+----------------------------+
-| s (if any) |    kid context (if any)    |
-+------------+----------------------------+
-|                                         |
-|<--------------- kid_ctx --------------->|
-
-
- <------ 1 byte -----> <-- m + 1 bytes -->
-+---------------------+-------------------+
-|     x (if any)      |  nonce (if any)   |
-+---------------------+-------------------+
-|<-------- x -------->|<----- nonce ----->|
-|                     |
-|   0 1 2 3 4 5 6 7   |
-|  +-+-+-+-+-+-+-+-+  |
-|  |0|z|b|p|   m   |  |
-|  +-+-+-+-+-+-+-+-+  |
-
-
-+---------------------+
-|   kid (if any) ...  |
-+---------------------+
-|                     |
-|<------- kid ------->|
-~~~~~~~~~~~
-{: #fig-oscore-option-kudos title="OSCORE Option Value Extended to Support a KUDOS Execution." artwork-align="center"}
-
 To better perform OSCORE SCHC compression, the Rule description needs to identify the OSCORE Option value and its inner fields mentioned above.
 
-Conceptually, SCHC discerns six distinct pieces of information within the OSCORE Option value: the flag bits, the Partial IV, the kid context prepended by its size s, the x byte, the nonce, and the kid. The SCHC Rule splits the OSCORE Option value into six corresponding Field Descriptors, in order to separately compress those pieces of information as distinct subfields:
+Conceptually, SCHC discerns four distinct pieces of information within the OSCORE Option value: the flag bits, the Partial IV, the kid context prepended by its size s, and the kid. The SCHC Rule splits the OSCORE Option value into four corresponding Field Descriptors, in order to separately compress those pieces of information as distinct subfields:
 
 * flags
 * piv
 * kid_ctx
-* x
-* nonce
 * kid
 
-If a SCHC Rule is intended to compress a CoAP message that specifies the OSCORE Option, then the related Field Descriptors defined above MUST be listed in the same order according to which the corresponding pieces of information appear in the OSCORE Option value.
+If a SCHC Rule is intended to compress a CoAP message that specifies the OSCORE Option, then the related Field Descriptors MUST be listed in the same order according to which the corresponding pieces of information appear in the OSCORE Option value.
 
-{{fig-oscore-option}} shows the original format of the OSCORE Option value with the four subfields flags, piv, kid_ctx, and kid superimposed on it. Also, {{fig-oscore-option-kudos}} shows the extended format of the OSCORE Option value with all the six subfields superimposed on it.
+{{fig-oscore-option}} shows the original format of the OSCORE Option value with the four subfields flags, piv, kid_ctx, and kid superimposed on it. If future specifications extend the OSCORE Option value encoding, e.g., by defining the use of the eight and seventh least significant bits in the first byte of flags, this might result in additional subfields besides the four original ones, hence in corresponding Field Descriptors intended to be used in SCHC Rules.
 
 If a subfield is not present, then the corresponding Field Descriptor in the SCHC Rule describes the TV set to b'', with the MO set to "equal" and the CDA set to "not-sent". Note that, if the subfield kid_context is present, it directly includes the size octet, i.e., s.
 
-In addition, the following applies.
+If the piv subfield is present, SCHC MUST NOT send it as variable-size data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the piv subfield, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see {{Section 7.4.2 of RFC8724}}).
 
-* If the piv subfield is present, SCHC MUST NOT send it as variable-size data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the piv subfield, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see {{Section 7.4.2 of RFC8724}}).
+Instead, SCHC MUST use the value n from the first byte of the OSCORE Option value to define the size of the piv subfield in the Compression Residue. To this end, SCHC designates a specific function, "osc.piv", that the Rule MUST use to complete the Field Descriptor. During the decompression, this function returns the value n, hence the length of the piv subfield in bytes.
 
-  Instead, SCHC MUST use the value n from the first byte of the OSCORE Option value to define the size of the piv subfield in the Compression Residue. To this end, SCHC designates a specific function, "osc.piv", that the Rule MUST use to complete the Field Descriptor. During the decompression, this function returns the value n, hence the length of the piv subfield in bytes.
-
-  This construct avoids ambiguity with the value n from the first byte of the OSCORE Option value and results in a more efficient compression of the piv subfield.
-
-* For the x subfield, if both endpoints know the value, then the corresponding Field Descriptor in the SCHC Rule describes the TV set to that value, with the MO set to "equal" and the CDA set to "not-sent". This models the following cases:
-
-  - The x subfield is not present, and thus TV is set to b''.
-
-  - Given a fixed z bit of the x subfield as denoting either a "divergent" or "convergent" KUDOS message, the two endpoints run KUDOS with a pre-agreed size of the nonce subfield as per the value encoded by m within the x subfield, as well as with a pre-agreed combination of its modes of operation, as per the bits b and p of the x subfield.
-
-    Under the assumed pre-agreements above, this requires two distinct SCHC Rules, whose respective TV is set to a value that reflects the z bit as set or not set, respectively.
-
-  As an alternative that is more flexible to changes in the value of the x subfield, the corresponding Field Descriptor in the SCHC Rule does not set the TV, while it sets the MO to "ignore" and the CDA to "value-sent". In the same spirit, the Rule may also use a "match-mapping" MO to compress this subfield, in case the two endpoints pre-agree on a set of alternative ways to run KUDOS, with respect to the size of the nonce subfield and the combination of the KUDOS modes of operation to use.
-
-* If the nonce subfield is present, then the corresponding Field Descriptor in the SCHC Rule has the TV not set, while the MO is set to "ignore" and the CDA is set to "value-sent".
-
-  For the value of the nonce subfield, SCHC MUST NOT send it as variable-length data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the nonce subfield, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see {{Section 7.4.2 of RFC8724}}).
-
-  Instead, SCHC MUST use the value encoded by m within the x subfield to define the size of the Compression Residue. SCHC designates a specific function, "osc.x.m", that the Rule MUST use to complete the Field Descriptor. During the decompression, this function returns the length of the nonce subfield in bytes, as the value encoded by m within the x subfield, plus 1.
-
-  This construct avoids ambiguity with the value m within the x subfield and results in a more efficient compression of the nonce subfield.
+This construct avoids ambiguity with the value n from the first byte of the OSCORE Option value and results in a more efficient compression of the piv subfield.
 
 # Compression of the CoAP Payload Marker {#payload-marker}
 
@@ -1022,8 +959,6 @@ The Outer SCHC Rule shown in {{table-Outer-Rules}} is used, also to process the 
 | CoAP.<br>option(9).<br>piv       | osc.piv | 1  | Up | 0x00                 | MSB(4)  | LSB            | PPPP               |
 | CoAP.<br>option(9).<br>piv       |         | 1  | Dw | b''                  | equal   | not- <br> sent |                    |
 | CoAP.<br>option(9).<br>kid_ctx   |         | 1  | Bi | b''                  | equal   | not- <br> sent |                    |
-| CoAP.<br>option(9).<br>x         | 8       | 1  | Bi | b''                  | equal   | not- <br> sent |                    |
-| CoAP.<br>option(9).<br>nonce     |         | 1  | Bi | b''                  | equal   | not- <br> sent |                    |
 | CoAP.<br>option(9).<br>kid       | var_bit | 1  | Up | 0x636c69 <br> 656e70 | MSB(44) | LSB            | KKKK               |
 | CoAP.<br>option(9).<br>kid       |         | 1  | Dw | b''                  | equal   | not- <br> sent |                    |
 {: #table-Outer-Rules title="Outer SCHC Rule. CoAP Option Numbers: 9 (OSCORE)." align="center"}
@@ -1586,8 +1521,6 @@ The Device and the proxy share the SCHC Rule shown in {{fig-rules-oscore-device-
 | CoAP.<br>option(9).<br>piv       | osc.piv | 1  | Up | 0x00     | MSB(4)              | LSB                | PPPP               |
 | CoAP.<br>option(9).<br>piv       |         | 1  | Dw | b''      | equal               | not-sent           |                    |
 | CoAP.<br>option(9).<br>kid_ctx   |         | 1  | Bi | b''      | equal               | not-sent           |                    |
-| CoAP.<br>option(9).<br>x         | 8       | 1  | Bi | b''      | equal               | not-sent           |                    |
-| CoAP.<br>option(9).<br>nonce     |         | 1  | Bi | b''      | equal               | not-sent           |                    |
 | CoAP.<br>option(9).<br>kid       | var_bit | 1  | Up | 0x0000   | MSB(12)             | LSB                | KKKK               |
 | CoAP.<br>option(9).<br>kid       |         | 1  | Dw | b''      | equal               | not-sent           |                    |
 | CoAP.<br>option(39)              |         | 1  | Up | "coap"   | equal               | not-sent           |                    |
@@ -1617,8 +1550,6 @@ The proxy and the Application Server share the SCHC Rule shown in {{fig-rules-os
 | CoAP.<br>option(9).<br>piv       | osc.piv | 1  | Up | 0x00     | MSB(4)              | LSB                | PPPP               |
 | CoAP.<br>option(9).<br>piv       |         | 1  | Dw | b''      | equal               | not-sent           |                    |
 | CoAP.<br>option(9).<br>kid_ctx   |         | 1  | Bi | b''      | equal               | not-sent           |                    |
-| CoAP.<br>option(9).<br>x         | 8       | 1  | Bi | b''      | equal               | not-sent           |                    |
-| CoAP.<br>option(9).<br>nonce     |         | 1  | Bi | b''      | equal               | not-sent           |                    |
 | CoAP.<br>option(9).<br>kid       | var_bit | 1  | Up | 0x0000   | MSB(12)             | LSB                | KKKK               |
 | CoAP.<br>option(9).<br>kid       |         | 1  | Dw | b''      | equal               | not-sent           |                    |
 {: #fig-rules-oscore-proxy-server title="Outer SCHC Rule between the Proxy and the Application Server. CoAP Option Numbers: 3 (Uri-Host), 9 (OSCORE)." align="center"}
@@ -2017,51 +1948,49 @@ The Device decrypts and verifies such a response, which results in the same Comp
 
 {{table-coap-fields}} lists the CoAP fields and subfields for which SCHC compression has been defined or revised in this document.
 
-| Field                    | Description                                                                                                          |
-|--------------------------|----------------------------------------------------------------------------------------------------------------------|
-| CoAP.Version             | CoAP header field Version {{RFC7252}}                                                                                |
-| CoAP.Type                | CoAP header field Type {{RFC7252}}                                                                                   |
-| CoAP.TKL                 | CoAP header field Token Length (TKL) {{RFC7252}}{{RFC8974}}                                                          |
-| CoAP.Code                | CoAP header field Code {{RFC7252}}                                                                                   |
-| CoAP.Code.Class          | CoAP header field Code (subfield Class) {{RFC7252}}                                                                  |
-| CoAP.Code.Detail         | CoAP header field Code (subfield Detail) {{RFC7252}}                                                                 |
-| CoAP.MID                 | CoAP header field Message ID {{RFC7252}}                                                                             |
-| CoAP.Token               | CoAP field Token {{RFC7252}}{{RFC8974}}                                                                              |
-| CoAP.option(1)           | CoAP option If-Match {{RFC7252}}                                                                                     |
-| CoAP.option(3)           | CoAP option Uri-Host {{RFC7252}}                                                                                     |
-| CoAP.option(4)           | CoAP option ETag {{RFC7252}}                                                                                         |
-| CoAP.option(5)           | CoAP option If-None-Match {{RFC7252}}                                                                                |
-| CoAP.option(6)           | CoAP option Observe {{RFC7641}}                                                                                      |
-| CoAP.option(7)           | CoAP option Uri-Port {{RFC7252}}                                                                                     |
-| CoAP.option(8)           | CoAP option Location-Path {{RFC7252}}                                                                                |
-| CoAP.option(9)           | CoAP option OSCORE {{RFC8613}}{{I-D.ietf-core-oscore-groupcomm}}{{I-D.ietf-core-oscore-key-update}}                  |
-| CoAP.option(9).flags     | CoAP option OSCORE (subfield flags) {{RFC8613}}{{I-D.ietf-core-oscore-groupcomm}}{{I-D.ietf-core-oscore-key-update}} |
-| CoAP.option(9).piv       | CoAP option OSCORE (subfield piv) {{RFC8613}}                                                                        |
-| CoAP.option(9).kid_ctx   | CoAP option OSCORE (subfield kid_ctx) {{RFC8613}}                                                                    |
-| CoAP.option(9).x         | CoAP option OSCORE (subfield x) {{I-D.ietf-core-oscore-key-update}}                                                  |
-| CoAP.option(9).nonce     | CoAP option OSCORE (subfield nonce) {{I-D.ietf-core-oscore-key-update}}                                              |
-| CoAP.option(9).kid       | CoAP option OSCORE (subfield kid) {{RFC8613}}                                                                        |
-| CoAP.option(11)          | CoAP option Uri-Path {{RFC7252}}                                                                                     |
-| CoAP.option(12)          | CoAP option Content-Format {{RFC7252}}                                                                               |
-| CoAP.option(14)          | CoAP option Max-Age {{RFC7252}}                                                                                      |
-| CoAP.option(15)          | CoAP option Uri-Query {{RFC7252}}                                                                                    |
-| CoAP.option(16)          | CoAP option Hop-Limit {{RFC8768}}                                                                                    |
-| CoAP.option(17)          | CoAP option Accept {{RFC7252}}                                                                                       |
-| CoAP.option(19)          | CoAP option Q-Block1 {{RFC9177}}                                                                                     |
-| CoAP.option(20)          | CoAP option Location-Query {{RFC7252}}                                                                               |
-| CoAP.option(21)          | CoAP option EDHOC {{RFC9668}}                                                                                        |
-| CoAP.option(23)          | CoAP option Block2 {{RFC7959}}{{RFC8323}}                                                                            |
-| CoAP.option(27)          | CoAP option Block1 {{RFC7959}}{{RFC8323}}                                                                            |
-| CoAP.option(28)          | CoAP option Size2 {{RFC7959}}                                                                                        |
-| CoAP.option(31)          | CoAP option Q-Block2 {{RFC9177}}                                                                                     |
-| CoAP.option(35)          | CoAP option Proxy-Uri {{RFC7252}}                                                                                    |
-| CoAP.option(39)          | CoAP option Proxy-Scheme {{RFC7252}}                                                                                 |
-| CoAP.option(60)          | CoAP option Size1 {{RFC7252}}                                                                                        |
-| CoAP.option(235)         | CoAP option Proxy-Cri {{I-D.ietf-core-href}}                                                                         |
-| CoAP.option(239)         | CoAP option Proxy-Scheme-Number {{I-D.ietf-core-href}}                                                               |
-| CoAP.option(252)         | CoAP option Echo {{RFC9175}}                                                                                         |
-| CoAP.option(258)         | CoAP option No-Response {{RFC7967}}                                                                                  |
-| CoAP.option(292)         | CoAP option Request-Tag {{RFC9175}}                                                                                  |
+| Field                  | Description                                                                       |
+|------------------------|-----------------------------------------------------------------------------------|
+| CoAP.Version           | CoAP header field Version {{RFC7252}}                                             |
+| CoAP.Type              | CoAP header field Type {{RFC7252}}                                                |
+| CoAP.TKL               | CoAP header field Token Length (TKL) {{RFC7252}}{{RFC8974}}                       |
+| CoAP.Code              | CoAP header field Code {{RFC7252}}                                                |
+| CoAP.Code.Class        | CoAP header field Code (subfield Class) {{RFC7252}}                               |
+| CoAP.Code.Detail       | CoAP header field Code (subfield Detail) {{RFC7252}}                              |
+| CoAP.MID               | CoAP header field Message ID {{RFC7252}}                                          |
+| CoAP.Token             | CoAP field Token {{RFC7252}}{{RFC8974}}                                           |
+| CoAP.option(1)         | CoAP option If-Match {{RFC7252}}                                                  |
+| CoAP.option(3)         | CoAP option Uri-Host {{RFC7252}}                                                  |
+| CoAP.option(4)         | CoAP option ETag {{RFC7252}}                                                      |
+| CoAP.option(5)         | CoAP option If-None-Match {{RFC7252}}                                             |
+| CoAP.option(6)         | CoAP option Observe {{RFC7641}}                                                   |
+| CoAP.option(7)         | CoAP option Uri-Port {{RFC7252}}                                                  |
+| CoAP.option(8)         | CoAP option Location-Path {{RFC7252}}                                             |
+| CoAP.option(9)         | CoAP option OSCORE {{RFC8613}}{{I-D.ietf-core-oscore-groupcomm}}                  |
+| CoAP.option(9).flags   | CoAP option OSCORE (subfield flags) {{RFC8613}}{{I-D.ietf-core-oscore-groupcomm}} |
+| CoAP.option(9).piv     | CoAP option OSCORE (subfield piv) {{RFC8613}}                                     |
+| CoAP.option(9).kid_ctx | CoAP option OSCORE (subfield kid_ctx) {{RFC8613}}                                 |
+| CoAP.option(9).kid     | CoAP option OSCORE (subfield kid) {{RFC8613}}                                     |
+| CoAP.option(11)        | CoAP option Uri-Path {{RFC7252}}                                                  |
+| CoAP.option(12)        | CoAP option Content-Format {{RFC7252}}                                            |
+| CoAP.option(14)        | CoAP option Max-Age {{RFC7252}}                                                   |
+| CoAP.option(15)        | CoAP option Uri-Query {{RFC7252}}                                                 |
+| CoAP.option(16)        | CoAP option Hop-Limit {{RFC8768}}                                                 |
+| CoAP.option(17)        | CoAP option Accept {{RFC7252}}                                                    |
+| CoAP.option(19)        | CoAP option Q-Block1 {{RFC9177}}                                                  |
+| CoAP.option(20)        | CoAP option Location-Query {{RFC7252}}                                            |
+| CoAP.option(21)        | CoAP option EDHOC {{RFC9668}}                                                     |
+| CoAP.option(23)        | CoAP option Block2 {{RFC7959}}{{RFC8323}}                                         |
+| CoAP.option(27)        | CoAP option Block1 {{RFC7959}}{{RFC8323}}                                         |
+| CoAP.option(28)        | CoAP option Size2 {{RFC7959}}                                                     |
+| CoAP.option(31)        | CoAP option Q-Block2 {{RFC9177}}                                                  |
+| CoAP.option(35)        | CoAP option Proxy-Uri {{RFC7252}}                                                 |
+| CoAP.option(39)        | CoAP option Proxy-Scheme {{RFC7252}}                                              |
+| CoAP.option(60)        | CoAP option Size1 {{RFC7252}}                                                     |
+| CoAP.option(235)       | CoAP option Proxy-Cri {{I-D.ietf-core-href}}                                      |
+| CoAP.option(239)       | CoAP option Proxy-Scheme-Number {{I-D.ietf-core-href}}                            |
+| CoAP.option(252)       | CoAP option Echo {{RFC9175}}                                                      |
+| CoAP.option(258)       | CoAP option No-Response {{RFC7967}}                                               |
+| CoAP.option(292)       | CoAP option Request-Tag {{RFC9175}}                                               |
 {: #table-coap-fields title="CoAP Fields." align="center"}
 
 # Security Considerations
@@ -2078,7 +2007,7 @@ If an attacker can introduce a corrupted SCHC-compressed packet onto a link, DoS
 
 SCHC compression emits variable-length Compression Residues for some CoAP fields. In the representation of the compressed header, the length field that is sent is not the length of the original header field but rather the length of the Compression Residue that is being transmitted. If a corrupted packet arrives at the decompressor with a longer or shorter length than that of the original compressed representation, the SCHC decompression procedures will detect an error and drop the packet.
 
-SCHC header compression Rules MUST remain tightly coupled between the compressor and the decompressor. If the compression Rules get out of sync, a Compression Residue might be decompressed differently at the receiver, thus yielding a result different than the initial message submitted to compression procedures. Accordingly, any time the context Rules are updated on an OSCORE endpoint, that endpoint MUST trigger OSCORE key re-establishment, e.g., by running the lightweight key update protocol KUDOS {{I-D.ietf-core-oscore-key-update}}. Similar procedures may be appropriate to signal Rule updates when other message-protection mechanisms are in use.
+SCHC header compression Rules MUST remain tightly coupled between the compressor and the decompressor. If the compression Rules get out of sync, a Compression Residue might be decompressed differently at the receiver, thus yielding a result different than the initial message submitted to compression procedures. Accordingly, any time the context Rules are updated on an OSCORE endpoint, that endpoint MUST trigger an update of the OSCORE key material, e.g., by running the lightweight key update protocol KUDOS {{I-D.ietf-core-oscore-key-update}}. Similar procedures may be appropriate to signal Rule updates when other message-protection mechanisms are in use.
 
 ## YANG Module {#sec-security-considerations-yang-module}
 
@@ -2230,7 +2159,7 @@ module ietf-schc-coap {
      This module extends the ietf-schc module defined in RFC 9363 to
      include the new CoAP options as defined in RFC YYYY.";
 
-  revision 2025-10-20 {
+  revision 2025-12-01 {
     description
       "New CoAP extensions and extended OSCORE fields.";
     reference
@@ -2315,28 +2244,6 @@ module ietf-schc-coap {
                 Environments (OSCORE)";
   }
 
-  identity fid-coap-option-oscore-x {
-       base "schc:fid-coap-option";
-       description
-         "CoAP option OSCORE x field.";
-       reference
-         "RFC YYYY Static Context Header Compression (SCHC) for the
-                   Constrained Application Protocol (CoAP) (see
-                   Section 6.4)
-          RFC XXXX Key Update for OSCORE (KUDOS)";
-  }
-
-  identity fid-coap-option-oscore-nonce {
-       base "schc:fid-coap-option";
-       description
-         "CoAP option OSCORE nonce field.";
-       reference
-         "RFC YYYY Static Context Header Compression (SCHC) for the
-                   Constrained Application Protocol (CoAP) (see
-                   Section 6.4)
-          RFC XXXX Key Update for OSCORE (KUDOS)";
-  }
-
   // Function Length
 
   identity fl-oscore-oscore-piv-length {
@@ -2348,26 +2255,17 @@ module ietf-schc-coap {
                    Constrained Application Protocol (CoAP) (see
                    Section 6.4)";
   }
-
-  identity fl-oscore-oscore-nonce-length {
-       base "schc:fl-base-type";
-       description
-         "Size in bytes of the OSCORE nonce corresponding to m+1.";
-       reference
-         "RFC YYYY Static Context Header Compression (SCHC) for the
-                   Constrained Application Protocol (CoAP) (see
-                   Section 6.4)
-          RFC XXXX Key Update for OSCORE (KUDOS)";
-  }
 }
 
 ~~~~~~~~~~~
-{: sourcecode-name="ietf-schc-coap@2025-10-20.yang" sourcecode-markers="true" #fig-yang-data-model title="SCHC CoAP Extension YANG Data Model."}
+{: sourcecode-name="ietf-schc-coap@2025-12-01.yang" sourcecode-markers="true" #fig-yang-data-model title="SCHC CoAP Extension YANG Data Model."}
 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
 
 ## Version -06 to -07 ## {#sec-06-07}
+
+* Removed content about the updates to the OSCORE Option expected from draft-ietf-core-oscore-key-update.
 
 * Requested creation of new IANA registry group.
 
