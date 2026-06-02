@@ -141,13 +141,14 @@ Table of Contents
      14.2.  Informative References
    Appendix A.  YANG Data Model
    Appendix B.  Document Updates
-     B.1.  Version -06 to -07
-     B.2.  Version -05 to -06
-     B.3.  Version -04 to -05
-     B.4.  Version -03 to -04
-     B.5.  Version -02 to -03
-     B.6.  Version -01 to -02
-     B.7.  Version -00 to -01
+     B.1.  Version -07 to -08
+     B.2.  Version -06 to -07
+     B.3.  Version -05 to -06
+     B.4.  Version -04 to -05
+     B.5.  Version -03 to -04
+     B.6.  Version -02 to -03
+     B.7.  Version -01 to -02
+     B.8.  Version -00 to -01
    Acknowledgments
    Authors' Addresses
 
@@ -3725,7 +3726,11 @@ Appendix B.  Document Updates
 
    This section is to be removed before publishing as an RFC.
 
-B.1.  Version -06 to -07
+B.1.  Version -07 to -08
+
+   *  Editorial update of reference entries.
+
+B.2.  Version -06 to -07
 
    *  Removed content about the updates to the OSCORE Option expected
       from draft-ietf-core-oscore-key-update.
@@ -3736,7 +3741,7 @@ B.1.  Version -06 to -07
 
    *  Editorial fixes in the initial list of CoAP fields to register.
 
-B.2.  Version -05 to -06
+B.3.  Version -05 to -06
 
    *  Generalized the Token Length field, the Token field, and the "tkl"
       function to comply with RFC 8974.
@@ -3754,7 +3759,7 @@ B.2.  Version -05 to -06
 
    *  Minor clarifications and editorial improvements.
 
-B.3.  Version -04 to -05
+B.4.  Version -04 to -05
 
    *  Compression of CoAP options:
 
@@ -3782,7 +3787,7 @@ B.3.  Version -04 to -05
 
    *  Fixes and editorial improvements.
 
-B.4.  Version -03 to -04
+B.5.  Version -03 to -04
 
    *  Clarified the rationale for using the "tkl" function.
 
@@ -3806,7 +3811,7 @@ B.4.  Version -03 to -04
 
    *  Fixes and editorial improvements.
 
-B.5.  Version -02 to -03
+B.6.  Version -02 to -03
 
    *  Consistent representation of "CoAP Version" 1 in example Rules.
 
@@ -3821,7 +3826,7 @@ B.5.  Version -02 to -03
 
    *  Fixes and editorial improvements.
 
-B.6.  Version -01 to -02
+B.7.  Version -01 to -02
 
    *  Added compression for the CoAP options Proxy-Cri and Proxy-Scheme-
       Number.
@@ -3832,7 +3837,7 @@ B.6.  Version -01 to -02
 
    *  Fixes and editorial improvements.
 
-B.7.  Version -00 to -01
+B.8.  Version -00 to -01
 
    *  Fixed an example, as per the erratum with Errata ID 7623.
 
