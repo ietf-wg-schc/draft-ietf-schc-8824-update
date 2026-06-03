@@ -6,11 +6,11 @@ SCHC Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Obsoletes: 8824 (if approved)                                 L. Toutain
 Intended status: Standards Track                          IMT Atlantique
-Expires: 4 December 2026                                     I. Martínez
+Expires: 5 December 2026                                     I. Martínez
                                                                    IRISA
                                                              A. Minaburo
                                                               Consultant
-                                                             2 June 2026
+                                                             3 June 2026
 
 
 Static Context Header Compression (SCHC) for the Constrained Application
@@ -62,7 +62,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 December 2026.
+   This Internet-Draft will expire on 5 December 2026.
 
 Copyright Notice
 
@@ -578,9 +578,9 @@ Table of Contents
    the CDA to "value-sent".  The Rule may also use a "match-mapping" MO
    to compress the value.
 
-   Editor's note: in the YANG data model created by [RFC9363], the
-   description of the Token Length field should be updated by adding a
-   reference to [RFC8974].
+   Editor's note: in a next revision of the YANG data model created by
+   [RFC9363], the definition of fid-coap-tkl corresponding to the Token
+   Length field should be updated by adding a reference to [RFC8974].
 
 4.4.  CoAP Code Field
 
@@ -631,9 +631,9 @@ Table of Contents
    This construct avoids ambiguity with the Token Length field and
    results in a more efficient compression of the Token field.
 
-   Editor's note: in the YANG data model created by [RFC9363], the
-   description of the "tkl" function and of the Token field should be
-   updated by adding a reference to [RFC8974].
+   Editor's note: in a next revision of the YANG data model created by
+   [RFC9363], the definition of fid-coap-token corresponding to the
+   Token field should be updated by adding a reference to [RFC8974].
 
 5.  Compression of CoAP Options
 
@@ -3727,6 +3727,8 @@ Appendix B.  Document Updates
    This section is to be removed before publishing as an RFC.
 
 B.1.  Version -07 to -08
+
+   *  Updated editor's notes about the YANG data model from [RFC9363].
 
    *  Editorial update of reference entries.
 
