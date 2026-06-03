@@ -5692,7 +5692,7 @@ Specifically, for every CoAP field, only one corresponding registry entry is all
 <span id="name-schc-coap-extension-yang-da"></span><div id="fig-yang-data-model">
 <figure id="figure-36">
         <div class="breakable lang-yang sourcecode" id="appendix-A-2.1">
-<pre>&lt;CODE BEGINS&gt; file "ietf-schc-coap@2025-12-01.yang"
+<pre>&lt;CODE BEGINS&gt; file "ietf-schc-coap@2026-06-03.yang"
 
 module ietf-schc-coap {
   yang-version 1.1;
@@ -5732,7 +5732,7 @@ module ietf-schc-coap {
      This module extends the ietf-schc module defined in RFC 9363 to
      include the new CoAP options as defined in RFC YYYY.";
 
-  revision 2025-12-01 {
+  revision 2026-06-03 {
     description
       "New CoAP extensions and extended OSCORE fields.";
     reference
@@ -5822,7 +5822,7 @@ module ietf-schc-coap {
   identity fl-oscore-oscore-piv-length {
        base "schc:fl-base-type";
        description
-         "Size in bytes of the OSCORE Partial IV corresponding to n.";
+         "Size in bytes of the OSCORE Partial IV, equal to n.";
        reference
          "RFC YYYY Static Context Header Compression (SCHC) for the
                    Constrained Application Protocol (CoAP) (see
@@ -5855,7 +5855,10 @@ module ietf-schc-coap {
             <p id="appendix-B.1-1.1.1">Updated editor's notes about the YANG data model from <span>[<a href="#RFC9363" class="cite xref">RFC9363</a>]</span>.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.2">
-            <p id="appendix-B.1-1.2.1">Editorial update of reference entries.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.2.1">Shortened one too-long line in the YANG data model.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.3">
+            <p id="appendix-B.1-1.3.1">Editorial update of reference entries.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
