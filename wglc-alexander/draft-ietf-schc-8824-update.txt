@@ -253,12 +253,15 @@ Table of Contents
    *  It clarifies how the SCHC compression handles CoAP options in
       general (see Section 5.1).
 
-   *  It clarifies the SCHC compression for the CoAP options: Size1,
-      Size2, Proxy-Uri, and Proxy-Scheme (see Section 5.5); ETag and If-
-      Match (see Section 5.8); and If-None-Match (see Section 5.9).
+   *  It clarifies the SCHC compression for the CoAP options Size1,
+      Size2, Proxy-Uri, and Proxy-Scheme (see Section 5.5).
 
    *  It defines the SCHC compression for the recently defined CoAP
       options Proxy-Cri and Proxy-Scheme-Number (see Section 5.6).
+
+   *  It updates the SCHC compression processing for the CoAP options:
+      ETag and If-Match (see Section 5.8); and If-None-Match (see
+      Section 5.9).
 
    *  It defines the SCHC compression for the CoAP option Hop-Limit (see
       Section 5.10).
@@ -3734,10 +3737,13 @@ Appendix B.  Document Updates
 
 B.1.  Version -08 to -09
 
+   *  Clarified overview of changes from RFC 8824 in Section 1, as to
+      the CoAP options ETag, If-Match, and If-None-Match.
+
    *  Fixed occurrence of SCHC subfield name from kid_context to
       kid_ctx.
 
-   *  YANG data model
+   *  YANG data model:
 
       -  Consistent use of placeholders for RFC numbers.
 
