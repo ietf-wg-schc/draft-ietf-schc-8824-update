@@ -6,11 +6,11 @@ SCHC Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Obsoletes: 8824 (if approved)                                 L. Toutain
 Intended status: Standards Track                          IMT Atlantique
-Expires: 15 December 2026                                    I. Martínez
+Expires: 16 December 2026                                    I. Martínez
                                                                    IRISA
                                                              A. Minaburo
                                                               Consultant
-                                                            13 June 2026
+                                                            14 June 2026
 
 
 Static Context Header Compression (SCHC) for the Constrained Application
@@ -62,7 +62,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 December 2026.
+   This Internet-Draft will expire on 16 December 2026.
 
 Copyright Notice
 
@@ -3584,7 +3584,11 @@ Appendix A.  YANG Data Model
    ietf-schc module defined in [RFC9363] to include the new CoAP options
    as defined in the present document.
 
-   <CODE BEGINS> file "ietf-schc-coap@2026-06-03.yang"
+   Note to RFC Editor: In the YANG data model below, please replace all
+   occurrences of "XXXX" with the RFC number of this specification and
+   delete this paragraph.
+
+   <CODE BEGINS> file "ietf-schc-coap@2026-06-14.yang"
    module ietf-schc-coap {
      yang-version 1.1;
      namespace "urn:ietf:params:xml:ns:yang:ietf-schc-coap";
@@ -3621,13 +3625,13 @@ Appendix A.  YANG Data Model
         ****************************************************************
 
         This module extends the ietf-schc module defined in RFC 9363 to
-        include the new CoAP options as defined in RFC YYYY.";
+        include the new CoAP options as defined in RFC XXXX.";
 
-     revision 2026-06-03 {
+     revision 2026-06-14 {
        description
          "New CoAP extensions and extended OSCORE fields.";
        reference
-         "RFC YYYY Static Context Header Compression (SCHC) for the
+         "RFC XXXX Static Context Header Compression (SCHC) for the
                    Constrained Application Protocol (CoAP) (see
                    Sections 5 and 6)";
      }
@@ -3639,7 +3643,7 @@ Appendix A.  YANG Data Model
        description
          "Proxy-Cri option.";
        reference
-         "RFC XXXX Constrained Resource Identifiers";
+         "RFC 9988 Constrained Resource Identifiers";
      }
 
      identity fid-coap-option-proxy-scheme-number {
@@ -3647,7 +3651,7 @@ Appendix A.  YANG Data Model
        description
          "Proxy-Scheme-Number option.";
        reference
-         "RFC XXXX Constrained Resource Identifiers";
+         "RFC 9988 Constrained Resource Identifiers";
      }
 
      identity fid-coap-option-hop-limit {
@@ -3715,7 +3719,7 @@ Appendix A.  YANG Data Model
           description
             "Size in bytes of the OSCORE Partial IV, equal to n.";
           reference
-            "RFC YYYY Static Context Header Compression (SCHC) for the
+            "RFC XXXX Static Context Header Compression (SCHC) for the
                       Constrained Application Protocol (CoAP) (see
                       Section 6.4)";
      }
@@ -3729,6 +3733,10 @@ Appendix B.  Document Updates
    This section is to be removed before publishing as an RFC.
 
 B.1.  Version -08 to -09
+
+   *  YANG data model
+
+      -  Consistent use of placeholders for RFC numbers.
 
    *  Editorial fixes and improvements.
 
