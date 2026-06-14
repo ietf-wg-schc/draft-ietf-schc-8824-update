@@ -1192,7 +1192,7 @@ Table of Contents
    If a subfield is not present, then the corresponding Field Descriptor
    in the SCHC Rule describes the TV set to b'', with the MO set to
    "equal" and the CDA set to "not-sent".  Note that, if the subfield
-   kid_context is present, it directly includes the size octet, i.e., s.
+   kid_ctx is present, it directly includes the size octet, i.e., s.
 
    If the piv subfield is present, SCHC MUST NOT send it as variable-
    size data in the Compression Residue.  As a result, SCHC does not
@@ -3733,6 +3733,9 @@ Appendix B.  Document Updates
    This section is to be removed before publishing as an RFC.
 
 B.1.  Version -08 to -09
+
+   *  Fixed occurrence of SCHC subfield name from kid_context to
+      kid_ctx.
 
    *  YANG data model
 
