@@ -1050,7 +1050,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tiloca, et al.</td>
-<td class="center">Expires 16 December 2026</td>
+<td class="center">Expires 17 December 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg {
 <a href="https://www.rfc-editor.org/rfc/rfc8824" class="eref">8824</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-06-14" class="published">14 June 2026</time>
+<time datetime="2026-06-15" class="published">15 June 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-12-16">16 December 2026</time></dd>
+<dd class="expires"><time datetime="2026-12-17">17 December 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1128,7 +1128,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 16 December 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 17 December 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1779,11 +1779,15 @@ Given a Rule description, the following defines how the FL is used within the Fi
 <p id="section-3.1-2.3.4">
 If the CDA in the Field Descriptor is set to "not-sent" or to "mapping-sent", then the FL is not set. In fact, the field length can always be determined based on what is specified in the TV of the Field Descriptor.<a href="#section-3.1-2.3.4" class="pilcrow">¶</a></p>
 <p id="section-3.1-2.3.5">
-Otherwise, the FL can specify an exact length in bits, in case it is known in advance that the present header field is going to be used with such a length. More generally and building on <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>, the following applies when doing SCHC compression of a variable-length field for which it is not possible to specify an exact, expected length in the FL of the corresponding Field Descriptor.<a href="#section-3.1-2.3.5" class="pilcrow">¶</a></p>
+Otherwise, the FL can specify an exact length in bits, if it is known in advance that the present header field is going to be used with such a length. More generally and building on <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>, the following applies when doing SCHC compression of a variable-length field for which it is not possible to specify an exact, expected length in the FL of the corresponding Field Descriptor.<a href="#section-3.1-2.3.5" class="pilcrow">¶</a></p>
 <p id="section-3.1-2.3.6">
-If the field compression relies on the CDA "value-sent" or LSB, then a function "var" is used for the FL in the Field Descriptor, with byte being the unit used for the residue value's size. Alternatively, a function "var_X" can be used for the FL in the Field Descriptor, with X being the unit other than byte used for the residue value's size. In particular, the function "var_bit" is defined and indicates bit as the unit used for the residue value's size. Consequently, SCHC will send the residue value's size in the Compression Residue as specified in <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>.<a href="#section-3.1-2.3.6" class="pilcrow">¶</a></p>
+If the field compression relies on the CDA "value-sent" or LSB, then a function "var" can be used for the FL in the Field Descriptor, with byte being the unit used for the residue value's size. In such case, the residue value's size prepended to the residue value encodes the size of the residue value in bytes, and the decompressor <span class="bcp14">MUST</span> interpret the residue value as consisting of exactly that number of bytes.<a href="#section-3.1-2.3.6" class="pilcrow">¶</a></p>
 <p id="section-3.1-2.3.7">
-As an alternative, if the length of the present field can be determined from the value of a previous field in the CoAP header, then it is possible to define a specific function for the FL in the Field Descriptor of the present field, with that function returning the length of the field in the unit specified with the function (e.g., see the "tkl" function defined in <a href="#ssec-coap-token-field" class="auto internal xref">Section 4.6</a>). This holds irrespective of the CDA used for compressing the field.<a href="#section-3.1-2.3.7" class="pilcrow">¶</a></p>
+Alternatively to "var", a function "var_X" can be used for the FL in the Field Descriptor, with X being the unit other than byte that is used for the residue value's size. In particular, this document defines the function "var_bit". When the function "var_bit" is used, the residue value's size prepended to the residue value encodes the size of the residue value in bits, and the decompressor <span class="bcp14">MUST</span> interpret the residue value as consisting of exactly that number of bits. That is, since byte alignment in SCHC applies only at the end of the SCHC packet, the decompressor does not add any per-field padding.<a href="#section-3.1-2.3.7" class="pilcrow">¶</a></p>
+<p id="section-3.1-2.3.8">
+When using the function "var" or a function "var_X" in the FL of the Field Descriptor, SCHC will send the residue value's size in the Compression Residue encoded as specified in <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>, using the unit associated with the function. For example, if the function "var_bit" is used and the residue value's size for the compressed field is 17 bits, that size is encoded as 0b1111 00010001.<a href="#section-3.1-2.3.8" class="pilcrow">¶</a></p>
+<p id="section-3.1-2.3.9">
+As an alternative to the function "var" or to a function "var_X", if the length of the present field can be determined from the value of a previous field in the CoAP header, then it is possible to define a specific function for the FL in the Field Descriptor of the present field, with that function returning the length of the field in the unit specified with the function (e.g., see the "tkl" function defined in <a href="#ssec-coap-token-field" class="auto internal xref">Section 4.6</a>). This holds irrespective of the CDA used for compressing the field.<a href="#section-3.1-2.3.9" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.4">
             <p id="section-3.1-2.4.1">A field can appear several times in a CoAP header. This is typically the case for elements of a URI (i.e., path segments or query parameters). The SCHC specification <span>[<a href="#RFC8724" class="cite xref">RFC8724</a>]</span> allows an FID to appear several times in the Rule and uses the Field Position (FP) to identify the correct instance, thus preventing MO's possible ambiguities.<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
@@ -5866,24 +5870,27 @@ module ietf-schc-coap {
             <p id="appendix-B.1-1.1.1">Clarified overview of changes from RFC 8824 in Section 1, as to the CoAP options ETag, If-Match, and If-None-Match.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.2">
-            <p id="appendix-B.1-1.2.1">Fixed occurrence of SCHC subfield name from kid_context to kid_ctx.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.2.1">Clarified use of functions "var" and "var_X" in the FL of the Field Descriptor.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.3">
-            <p id="appendix-B.1-1.3.1">Final text about updated reference in the YANG data model from RFC 9363.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.3.1">Fixed occurrence of SCHC subfield name from kid_context to kid_ctx.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.4">
-            <p id="appendix-B.1-1.4.1">YANG data model:<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="appendix-B.1-1.4.2.1">
-                <p id="appendix-B.1-1.4.2.1.1">Updated legal boilerplate.<a href="#appendix-B.1-1.4.2.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.4.1">Final text about updated reference in the YANG data model from RFC 9363.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-B.1-1.4.2.2">
-                <p id="appendix-B.1-1.4.2.2.1">Consistent use of placeholders for RFC numbers.<a href="#appendix-B.1-1.4.2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.1-1.5">
+            <p id="appendix-B.1-1.5.1">YANG data model:<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-B.1-1.5.2.1">
+                <p id="appendix-B.1-1.5.2.1.1">Updated legal boilerplate.<a href="#appendix-B.1-1.5.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-B.1-1.5.2.2">
+                <p id="appendix-B.1-1.5.2.2.1">Consistent use of placeholders for RFC numbers.<a href="#appendix-B.1-1.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="normal" id="appendix-B.1-1.5">
-            <p id="appendix-B.1-1.5.1">Editorial fixes and improvements.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.1-1.6">
+            <p id="appendix-B.1-1.6.1">Editorial fixes and improvements.<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
