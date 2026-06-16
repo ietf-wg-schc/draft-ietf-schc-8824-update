@@ -1218,11 +1218,6 @@ svg {
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4">
                 <p id="section-toc.1-1.5.2.4.1"><a href="#section-5.4" class="auto internal xref">5.4</a>.  <a href="#name-coap-option-uri-path-and-ur" class="internal xref">CoAP Option Uri-Path and Uri-Query Fields</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4.2.1">
-                    <p id="section-toc.1-1.5.2.4.2.1.1"><a href="#section-5.4.1" class="auto internal xref">5.4.1</a>.  <a href="#name-variable-number-of-path-or-" class="internal xref">Variable Number of Path or Query Elements</a></p>
-</li>
-                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5">
                 <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="auto internal xref">5.5</a>.  <a href="#name-coap-option-size1-size2-pro" class="internal xref">CoAP Option Size1, Size2, Proxy-Uri, and Proxy-Scheme Fields</a></p>
@@ -2051,24 +2046,7 @@ For example, the FID can be set to "CoAP.option(9).flags" in a Field Descriptor 
           </tbody>
         </table>
 </div>
-<div id="variable-number-of-path-or-query-elements">
-<section id="section-5.4.1">
-          <h4 id="name-variable-number-of-path-or-">
-<a href="#section-5.4.1" class="section-number selfRef">5.4.1. </a><a href="#name-variable-number-of-path-or-" class="section-name selfRef">Variable Number of Path or Query Elements</a>
-          </h4>
-<p id="section-5.4.1-1">SCHC fixes the number of Uri-Path or Uri-Query elements in a Rule at Rule creation time. If the number of such elements varies, SCHC <span class="bcp14">SHOULD</span> either:<a href="#section-5.4.1-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5.4.1-2.1">
-              <p id="section-5.4.1-2.1.1">create several Rules to cover all possibilities; or<a href="#section-5.4.1-2.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-5.4.1-2.2">
-              <p id="section-5.4.1-2.2.1">create a Rule that defines several entries for Uri-Path to cover the longest path and send a Compression Residue with a length of 0 to indicate that a Uri-Path entry is empty.<a href="#section-5.4.1-2.2.1" class="pilcrow">¶</a></p>
-<p id="section-5.4.1-2.2.2">
-However, this adds 4 bits to the variable Compression Residue size (see <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>).<a href="#section-5.4.1-2.2.2" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-</section>
-</div>
+<p id="section-5.4-9">SCHC fixes the number of Uri-Path or Uri-Query elements in a Rule at Rule creation time. If it is expected that the number of such elements varies across different CoAP messages, then different SCHC Rules need to be created in order to cover the different possibilities.<a href="#section-5.4-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="ssec-size1-size2-proxy-uri-proxy-scheme-option">
