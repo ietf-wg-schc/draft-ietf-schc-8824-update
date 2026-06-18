@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-16T03:28:58.868634+00:00",
+  "timestamp": "2026-06-18T02:54:37.821797+00:00",
   "repo": "ietf-wg-schc/draft-ietf-schc-8824-update",
   "labels": [
     {
@@ -50,5 +50,58 @@
     }
   ],
   "issues": [],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOOqAYW87m4SxK",
+      "title": "Alexander Pelov's WGLC review",
+      "url": "https://github.com/ietf-wg-schc/draft-ietf-schc-8824-update/pull/1",
+      "state": "OPEN",
+      "author": "marco-tiloca-sics",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This PR addresses the WG Last Call review from Alexander Pelov archived at https://mailarchive.ietf.org/arch/msg/schc/1WufzPEaik4bEBso0hIe5ACi9Xc/",
+      "createdAt": "2026-06-16T06:52:18Z",
+      "updatedAt": "2026-06-16T06:52:18Z",
+      "baseRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
+      "baseRefName": "main",
+      "baseRefOid": "231fc3d91b9a3ef36131c149ad922e7fa8455c8f",
+      "headRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
+      "headRefName": "wglc-alexander",
+      "headRefOid": "0cacbe4e1f2923323825271c439e0b906a1a4dea",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOOqAYW87m5Nyy",
+      "title": "Field Descriptors and repeatable CoAP options",
+      "url": "https://github.com/ietf-wg-schc/draft-ietf-schc-8824-update/pull/2",
+      "state": "OPEN",
+      "author": "marco-tiloca-sics",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This PR addresses two narrowly scoped points:\r\n\r\n* Section 5.1 - A single Field Descriptor can pertain to multiple adjacent instances of the same CoAP option that are treated as grouped together (e.g., see Section 5.4).\r\n\r\n* Section 5.4.1 - Handling a variable number of path segments and query parameters requires different SCHC Rules to cover the different possibilities. (E.g., a Uri-Path Option that is present and has no option value is **not** equivalent to an absent Uri-Path Option)\r\n\r\nEDIT: More details at https://mailarchive.ietf.org/arch/msg/schc/uQ9E77-g0dsHsjbXWI63yaV8tdg/",
+      "createdAt": "2026-06-16T07:36:39Z",
+      "updatedAt": "2026-06-16T07:45:50Z",
+      "baseRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
+      "baseRefName": "main",
+      "baseRefOid": "231fc3d91b9a3ef36131c149ad922e7fa8455c8f",
+      "headRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
+      "headRefName": "field-descriptors-and-repeatable-options",
+      "headRefOid": "82b17dc327a37fb90415a51ff10cea55f8656f43",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
