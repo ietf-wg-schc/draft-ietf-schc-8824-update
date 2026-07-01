@@ -6,11 +6,11 @@ SCHC Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Obsoletes: 8824 (if approved)                                 L. Toutain
 Intended status: Standards Track                          IMT Atlantique
-Expires: 5 December 2026                                     I. Martínez
+Expires: 2 January 2027                                      I. Martínez
                                                                    IRISA
                                                              A. Minaburo
                                                               Consultant
-                                                             3 June 2026
+                                                             1 July 2026
 
 
 Static Context Header Compression (SCHC) for the Constrained Application
@@ -22,7 +22,7 @@ Abstract
    This document defines how to compress Constrained Application
    Protocol (CoAP) headers using the Static Context Header Compression
    and fragmentation (SCHC) framework.  SCHC defines a header
-   compression mechanism adapted for constrained devices.  SCHC uses a
+   compression mechanism adapted for constrained devices, and it uses a
    static description of the header to reduce the header's redundancy
    and size.  While RFC 8724 describes the SCHC compression and
    fragmentation framework and its application for IPv6 and UDP headers,
@@ -62,7 +62,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 December 2026.
+   This Internet-Draft will expire on 2 January 2027.
 
 Copyright Notice
 
@@ -141,14 +141,15 @@ Table of Contents
      14.2.  Informative References
    Appendix A.  YANG Data Model
    Appendix B.  Document Updates
-     B.1.  Version -07 to -08
-     B.2.  Version -06 to -07
-     B.3.  Version -05 to -06
-     B.4.  Version -04 to -05
-     B.5.  Version -03 to -04
-     B.6.  Version -02 to -03
-     B.7.  Version -01 to -02
-     B.8.  Version -00 to -01
+     B.1.  Version -08 to -09
+     B.2.  Version -07 to -08
+     B.3.  Version -06 to -07
+     B.4.  Version -05 to -06
+     B.5.  Version -04 to -05
+     B.6.  Version -03 to -04
+     B.7.  Version -02 to -03
+     B.8.  Version -01 to -02
+     B.9.  Version -00 to -01
    Acknowledgments
    Authors' Addresses
 
@@ -157,11 +158,12 @@ Table of Contents
    The Constrained Application Protocol (CoAP) [RFC7252] is a request/
    response protocol designed for microcontrollers with small RAM and
    ROM, and optimized for services based on REST (Representational State
-   Transfer).  Although the constrained devices are a leading factor in
-   the design of CoAP, a CoAP header's size is still too large for
-   LPWANs (Low-Power Wide-Area Networks).  Static Context Header
-   Compression and fragmentation (SCHC) over CoAP headers is required to
-   increase performance or to use CoAP over LPWAN technologies.
+   Transfer).  Although constrained devices are a leading factor in the
+   design of CoAP, a CoAP header's size is still too large for Low-Power
+   Wide-Area Networks (LPWANs).  Applying the Static Context Header
+   Compression and fragmentation (SCHC) framework to CoAP headers is
+   particularly important for improving performance or for enabling the
+   use of CoAP over LPWAN technologies.
 
    [RFC8724] defines the SCHC framework, which includes a header
    compression mechanism for LPWANs that is based on a static context.
@@ -185,11 +187,12 @@ Table of Contents
    SCHC compresses and decompresses headers based on common contexts
    between Devices.  The SCHC context includes multiple Rules.  Each
    Rule can match the header fields to specific values or ranges of
-   values.  If a Rule matches, the matched header fields are replaced by
-   the RuleID and the Compression Residue that contains the residual
-   bits of the compression.  Thus, different Rules may correspond to
-   different protocol headers in the packet that a Device expects to
-   send or receive.
+   values.  If a Rule matches, then the Rule is selected.  When
+   performing compression, the matched header fields are replaced by the
+   RuleID and the Compression Residue that contains the residual bits of
+   the compression.  Thus, different Rules may correspond to different
+   protocol headers in the packet that a Device expects to send or
+   receive.
 
    A Rule describes the packets' entire header with an ordered list of
    Field Descriptors (see Section 7 of [RFC8724]).  In turn, each Field
@@ -202,11 +205,11 @@ Table of Contents
    described several times in the same Rule.
 
    Furthermore, a Matching Operator (MO) is associated with each header
-   Field Descriptor.  The Rule is selected if all the MOs fit the TVs
-   for all the fields of the header.  A Rule cannot be selected if the
+   Field Descriptor.  A Rule is selected if all the MOs fit the TVs for
+   all the fields of the header.  A Rule cannot be selected if the
    message contains a field that is unknown to the SCHC compressor.
 
-   In that case, a Compression/Decompression Action (CDA) associated
+   Within a Rule, a Compression/Decompression Action (CDA) associated
    with each field specifies the method to compress and decompress that
    field.  Compression mainly results in one of four actions:
 
@@ -250,12 +253,15 @@ Table of Contents
    *  It clarifies how the SCHC compression handles CoAP options in
       general (see Section 5.1).
 
-   *  It clarifies the SCHC compression for the CoAP options: Size1,
-      Size2, Proxy-Uri, and Proxy-Scheme (see Section 5.5); ETag and If-
-      Match (see Section 5.8); and If-None-Match (see Section 5.9).
+   *  It clarifies the SCHC compression for the CoAP options Size1,
+      Size2, Proxy-Uri, and Proxy-Scheme (see Section 5.5).
 
    *  It defines the SCHC compression for the recently defined CoAP
       options Proxy-Cri and Proxy-Scheme-Number (see Section 5.6).
+
+   *  It updates the SCHC compression processing for the CoAP options:
+      ETag and If-Match (see Section 5.8); and If-None-Match (see
+      Section 5.9).
 
    *  It defines the SCHC compression for the CoAP option Hop-Limit (see
       Section 5.10).
@@ -477,36 +483,53 @@ Table of Contents
       can always be determined based on what is specified in the TV of
       the Field Descriptor.
 
-      Otherwise, the FL can specify an exact length in bits, in case it
-      is known in advance that the present header field is going to be
-      used with such a length.  More generally and building on
-      Section 7.4.2 of [RFC8724], the following applies when doing SCHC
-      compression of a variable-length field for which it is not
-      possible to specify an exact, expected length in the FL of the
-      corresponding Field Descriptor.
+      Otherwise, the FL can specify an exact length in bits, if it is
+      known in advance that the present header field is going to be used
+      with such a length.  More generally and building on Section 7.4.2
+      of [RFC8724], the following applies when doing SCHC compression of
+      a variable-length field for which it is not possible to specify an
+      exact, expected length in the FL of the corresponding Field
+      Descriptor.
 
       If the field compression relies on the CDA "value-sent" or LSB,
-      then a function "var" is used for the FL in the Field Descriptor,
-      with byte being the unit used for the residue value's size.
-      Alternatively, a function "var_X" can be used for the FL in the
-      Field Descriptor, with X being the unit other than byte used for
-      the residue value's size.  In particular, the function "var_bit"
-      is defined and indicates bit as the unit used for the residue
-      value's size.  Consequently, SCHC will send the residue value's
-      size in the Compression Residue as specified in Section 7.4.2 of
-      [RFC8724].
+      then a function "var" can be used for the FL in the Field
+      Descriptor, with byte being the unit used for the residue value's
+      size.  In such case, the residue value's size prepended to the
+      residue value encodes the size of the residue value in bytes, and
+      the decompressor MUST interpret the residue value as consisting of
+      exactly that number of bytes.
 
-      As an alternative, if the length of the present field can be
-      determined from the value of a previous field in the CoAP header,
-      then it is possible to define a specific function for the FL in
-      the Field Descriptor of the present field, with that function
-      returning the length of the field in the unit specified with the
-      function (e.g., see the "tkl" function defined in Section 4.6).
-      This holds irrespective of the CDA used for compressing the field.
+      Alternatively to "var", a function "var_X" can be used for the FL
+      in the Field Descriptor, with X being the unit other than byte
+      that is used for the residue value's size.  In particular, this
+      document defines the function "var_bit".  When the function
+      "var_bit" is used, the residue value's size prepended to the
+      residue value encodes the size of the residue value in bits, and
+      the decompressor MUST interpret the residue value as consisting of
+      exactly that number of bits.  That is, since byte alignment in
+      SCHC applies only at the end of the SCHC packet, the decompressor
+      does not add any per-field padding.
+
+      When using the function "var" or a function "var_X" in the FL of
+      the Field Descriptor, SCHC will send the residue value's size in
+      the Compression Residue encoded as specified in Section 7.4.2 of
+      [RFC8724], using the unit associated with the function.  For
+      example, if the function "var_bit" is used and the residue value's
+      size for the compressed field is 17 bits, that size is encoded as
+      0b1111 00010001.
+
+      As an alternative to the function "var" or to a function "var_X",
+      if the length of the present field can be determined from the
+      value of a previous field in the CoAP header, then it is possible
+      to define a specific function for the FL in the Field Descriptor
+      of the present field, with that function returning the length of
+      the field in the unit specified with the function (e.g., see the
+      "tkl" function defined in Section 4.6).  This holds irrespective
+      of the CDA used for compressing the field.
 
    *  A field can appear several times in a CoAP header.  This is
       typically the case for elements of a URI (i.e., path segments or
-      query parameters).  The SCHC specification [RFC8724] allows a FID
+      query parameters).  The SCHC specification [RFC8724] allows an FID
       to appear several times in the Rule and uses the Field Position
       (FP) to identify the correct instance, thus preventing MO's
       possible ambiguities.
@@ -562,12 +585,12 @@ Table of Contents
    variable-length field that can have a length of 4, 12, or 20 bits.
 
    In particular, the first 4 bits are always present and directly
-   precede the Code field.  The value of the first 4 bits determines
-   whether the field comprises 8 or 16 additional bits.  In such a case,
-   the additional 8 or 16 bits immediately precede the Token field.  In
-   any case, SCHC treats Token Length as a single field of size 4, 12,
-   or 20 bits, which still specifies the size in bytes of the later
-   Token field, as per Section 2.1 of [RFC8974].
+   precede the Code field (see Section 4.4).  The value of the first 4
+   bits determines whether the field comprises 8 or 16 additional bits.
+   In such a case, the additional 8 or 16 bits immediately precede the
+   Token field.  In any case, SCHC treats Token Length as a single field
+   of size 4, 12, or 20 bits, which still specifies the size in bytes of
+   the later Token field, as per Section 2.1 of [RFC8974].
 
    If the Token Length field value does not change over time, the SCHC
    Rule describes the TV set to that value, the MO set to "equal", and
@@ -578,9 +601,12 @@ Table of Contents
    the CDA to "value-sent".  The Rule may also use a "match-mapping" MO
    to compress the value.
 
-   Editor's note: in a next revision of the YANG data model created by
-   [RFC9363], the definition of fid-coap-tkl corresponding to the Token
-   Length field should be updated by adding a reference to [RFC8974].
+   Consistent with the above, this section updates the ietf-schc module
+   defined in [RFC9363].  In particular, the definition of the fid-coap-
+   tkl "identity" statement is updated by replacing the argument of its
+   "reference" substatement with the following string: "RFC 8974
+   Extended Tokens and Stateless Clients in the Constrained Application
+   Protocol (CoAP)".
 
 4.4.  CoAP Code Field
 
@@ -631,9 +657,12 @@ Table of Contents
    This construct avoids ambiguity with the Token Length field and
    results in a more efficient compression of the Token field.
 
-   Editor's note: in a next revision of the YANG data model created by
-   [RFC9363], the definition of fid-coap-token corresponding to the
-   Token field should be updated by adding a reference to [RFC8974].
+   Consistent with the above, this section updates the ietf-schc module
+   defined in [RFC9363].  In particular, the definition of the fid-coap-
+   token "identity" statement is updated by replacing the argument of
+   its "reference" substatement with the following string: "RFC 8974
+   Extended Tokens and Stateless Clients in the Constrained Application
+   Protocol (CoAP)".
 
 5.  Compression of CoAP Options
 
@@ -689,7 +718,7 @@ Table of Contents
 
    On the contrary, the typically used semantic approach abstracts away
    from the byte-representation of CoAP options (or, more generally, of
-   protocol header fields) and map those into generic representations
+   protocol header fields) and maps those into generic representations
    identified by the FIDs of the related Field Descriptors.  The
    semantic approach effectively streamlines Field Descriptors related
    to CoAP options as required to specify only information about the
@@ -727,8 +756,8 @@ Table of Contents
       as per Section 7.1 of [RFC8724].
 
    *  The TV is either set to an appropriate value (e.g., the Option
-      Value V of the CoAP option) or not set, consistently with the
-      intent of the SCHC Rule and with the MO and CDA used in the Field
+      Value V of the CoAP option) or not set, consistent with the intent
+      of the SCHC Rule and with the MO and CDA used in the Field
       Descriptor.
 
    For some CoAP options, it might be possible and more convenient for
@@ -764,7 +793,7 @@ Table of Contents
       compute that length.
 
    *  The TV is either set to an appropriate value (e.g., the value of
-      the subfield) or not set, consistently with the intent of the SCHC
+      the subfield) or not set, consistent with the intent of the SCHC
       Rule and with the MO and CDA used in the Field Descriptor.
 
    Note that the MO and the CDA specified in the Field Descriptor
@@ -931,13 +960,13 @@ Table of Contents
    The option carries an encoded CBOR data item [RFC8949] that
    represents an absolute CRI reference (see Section 5 of
    [I-D.ietf-core-href]).  The option is used analogously to the Proxy-
-   Uri option as defined in Section 5.10.2 of [RFC7252].
+   Uri Option as defined in Section 5.10.2 of [RFC7252].
 
    The Proxy-Scheme-Number field is an option defined in
    [I-D.ietf-core-href].  The option carries a CRI Scheme Number
    represented as a CoAP unsigned integer (see Sections 5.1.1 and 8.1 of
    [I-D.ietf-core-href]).  The option is used analogously to the Proxy-
-   Scheme option as defined in Section 5.10.2 of [RFC7252].
+   Scheme Option as defined in Section 5.10.2 of [RFC7252].
 
    The SCHC Rule description MAY define sending some field values by not
    setting the TV, while setting the MO to "ignore" and the CDA to
@@ -978,14 +1007,14 @@ Table of Contents
    received request with a proper value set, before forwarding the
    request.  Any following proxy that understands the option decrements
    the Option Value and forwards the request if the new value is
-   different than zero, or returns a 5.08 (Hop Limit Reached) error
+   different from zero, or returns a 5.08 (Hop Limit Reached) error
    response otherwise.
 
    When a CoAP message uses the Hop-Limit Option, SCHC compression
    SHOULD send its content in the Compression Residue.  That is, in the
    SCHC Rule, the TV is not set, while the MO is set to "ignore" and the
-   CDA is set to "value-sent".  As an exception, and consistently with
-   the default value 16 defined for the Hop-Limit Option in Section 3 of
+   CDA is set to "value-sent".  As an exception, and consistent with the
+   default value 16 defined for the Hop-Limit Option in Section 3 of
    [RFC8768], a Rule MAY describe a TV with value 16, with the MO set to
    "equal" and the CDA set to "not-sent".
 
@@ -1002,8 +1031,8 @@ Table of Contents
    When a CoAP message uses the Echo Option, SCHC compression SHOULD
    send its content in the Compression Residue.  That is, in the SCHC
    Rule, the TV is not set, while the MO is set to "ignore" and the CDA
-   is set to "value-sent".  An exception applies in case the server
-   generates the values to use for the Echo Option by means of a
+   is set to "value-sent".  An exception applies in the case that the
+   server generates the values to use for the Echo Option by means of a
    persistent counter (see Appendix A of [RFC9175]).  In such a case, a
    Rule MAY use the MSB MO and the LSB CDA.  This would be effectively
    applicable until the persistent counter at the server becomes greater
@@ -1057,7 +1086,7 @@ Table of Contents
    set, while the MO is set to "ignore" and the CDA is set to "value-
    sent".
 
-   The Block1, Block2, Q-Block1, and Q-Block2 options allow
+   The Block1, Block2, Q-Block1, and Q-Block2 Options allow
    fragmentation at the CoAP level that is compatible with SCHC
    fragmentation.  Both fragmentation mechanisms are complementary, and
    the node may use them for the same packet as needed.
@@ -1092,7 +1121,7 @@ Table of Contents
 
    The security protocol OSCORE [RFC8613] provides end-to-end protection
    for CoAP messages.  Group OSCORE [I-D.ietf-core-oscore-groupcomm]
-   builds on OSCORE and defines end-to-end protection of CoAP messages
+   builds on OSCORE and provides end-to-end protection of CoAP messages
    in group communication [I-D.ietf-core-groupcomm-bis].  This section
    describes how SCHC Rules can be applied to compress messages
    protected with OSCORE or Group OSCORE.
@@ -1104,13 +1133,13 @@ Table of Contents
    The first byte of the OSCORE Option value specifies information to
    parse the rest of the value by using flags.  In particular:
 
-   *  As defined in Section 5 of [I-D.ietf-core-oscore-groupcomm], the
+   *  As defined in Section 4 of [I-D.ietf-core-oscore-groupcomm], the
       sixth least significant bit, when set, indicates that the message
       including the OSCORE Option is protected with the group mode of
-      Group OSCORE (see Section 8 of [I-D.ietf-core-oscore-groupcomm]).
+      Group OSCORE (see Section 7 of [I-D.ietf-core-oscore-groupcomm]).
       When not set, the bit indicates that the message is protected
       either with OSCORE or with the pairwise mode of Group OSCORE (see
-      Section 9 of [I-D.ietf-core-oscore-groupcomm]), while the specific
+      Section 8 of [I-D.ietf-core-oscore-groupcomm]), while the specific
       OSCORE Security Context used to protect the message determines
       which of the two cases applies.
 
@@ -1189,7 +1218,7 @@ Table of Contents
    If a subfield is not present, then the corresponding Field Descriptor
    in the SCHC Rule describes the TV set to b'', with the MO set to
    "equal" and the CDA set to "not-sent".  Note that, if the subfield
-   kid_context is present, it directly includes the size octet, i.e., s.
+   kid_ctx is present, it directly includes the size octet, i.e., s.
 
    If the piv subfield is present, SCHC MUST NOT send it as variable-
    size data in the Compression Residue.  As a result, SCHC does not
@@ -1220,11 +1249,10 @@ Table of Contents
    protected with OSCORE [RFC8613] and includes a payload, then the 0xFF
    payload marker MUST NOT be included in the compressed message, which
    is composed of the Compression RuleID, the Compression Residue (if
-   any), and the CoAP payload.
-
-   After having decompressed an incoming message, the recipient endpoint
-   MUST prepend the 0xFF payload marker to the CoAP payload, if any was
-   present after the consumed Compression Residue.
+   any), and the CoAP payload.  After having decompressed an incoming
+   message, the recipient endpoint MUST prepend the 0xFF payload marker
+   to the CoAP payload, if any was present after the consumed
+   Compression Residue.
 
    If the CoAP message to compress with SCHC is going to be protected
    with OSCORE, the 0xFF payload marker is compressed as specified later
@@ -1273,7 +1301,7 @@ Table of Contents
       Table 3: CoAP Context to compress header without Token.  CoAP
                       Option Numbers: 11 (Uri-Path).
 
-   In this example, SCHC compression elides the version and Token Length
+   In this example, SCHC compression elides the Version and Token Length
    fields.  The 25 Method and Response Codes defined in [RFC7252] have
    been shrunk to 5 bits using a "match-mapping" MO.  The Uri-Path
    contains a single element with the TV set to "status" and the CDA set
@@ -1394,7 +1422,7 @@ Table of Contents
    part of the cost of protection.
 
    When the CoAP message is specifically protected with the group mode
-   of Group OSCORE (see Section 8 of [I-D.ietf-core-oscore-groupcomm]),
+   of Group OSCORE (see Section 7 of [I-D.ietf-core-oscore-groupcomm]),
    the ciphertext is followed by a signature, which is computed over the
    ciphertext and additional authenticated data.  That is, in the
    message protected with Group OSCORE, the CoAP payload includes the
@@ -1840,9 +1868,9 @@ Table of Contents
    If not, the SCHC description may use an MSB MO to mask off the three
    hard-coded most significant bits.
 
-   Note that fixing a flag bit will limit the possible OSCORE options
+   Note that fixing a flag bit will limit the possible OSCORE Options
    that can be used in the exchange, since the value of the flag bits
-   plays a role in determining a specific OSCORE option.
+   plays a role in determining a specific OSCORE Option.
 
    The piv field lends itself to having some bits masked off with an MSB
    MO and an LSB CDA.  This SCHC description could be useful in
@@ -1989,9 +2017,9 @@ Table of Contents
 
 9.1.  Without End-to-End Security
 
-   In case OSCORE is not used end-to-end between client and server, the
-   SCHC processing occurs hop-by-hop, by relying on SCHC Rules that are
-   consistently shared between two adjacent hops.
+   In the case that OSCORE is not used end-to-end between client and
+   server, the SCHC processing occurs hop-by-hop, by relying on SCHC
+   Rules that are consistently shared between two adjacent hops.
 
    In particular, SCHC is used as defined below.
 
@@ -2018,8 +2046,8 @@ Table of Contents
 
 9.2.  With End-to-End Security
 
-   In case OSCORE is used end-to-end between client and server (see
-   Section 8.2), the following applies.
+   In the case that OSCORE is used end-to-end between client and server
+   (see Section 8.2), the following applies.
 
    The SCHC processing occurs end-to-end as to the Inner SCHC
    Compression/Decompression, by relying on Inner SCHC Rules that are
@@ -2181,9 +2209,9 @@ Table of Contents
 
 10.1.  Without End-to-End Security
 
-   In case OSCORE is not used end-to-end between the Device and the
-   Application Server, the following SCHC Rules are shared between the
-   different entities.  Based on those Rules, the SCHC Compression/
+   In the case that OSCORE is not used end-to-end between the Device and
+   the Application Server, the following SCHC Rules are shared between
+   the different entities.  Based on those Rules, the SCHC Compression/
    Decompression is performed as per Section 9.1.
 
    The Device and the proxy share the SCHC Rule shown in Table 7, with
@@ -2450,7 +2478,7 @@ Table of Contents
 
 10.2.  With End-to-End Security
 
-   In case OSCORE is used end-to-end between the Device and the
+   In the case that OSCORE is used end-to-end between the Device and the
    Application Server, the following SCHC Rules are shared between the
    different entities.  Based on those Rules, the SCHC Compression/
    Decompression is performed as per Section 9.2.
@@ -3175,9 +3203,9 @@ Table of Contents
    When SCHC is used with OSCORE, the security considerations discussed
    in [RFC8613] continue to apply.  When SCHC is used with Group OSCORE,
    the security considerations discussed in
-   [I-D.ietf-core-oscore-groupcomm] apply.  When SCHC is used in the
-   presence of CoAP proxies, the security considerations discussed in
-   Section 11.2 of [RFC7252] continue to apply.
+   [I-D.ietf-core-oscore-groupcomm] continue to apply.  When SCHC is
+   used in the presence of CoAP proxies, the security considerations
+   discussed in Section 11.2 of [RFC7252] continue to apply.
 
    When SCHC is used with the OSCORE Outer headers, the Initialization
    Vector (IV) size in the Compression Residue must be carefully
@@ -3582,7 +3610,11 @@ Appendix A.  YANG Data Model
    ietf-schc module defined in [RFC9363] to include the new CoAP options
    as defined in the present document.
 
-   <CODE BEGINS> file "ietf-schc-coap@2026-06-03.yang"
+   Note to RFC Editor: In the YANG data model below, please replace all
+   occurrences of "XXXX" with the RFC number of this specification and
+   delete this paragraph.
+
+   <CODE BEGINS> file "ietf-schc-coap@2026-06-30.yang"
    module ietf-schc-coap {
      yang-version 1.1;
      namespace "urn:ietf:params:xml:ns:yang:ietf-schc-coap";
@@ -3593,39 +3625,38 @@ Appendix A.  YANG Data Model
      }
 
      organization
-       "IETF Static Context Header Compression (schc) Working Group";
+       "IETF SCHC (Static Context Header Compression) Working Group";
      contact
-       "WG Web:   <https://datatracker.ietf.org/wg/schc/about/>
-        WG List:  <mailto:schc@ietf.org>
+       "WG Web:   https://datatracker.ietf.org/wg/schc
+        WG List:  SCHC <mailto:schc@ietf.org>
         Editor:   Marco Tiloca
-          <mailto:marco.tiloca@ri.se>";
+                  <mailto:marco.tiloca@ri.se>";
      description
-       "Copyright (c) 2021 IETF Trust and the persons identified as
-        authors of the code.  All rights reserved.
-        Redistribution and use in source and binary forms, with or
-        without modification, is permitted pursuant to, and subject to
-        the license terms contained in, the Simplified BSD License set
-        forth in Section 4.c of the IETF Trust's Legal Provisions
-        Relating to IETF Documents
+       "This module extends the ietf-schc module defined in RFC 9363 to
+        include the new CoAP options as defined in RFC XXXX.
+
+        Copyright (c) 2026 IETF Trust and the persons identified
+        as authors of the code.  All rights reserved.
+
+        Redistribution and use in source and binary forms, with
+        or without modification, is permitted pursuant to, and
+        subject to the license terms contained in, the Revised
+        BSD License set forth in Section 4.c of the IETF Trust's
+        Legal Provisions Relating to IETF Documents
         (https://trustee.ietf.org/license-info).
-        This version of this YANG module is part of RFC XXXX
-        (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
-        for full legal notices.
-        The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
-        NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
-        'MAY', and 'OPTIONAL' in this document are to be interpreted as
-        described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
-        they appear in all capitals, as shown here.
-        ****************************************************************
 
-        This module extends the ietf-schc module defined in RFC 9363 to
-        include the new CoAP options as defined in RFC YYYY.";
+        All revisions of IETF and IANA published modules can be found
+        at the YANG Parameters registry group
+        (https://www.iana.org/assignments/yang-parameters).
 
-     revision 2026-06-03 {
+        This version of this YANG module is part of RFC XXXX; see
+        the RFC itself for full legal notices.";
+
+     revision 2026-06-30 {
        description
          "New CoAP extensions and extended OSCORE fields.";
        reference
-         "RFC YYYY Static Context Header Compression (SCHC) for the
+         "RFC XXXX Static Context Header Compression (SCHC) for the
                    Constrained Application Protocol (CoAP) (see
                    Sections 5 and 6)";
      }
@@ -3637,7 +3668,7 @@ Appendix A.  YANG Data Model
        description
          "Proxy-Cri option.";
        reference
-         "RFC XXXX Constrained Resource Identifiers";
+         "RFC 9988 Constrained Resource Identifiers";
      }
 
      identity fid-coap-option-proxy-scheme-number {
@@ -3645,7 +3676,7 @@ Appendix A.  YANG Data Model
        description
          "Proxy-Scheme-Number option.";
        reference
-         "RFC XXXX Constrained Resource Identifiers";
+         "RFC 9988 Constrained Resource Identifiers";
      }
 
      identity fid-coap-option-hop-limit {
@@ -3708,12 +3739,22 @@ Appendix A.  YANG Data Model
 
      // Function Length
 
-     identity fl-oscore-oscore-piv-length {
+     identity fl-variable-bit {
+          base "schc:fl-base-type";
+          description
+            "Residue length in bits is sent as defined for CoAP.";
+          reference
+            "RFC XXXX Static Context Header Compression (SCHC) for the
+                      Constrained Application Protocol (CoAP) (see
+                      Section 3.1)";
+     }
+
+     identity fl-oscore-piv-length {
           base "schc:fl-base-type";
           description
             "Size in bytes of the OSCORE Partial IV, equal to n.";
           reference
-            "RFC YYYY Static Context Header Compression (SCHC) for the
+            "RFC XXXX Static Context Header Compression (SCHC) for the
                       Constrained Application Protocol (CoAP) (see
                       Section 6.4)";
      }
@@ -3726,7 +3767,31 @@ Appendix B.  Document Updates
 
    This section is to be removed before publishing as an RFC.
 
-B.1.  Version -07 to -08
+B.1.  Version -08 to -09
+
+   *  Clarified overview of changes from RFC 8824 in Section 1, as to
+      the CoAP options ETag, If-Match, and If-None-Match.
+
+   *  Clarified use of functions "var" and "var_X" in the FL of the
+      Field Descriptor.
+
+   *  Fixed occurrence of SCHC subfield name from kid_context to
+      kid_ctx.
+
+   *  Final text about updated reference in the YANG data model from RFC
+      9363.
+
+   *  YANG data model:
+
+      -  Updated legal boilerplate and other metadata.
+
+      -  Consistent use of placeholders for RFC numbers.
+
+      -  Added the identity fl-variable-bit.
+
+   *  Editorial fixes and improvements.
+
+B.2.  Version -07 to -08
 
    *  Updated editor's notes about the YANG data model from [RFC9363].
 
@@ -3734,7 +3799,7 @@ B.1.  Version -07 to -08
 
    *  Editorial update of reference entries.
 
-B.2.  Version -06 to -07
+B.3.  Version -06 to -07
 
    *  Removed content about the updates to the OSCORE Option expected
       from draft-ietf-core-oscore-key-update.
@@ -3745,7 +3810,7 @@ B.2.  Version -06 to -07
 
    *  Editorial fixes in the initial list of CoAP fields to register.
 
-B.3.  Version -05 to -06
+B.4.  Version -05 to -06
 
    *  Generalized the Token Length field, the Token field, and the "tkl"
       function to comply with RFC 8974.
@@ -3763,7 +3828,7 @@ B.3.  Version -05 to -06
 
    *  Minor clarifications and editorial improvements.
 
-B.4.  Version -04 to -05
+B.5.  Version -04 to -05
 
    *  Compression of CoAP options:
 
@@ -3791,7 +3856,7 @@ B.4.  Version -04 to -05
 
    *  Fixes and editorial improvements.
 
-B.5.  Version -03 to -04
+B.6.  Version -03 to -04
 
    *  Clarified the rationale for using the "tkl" function.
 
@@ -3815,7 +3880,7 @@ B.5.  Version -03 to -04
 
    *  Fixes and editorial improvements.
 
-B.6.  Version -02 to -03
+B.7.  Version -02 to -03
 
    *  Consistent representation of "CoAP Version" 1 in example Rules.
 
@@ -3830,7 +3895,7 @@ B.6.  Version -02 to -03
 
    *  Fixes and editorial improvements.
 
-B.7.  Version -01 to -02
+B.8.  Version -01 to -02
 
    *  Added compression for the CoAP options Proxy-Cri and Proxy-Scheme-
       Number.
@@ -3841,7 +3906,7 @@ B.7.  Version -01 to -02
 
    *  Fixes and editorial improvements.
 
-B.8.  Version -00 to -01
+B.9.  Version -00 to -01
 
    *  Fixed an example, as per the erratum with Errata ID 7623.
 
@@ -3862,8 +3927,9 @@ B.8.  Version -00 to -01
 Acknowledgments
 
    The authors sincerely thank Christian Amsüss, Carles Gomez
-   Montenegro, Quentin Lampin, John Preuß Mattsson, Göran Selander,
-   Pascal Thubert, and Éric Vyncke for their comments and feedback.
+   Montenegro, Rikard Höglund, Quentin Lampin, Alexander Pelov, John
+   Preuß Mattsson, Göran Selander, Pascal Thubert, and Éric Vyncke for
+   their comments and feedback.
 
    This work was supported by the Sweden's Innovation Agency VINNOVA
    within the EUREKA CELTIC-NEXT project CYPRESS; and by the H2020
