@@ -98,7 +98,6 @@ Table of Contents
      5.2.  CoAP Option Content-Format and Accept Fields
      5.3.  CoAP Option Max-Age, Uri-Host, and Uri-Port Fields
      5.4.  CoAP Option Uri-Path and Uri-Query Fields
-       5.4.1.  Variable Number of Path or Query Elements
      5.5.  CoAP Option Size1, Size2, Proxy-Uri, and Proxy-Scheme
             Fields
      5.6.  CoAP Option Proxy-Cri and Proxy-Scheme-Number Fields
@@ -699,10 +698,13 @@ Table of Contents
 
    If a SCHC Rule is intended to compress a CoAP message where a
    repeatable CoAP option is specified multiple times, then the SCHC
-   Rule MUST include different Field Descriptors that separately
+   Rule generally includes different Field Descriptors that separately
    correspond to the different instances of that CoAP option.  Those
    Field Descriptors MUST be listed in the same order of the
-   corresponding CoAP option instances in the CoAP message.
+   corresponding CoAP option instances in the CoAP message.  In order to
+   optimize the compression, a single Field Descriptor MAY pertain to
+   multiple adjacent instances of the same CoAP option that are treated
+   as grouped together (e.g., see Section 5.4).
 
    As further discussed in [I-D.ietf-schc-universal-option], the
    composition and use of Field Descriptors for compressing/
@@ -928,20 +930,11 @@ Table of Contents
          Table 2: CORECONF URI compression.  CoAP Option Numbers:
                       11 (Uri-Path), 15 (Uri-Query).
 
-5.4.1.  Variable Number of Path or Query Elements
-
    SCHC fixes the number of Uri-Path or Uri-Query elements in a Rule at
-   Rule creation time.  If the number of such elements varies, SCHC
-   SHOULD either:
-
-   *  create several Rules to cover all possibilities; or
-
-   *  create a Rule that defines several entries for Uri-Path to cover
-      the longest path and send a Compression Residue with a length of 0
-      to indicate that a Uri-Path entry is empty.
-
-      However, this adds 4 bits to the variable Compression Residue size
-      (see Section 7.4.2 of [RFC8724]).
+   Rule creation time.  If it is expected that the number of such
+   elements varies across different CoAP messages, then different SCHC
+   Rules need to be created in order to cover the different
+   possibilities.
 
 5.5.  CoAP Option Size1, Size2, Proxy-Uri, and Proxy-Scheme Fields
 
