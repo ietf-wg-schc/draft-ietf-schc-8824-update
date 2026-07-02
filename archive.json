@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-30T02:44:17.175404+00:00",
+  "timestamp": "2026-07-02T02:39:57.973657+00:00",
   "repo": "ietf-wg-schc/draft-ietf-schc-8824-update",
   "labels": [
     {
@@ -56,25 +56,35 @@
       "id": "PR_kwDOOqAYW87m4SxK",
       "title": "Alexander Pelov's WGLC review",
       "url": "https://github.com/ietf-wg-schc/draft-ietf-schc-8824-update/pull/1",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "marco-tiloca-sics",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This PR addresses the WG Last Call review from Alexander Pelov archived at https://mailarchive.ietf.org/arch/msg/schc/1WufzPEaik4bEBso0hIe5ACi9Xc/",
       "createdAt": "2026-06-16T06:52:18Z",
-      "updatedAt": "2026-06-16T06:52:18Z",
+      "updatedAt": "2026-07-01T21:41:56Z",
       "baseRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
       "baseRefName": "main",
       "baseRefOid": "231fc3d91b9a3ef36131c149ad922e7fa8455c8f",
       "headRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
       "headRefName": "wglc-alexander",
-      "headRefOid": "0cacbe4e1f2923323825271c439e0b906a1a4dea",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "4ee335429972f0fb41a374bf092e80d19e9737bc",
+      "closedAt": "2026-07-01T21:41:56Z",
+      "mergedAt": "2026-07-01T21:41:56Z",
+      "mergedBy": "marco-tiloca-sics",
+      "mergeCommit": {
+        "oid": "c6da9fe6bf61a7e70c2ea158a9d05f8421cea5cc"
+      },
+      "comments": [
+        {
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Having heard no objection, merging and closing this.",
+          "createdAt": "2026-07-01T21:41:45Z",
+          "updatedAt": "2026-07-01T21:41:45Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -82,20 +92,56 @@
       "id": "PR_kwDOOqAYW87m5Nyy",
       "title": "Field Descriptors and repeatable CoAP options",
       "url": "https://github.com/ietf-wg-schc/draft-ietf-schc-8824-update/pull/2",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "marco-tiloca-sics",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This PR addresses two narrowly scoped points:\r\n\r\n* Section 5.1 - A single Field Descriptor can pertain to multiple adjacent instances of the same CoAP option that are treated as grouped together (e.g., see Section 5.4).\r\n\r\n* Section 5.4.1 - Handling a variable number of path segments and query parameters requires different SCHC Rules to cover the different possibilities. (E.g., a Uri-Path Option that is present and has no option value is **not** equivalent to an absent Uri-Path Option)\r\n\r\nEDIT: More details at https://mailarchive.ietf.org/arch/msg/schc/uQ9E77-g0dsHsjbXWI63yaV8tdg/",
       "createdAt": "2026-06-16T07:36:39Z",
-      "updatedAt": "2026-06-16T07:45:50Z",
+      "updatedAt": "2026-07-01T21:45:10Z",
       "baseRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
       "baseRefName": "main",
       "baseRefOid": "231fc3d91b9a3ef36131c149ad922e7fa8455c8f",
       "headRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
       "headRefName": "field-descriptors-and-repeatable-options",
       "headRefOid": "82b17dc327a37fb90415a51ff10cea55f8656f43",
+      "closedAt": "2026-07-01T21:45:09Z",
+      "mergedAt": "2026-07-01T21:45:09Z",
+      "mergedBy": "marco-tiloca-sics",
+      "mergeCommit": {
+        "oid": "f6770f086a74ad406b00e7796cab4ed75f1b4715"
+      },
+      "comments": [
+        {
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Having heard no objection, merging and closing this.",
+          "createdAt": "2026-07-01T21:45:03Z",
+          "updatedAt": "2026-07-01T21:45:03Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOOqAYW87s4TdI",
+      "title": "Remove YANG module",
+      "url": "https://github.com/ietf-wg-schc/draft-ietf-schc-8824-update/pull/3",
+      "state": "OPEN",
+      "author": "marco-tiloca-sics",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This PR addresses the Yangdoctors review from Dhruv Dhody archived at https://mailarchive.ietf.org/arch/msg/schc/otF2zxf2yetfeYNbNjPd12zicF4/\r\n\r\nIn particular, it removes from the Internet Draft:\r\n\r\n* Appendix A with the YANG module ietf-schc-coap.\r\n* Section 12.1 with the short security considerations about the YANG module ietf-schc-coap.\r\n* Sections 13.1 and 13.2 with IANA considerations about the YANG module ietf-schc-coap.\r\n* The text in Section 4.3 instructing to have a reference to RFC 8974 for fid-coap-tkl in the ietf-schc module.\r\n* The text in Section 4.6 instructing to have a reference to RFC 8974 for fid-coap-token in the ietf-schc module.\r\n\r\n\r\nAs to the YANG module in itself:\r\n\r\n* It was anyway fixed according to the related comments in the Yangdoctors review (on top of those from Alexander's review archived at https://mailarchive.ietf.org/arch/msg/schc/1WufzPEaik4bEBso0hIe5ACi9Xc/ ).\r\n\r\n  Corrections include the format of the copyright disclaimer, the new identity \"fl-variable-bit\" corresponding to the function length var_bit, and the fixed name of the identity \"fl-oscore-piv-length\" corresponding to the function length osc.piv.\r\n\r\n* It is available on the GitHub at https://github.com/ietf-wg-schc/draft-ietf-schc-8824-update/blob/main/ietf-schc-coap%402026-06-30.yang\r\n",
+      "createdAt": "2026-07-01T22:12:33Z",
+      "updatedAt": "2026-07-01T22:12:33Z",
+      "baseRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
+      "baseRefName": "main",
+      "baseRefOid": "a5845ba46df824bdc94119c8e53b5ceda1cf26b1",
+      "headRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
+      "headRefName": "remove-yang-module",
+      "headRefOid": "d7cfa6d61abd702b5a105766561ad872f108214d",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
