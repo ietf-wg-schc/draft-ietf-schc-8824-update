@@ -3396,18 +3396,9 @@ Table of Contents
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
 
-   [RFC3688]  Mealling, M., "The IETF XML Registry", BCP 81, RFC 3688,
-              DOI 10.17487/RFC3688, January 2004,
-              <https://www.rfc-editor.org/rfc/rfc3688>.
-
    [RFC5116]  McGrew, D., "An Interface and Algorithms for Authenticated
               Encryption", RFC 5116, DOI 10.17487/RFC5116, January 2008,
               <https://www.rfc-editor.org/rfc/rfc5116>.
-
-   [RFC6020]  Bjorklund, M., Ed., "YANG - A Data Modeling Language for
-              the Network Configuration Protocol (NETCONF)", RFC 6020,
-              DOI 10.17487/RFC6020, October 2010,
-              <https://www.rfc-editor.org/rfc/rfc6020>.
 
    [RFC7252]  Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
               Application Protocol (CoAP)", RFC 7252,
@@ -3443,11 +3434,6 @@ Table of Contents
               Application Protocol) over TCP, TLS, and WebSockets",
               RFC 8323, DOI 10.17487/RFC8323, February 2018,
               <https://www.rfc-editor.org/rfc/rfc8323>.
-
-   [RFC8407]  Bierman, A., "Guidelines for Authors and Reviewers of
-              Documents Containing YANG Data Models", RFC 8407,
-              DOI 10.17487/RFC8407, October 2018,
-              <https://www.rfc-editor.org/rfc/rfc8407>.
 
    [RFC8613]  Selander, G., Mattsson, J., Palombini, F., and L. Seitz,
               "Object Security for Constrained RESTful Environments
@@ -3545,7 +3531,8 @@ A.1.  Version -09 to -10
    *  Removed text related to the YANG module ietf-schc defined in RFC
       9363.
 
-   *  Removed referencee to RFC 9363 as not needed anymore.
+   *  Removed unnecessary references as not needed anymore: RFC 9363,
+      RFC 3688, RFC 6020, RFC8407.
 
 A.2.  Version -08 to -09
 
