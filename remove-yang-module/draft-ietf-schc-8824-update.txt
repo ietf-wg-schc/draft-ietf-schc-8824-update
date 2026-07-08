@@ -3551,17 +3551,6 @@ A.2.  Version -08 to -09
    *  Handling a variable number of path segments and query parameters
       requires different SCHC Rules.
 
-   *  Removed content related to the YANG module ietf-schc-coap:
-
-      -  Appendix with the YANG module ietf-schc-coap.
-
-      -  Security considerations about the YANG module ietf-schc-coap.
-
-      -  IANA considerations about the YANG module ietf-schc-coap.
-
-   *  Removed text about references to update in the YANG module ietf-
-      schc from RFC 9363.
-
    *  Editorial fixes and improvements.
 
 A.3.  Version -07 to -08
