@@ -6,11 +6,11 @@ SCHC Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Obsoletes: 8824 (if approved)                                 L. Toutain
 Intended status: Standards Track                          IMT Atlantique
-Expires: 2 January 2027                                      I. Martínez
+Expires: 9 January 2027                                      I. Martínez
                                                                    IRISA
                                                              A. Minaburo
                                                               Consultant
-                                                             1 July 2026
+                                                             8 July 2026
 
 
 Static Context Header Compression (SCHC) for the Constrained Application
@@ -62,7 +62,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 January 2027.
+   This Internet-Draft will expire on 9 January 2027.
 
 Copyright Notice
 
@@ -3299,11 +3299,6 @@ Table of Contents
       corresponding entry in the "CoAP Option Numbers" IANA registry
       [CoAP.Option.Numbers].
 
-      Within the YANG data model originally specified in Section 6 of
-      [RFC9363], this identifier must have a corresponding item or set
-      of items for the CoAP field or subfield associated with this
-      entry.
-
    *  Description: a short description of the CoAP field or subfield
       associated with this entry, together with public references to the
       resources that define it.
@@ -3490,11 +3485,6 @@ Table of Contents
               Robust Transmission", RFC 9177, DOI 10.17487/RFC9177,
               March 2022, <https://www.rfc-editor.org/rfc/rfc9177>.
 
-   [RFC9363]  Minaburo, A. and L. Toutain, "A YANG Data Model for Static
-              Context Header Compression (SCHC)", RFC 9363,
-              DOI 10.17487/RFC9363, March 2023,
-              <https://www.rfc-editor.org/rfc/rfc9363>.
-
    [RFC9668]  Palombini, F., Tiloca, M., Höglund, R., Hristozov, S., and
               G. Selander, "Using Ephemeral Diffie-Hellman Over COSE
               (EDHOC) with the Constrained Application Protocol (CoAP)
@@ -3515,9 +3505,9 @@ Table of Contents
    [I-D.ietf-core-oscore-key-update]
               Höglund, R. and M. Tiloca, "Key Update for OSCORE
               (KUDOS)", Work in Progress, Internet-Draft, draft-ietf-
-              core-oscore-key-update-13, 2 March 2026,
+              core-oscore-key-update-14, 6 July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              oscore-key-update-13>.
+              oscore-key-update-14>.
 
    [I-D.ietf-schc-universal-option]
               Lampin, Q., Minaburo, A., Tiloca, M., and L. Toutain,
@@ -3579,7 +3569,7 @@ A.1.  Version -08 to -09
 
 A.2.  Version -07 to -08
 
-   *  Updated editor's notes about the YANG data model from [RFC9363].
+   *  Updated editor's notes about the YANG data model from RFC 9363.
 
    *  Shortened one too-long line in the YANG data model.
 

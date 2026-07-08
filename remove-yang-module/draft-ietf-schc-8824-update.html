@@ -28,7 +28,7 @@
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.8.1
+    wcwidth 0.8.2
 -->
 <link href="draft-ietf-schc-8824-update.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1051,7 +1051,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tiloca, et al.</td>
-<td class="center">Expires 2 January 2027</td>
+<td class="center">Expires 9 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg {
 <a href="https://www.rfc-editor.org/rfc/rfc8824" class="eref">8824</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-07-01" class="published">1 July 2026</time>
+<time datetime="2026-07-08" class="published">8 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-01-02">2 January 2027</time></dd>
+<dd class="expires"><time datetime="2027-01-09">9 January 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1129,7 +1129,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 9 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -5405,8 +5405,6 @@ This identifier has two possible formats:<a href="#section-13.2.2-2.1.2" class="
               </ul>
 <p id="section-13.2.2-2.1.4">
 If the CoAP field in question is specifically a CoAP option, then X has the format "option(N)", where N is the option number of the CoAP option. The value N is taken from the "Number" column of the corresponding entry in the "CoAP Option Numbers" IANA registry <span>[<a href="#CoAP.Option.Numbers" class="cite xref">CoAP.Option.Numbers</a>]</span>.<a href="#section-13.2.2-2.1.4" class="pilcrow">¶</a></p>
-<p id="section-13.2.2-2.1.5">
-Within the YANG data model originally specified in <span><a href="https://rfc-editor.org/rfc/rfc9363#section-6" class="relref">Section 6</a> of [<a href="#RFC9363" class="cite xref">RFC9363</a>]</span>, this identifier must have a corresponding item or set of items for the CoAP field or subfield associated with this entry.<a href="#section-13.2.2-2.1.5" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-13.2.2-2.2">
               <p id="section-13.2.2-2.2.1">Description: a short description of the CoAP field or subfield associated with this entry, together with public references to the resources that define it.<a href="#section-13.2.2-2.2.1" class="pilcrow">¶</a></p>
@@ -5558,10 +5556,6 @@ Specifically, for every CoAP field, only one corresponding registry entry is all
         <dd>
 <span class="refAuthor">Boucadair, M.</span> and <span class="refAuthor">J. Shallow</span>, <span class="refTitle">"Constrained Application Protocol (CoAP) Block-Wise Transfer Options Supporting Robust Transmission"</span>, <span class="seriesInfo">RFC 9177</span>, <span class="seriesInfo">DOI 10.17487/RFC9177</span>, <time datetime="2022-03" class="refDate">March 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9177">https://www.rfc-editor.org/rfc/rfc9177</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC9363">[RFC9363]</dt>
-        <dd>
-<span class="refAuthor">Minaburo, A.</span> and <span class="refAuthor">L. Toutain</span>, <span class="refTitle">"A YANG Data Model for Static Context Header Compression (SCHC)"</span>, <span class="seriesInfo">RFC 9363</span>, <span class="seriesInfo">DOI 10.17487/RFC9363</span>, <time datetime="2023-03" class="refDate">March 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9363">https://www.rfc-editor.org/rfc/rfc9363</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC9668">[RFC9668]</dt>
       <dd>
 <span class="refAuthor">Palombini, F.</span>, <span class="refAuthor">Tiloca, M.</span>, <span class="refAuthor">Höglund, R.</span>, <span class="refAuthor">Hristozov, S.</span>, and <span class="refAuthor">G. Selander</span>, <span class="refTitle">"Using Ephemeral Diffie-Hellman Over COSE (EDHOC) with the Constrained Application Protocol (CoAP) and Object Security for Constrained RESTful Environments (OSCORE)"</span>, <span class="seriesInfo">RFC 9668</span>, <span class="seriesInfo">DOI 10.17487/RFC9668</span>, <time datetime="2024-11" class="refDate">November 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9668">https://www.rfc-editor.org/rfc/rfc9668</a>&gt;</span>. </dd>
@@ -5581,7 +5575,7 @@ Specifically, for every CoAP field, only one corresponding registry entry is all
 <dd class="break"></dd>
 <dt id="I-D.ietf-core-oscore-key-update">[I-D.ietf-core-oscore-key-update]</dt>
         <dd>
-<span class="refAuthor">Höglund, R.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Key Update for OSCORE (KUDOS)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-key-update-13</span>, <time datetime="2026-03-02" class="refDate">2 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-13">https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-13</a>&gt;</span>. </dd>
+<span class="refAuthor">Höglund, R.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Key Update for OSCORE (KUDOS)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-key-update-14</span>, <time datetime="2026-07-06" class="refDate">6 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-14">https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-key-update-14</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-schc-universal-option">[I-D.ietf-schc-universal-option]</dt>
         <dd>
@@ -5661,7 +5655,7 @@ Specifically, for every CoAP field, only one corresponding registry entry is all
         </h3>
 <ul class="normal">
 <li class="normal" id="appendix-A.2-1.1">
-            <p id="appendix-A.2-1.1.1">Updated editor's notes about the YANG data model from <span>[<a href="#RFC9363" class="cite xref">RFC9363</a>]</span>.<a href="#appendix-A.2-1.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.2-1.1.1">Updated editor's notes about the YANG data model from RFC 9363.<a href="#appendix-A.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.2-1.2">
             <p id="appendix-A.2-1.2.1">Shortened one too-long line in the YANG data model.<a href="#appendix-A.2-1.2.1" class="pilcrow">¶</a></p>
