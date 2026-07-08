@@ -3551,6 +3551,17 @@ A.2.  Version -08 to -09
    *  Handling a variable number of path segments and query parameters
       requires different SCHC Rules.
 
+   *  Final text about updated reference in the YANG data model from RFC
+      9363.
+
+   *  YANG data model:
+
+      -  Updated legal boilerplate and other metadata.
+
+      -  Consistent use of placeholders for RFC numbers.
+
+      -  Added the identity fl-variable-bit.
+
    *  Editorial fixes and improvements.
 
 A.3.  Version -07 to -08
