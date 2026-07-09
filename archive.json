@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-07T02:29:29.271910+00:00",
+  "timestamp": "2026-07-09T02:22:31.281458+00:00",
   "repo": "ietf-wg-schc/draft-ietf-schc-8824-update",
   "labels": [
     {
@@ -133,15 +133,15 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "This PR addresses the Yangdoctors review from Dhruv Dhody archived at https://mailarchive.ietf.org/arch/msg/schc/otF2zxf2yetfeYNbNjPd12zicF4/\r\n\r\nIn particular, it removes from the Internet Draft:\r\n\r\n* Appendix A with the YANG module ietf-schc-coap.\r\n* Section 12.1 with the short security considerations about the YANG module ietf-schc-coap.\r\n* Sections 13.1 and 13.2 with IANA considerations about the YANG module ietf-schc-coap.\r\n* The text in Section 4.3 instructing to have a reference to RFC 8974 for fid-coap-tkl in the ietf-schc module.\r\n* The text in Section 4.6 instructing to have a reference to RFC 8974 for fid-coap-token in the ietf-schc module.\r\n\r\n\r\nAs to the YANG module in itself:\r\n\r\n* It was anyway fixed according to the related comments in the Yangdoctors review (on top of those from Alexander's review archived at https://mailarchive.ietf.org/arch/msg/schc/1WufzPEaik4bEBso0hIe5ACi9Xc/ ).\r\n\r\n  Corrections include the format of the copyright disclaimer, the new identity \"fl-variable-bit\" corresponding to the function length var_bit, and the fixed name of the identity \"fl-oscore-piv-length\" corresponding to the function length osc.piv.\r\n\r\n* It is available on the GitHub at https://github.com/ietf-wg-schc/draft-ietf-schc-8824-update/blob/main/ietf-schc-coap%402026-06-30.yang\r\n",
+      "body": "This PR addresses the Yangdoctors review from Dhruv Dhody archived at https://mailarchive.ietf.org/arch/msg/schc/otF2zxf2yetfeYNbNjPd12zicF4/\r\n\r\nIn particular, it removes from the Internet Draft:\r\n\r\n* Appendix A with the YANG module ietf-schc-coap.\r\n* Section 12.1 with the short security considerations about the YANG module ietf-schc-coap.\r\n* Sections 13.1 and 13.2 with IANA considerations about the YANG module ietf-schc-coap.\r\n* The text in Section 13.4.2 about the ietf-schc module, in the IANA considerations about the new registry.\r\n* The text in Section 4.3 instructing to have a reference to RFC 8974 for fid-coap-tkl in the ietf-schc module.\r\n* The text in Section 4.6 instructing to have a reference to RFC 8974 for fid-coap-token in the ietf-schc module.\r\n* The references to RFC 9363, RFC 3688, RFC 6020, and RFC 8407 as not needed anymore.\r\n\r\n\r\nAs to the YANG module in itself:\r\n\r\n* It was anyway fixed according to the related comments in the Yangdoctors review (on top of those from Alexander's review archived at https://mailarchive.ietf.org/arch/msg/schc/1WufzPEaik4bEBso0hIe5ACi9Xc/ ).\r\n\r\n  Corrections include the format of the copyright disclaimer, the new identity \"fl-variable-bit\" corresponding to the function length var_bit, and the fixed name of the identity \"fl-oscore-piv-length\" corresponding to the function length osc.piv.\r\n\r\n* It is available on the GitHub at https://github.com/ietf-wg-schc/draft-ietf-schc-8824-update/blob/main/ietf-schc-coap%402026-06-30.yang\r\n",
       "createdAt": "2026-07-01T22:12:33Z",
-      "updatedAt": "2026-07-01T22:12:33Z",
+      "updatedAt": "2026-07-08T17:54:36Z",
       "baseRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
       "baseRefName": "main",
       "baseRefOid": "a5845ba46df824bdc94119c8e53b5ceda1cf26b1",
       "headRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
       "headRefName": "remove-yang-module",
-      "headRefOid": "d7cfa6d61abd702b5a105766561ad872f108214d",
+      "headRefOid": "2464ff2e11c88f5146e6bcea36f17b32e06e277b",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
