@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-14T01:52:28.573881+00:00",
+  "timestamp": "2026-07-16T01:59:25.896778+00:00",
   "repo": "ietf-wg-schc/draft-ietf-schc-8824-update",
   "labels": [
     {
@@ -148,6 +148,281 @@
       "mergeCommit": null,
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOOqAYW87xj8va",
+      "title": "Add field length where missing",
+      "url": "https://github.com/ietf-wg-schc/draft-ietf-schc-8824-update/pull/4",
+      "state": "OPEN",
+      "author": "ltn22",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "added the field length in every rule example.\r\n\r\n",
+      "createdAt": "2026-07-14T13:19:47Z",
+      "updatedAt": "2026-07-15T13:32:49Z",
+      "baseRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
+      "baseRefName": "main",
+      "baseRefOid": "a5845ba46df824bdc94119c8e53b5ceda1cf26b1",
+      "headRepository": "ltn22/draft-ietf-schc-8824-update",
+      "headRefName": "main",
+      "headRefOid": "8e7c51c4d9bac486c369374df3752ae421dbdd6b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks! I have left detailed comments in the PR diff.\r\n\r\nFor consistency, we also have to update two more things in the draft:\r\n\r\n* Section 3.1 about the use of FL, since the following paragraph would not apply anymore:\r\n\r\n  > If the CDA in the Field Descriptor is set to \"not-sent\" or to \"mapping-sent\", then ...\r\n\r\n* Section 6.4, to say that \"osc.piv\" return 0 if n is not available (e.g., if the present message includes the OSCORE Option with empty Option Value, like it is often the case in a CoAP response).\r\n\r\nI can propose some text for those sections.",
+          "createdAt": "2026-07-15T13:32:49Z",
+          "updatedAt": "2026-07-15T13:32:49Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOqAYW88AAAABGGlkQQ",
+          "commit": {
+            "abbreviatedOid": "8e7c51c"
+          },
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-15T13:28:16Z",
+          "updatedAt": "2026-07-15T13:28:16Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Typo: FL should say \"var\"",
+              "createdAt": "2026-07-15T13:28:16Z",
+              "updatedAt": "2026-07-15T13:28:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOqAYW88AAAABGGl4wQ",
+          "commit": {
+            "abbreviatedOid": "8e7c51c"
+          },
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-15T13:28:50Z",
+          "updatedAt": "2026-07-15T13:28:50Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "Here FL should not say \"8\"; it should say \"var\".\n\nAll the later fixes use \"var\" for the same CoAP option (Uri-Path), also with (MO=equal, CDA=not-sent).\n\nFrom this latest perspective, this is consistent with the fact that, in general, the Option Value of Uri-Path has a variable length.",
+              "createdAt": "2026-07-15T13:28:50Z",
+              "updatedAt": "2026-07-15T13:28:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOqAYW88AAAABGGmJvQ",
+          "commit": {
+            "abbreviatedOid": "8e7c51c"
+          },
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-15T13:29:18Z",
+          "updatedAt": "2026-07-15T13:29:18Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "FL should say \"var\" here. Since RFC 8974, the TKL field can have a length different from 4 bits.",
+              "createdAt": "2026-07-15T13:29:18Z",
+              "updatedAt": "2026-07-15T13:29:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOqAYW88AAAABGGmS5Q",
+          "commit": {
+            "abbreviatedOid": "8e7c51c"
+          },
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-15T13:29:32Z",
+          "updatedAt": "2026-07-15T13:29:32Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "FL should say \"var\" here. Since RFC 8974, the TKL field can have a length different from 4 bits.",
+              "createdAt": "2026-07-15T13:29:32Z",
+              "updatedAt": "2026-07-15T13:29:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOqAYW88AAAABGGmltw",
+          "commit": {
+            "abbreviatedOid": "8e7c51c"
+          },
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-15T13:30:01Z",
+          "updatedAt": "2026-07-15T13:30:01Z",
+          "comments": [
+            {
+              "originalPosition": 61,
+              "body": "Nothing wrong with \"var_bit\", but \"var\" would work just fine here.\n\nSince CDA is \"not-sent\", SCHC does not send the residue value's size in the Compression Residue (see Section 7.4.2 of RFC 8724), hence the unit associated with the function plays no role in this case.",
+              "createdAt": "2026-07-15T13:30:01Z",
+              "updatedAt": "2026-07-15T13:30:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOqAYW88AAAABGGmuYw",
+          "commit": {
+            "abbreviatedOid": "8e7c51c"
+          },
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-15T13:30:13Z",
+          "updatedAt": "2026-07-15T13:30:13Z",
+          "comments": [
+            {
+              "originalPosition": 70,
+              "body": "FL should say \"var\" here. Since RFC 8974, the TKL field can have a length different from 4 bits.",
+              "createdAt": "2026-07-15T13:30:13Z",
+              "updatedAt": "2026-07-15T13:30:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOqAYW88AAAABGGm3IA",
+          "commit": {
+            "abbreviatedOid": "8e7c51c"
+          },
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-15T13:30:25Z",
+          "updatedAt": "2026-07-15T13:30:25Z",
+          "comments": [
+            {
+              "originalPosition": 85,
+              "body": "FL should say \"var\" here. Since RFC 8974, the TKL field can have a length different from 4 bits.",
+              "createdAt": "2026-07-15T13:30:25Z",
+              "updatedAt": "2026-07-15T13:30:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOqAYW88AAAABGGm8SQ",
+          "commit": {
+            "abbreviatedOid": "8e7c51c"
+          },
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-15T13:30:32Z",
+          "updatedAt": "2026-07-15T13:30:33Z",
+          "comments": [
+            {
+              "originalPosition": 103,
+              "body": "FL should say \"var\" here. Since RFC 8974, the TKL field can have a length different from 4 bits.",
+              "createdAt": "2026-07-15T13:30:33Z",
+              "updatedAt": "2026-07-15T13:30:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOqAYW88AAAABGGnCYw",
+          "commit": {
+            "abbreviatedOid": "8e7c51c"
+          },
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-15T13:30:41Z",
+          "updatedAt": "2026-07-15T13:30:41Z",
+          "comments": [
+            {
+              "originalPosition": 128,
+              "body": "FL should say \"var\" here. Since RFC 8974, the TKL field can have a length different from 4 bits.",
+              "createdAt": "2026-07-15T13:30:41Z",
+              "updatedAt": "2026-07-15T13:30:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOqAYW88AAAABGGnMVA",
+          "commit": {
+            "abbreviatedOid": "8e7c51c"
+          },
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-15T13:30:56Z",
+          "updatedAt": "2026-07-15T13:30:56Z",
+          "comments": [
+            {
+              "originalPosition": 146,
+              "body": "Nothing wrong with \"var_bit\", but \"var\" would work just fine here.\n\nSince CDA is \"not-sent\", SCHC does not send the residue value's size in the Compression Residue (see Section 7.4.2 of RFC 8724), hence the unit associated with the function plays no role in this case.",
+              "createdAt": "2026-07-15T13:30:56Z",
+              "updatedAt": "2026-07-15T13:30:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOqAYW88AAAABGGnTXA",
+          "commit": {
+            "abbreviatedOid": "8e7c51c"
+          },
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-15T13:31:08Z",
+          "updatedAt": "2026-07-15T13:31:08Z",
+          "comments": [
+            {
+              "originalPosition": 156,
+              "body": "FL should say \"var\" here. Since RFC 8974, the TKL field can have a length different from 4 bits.",
+              "createdAt": "2026-07-15T13:31:08Z",
+              "updatedAt": "2026-07-15T13:31:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOqAYW88AAAABGGnaZw",
+          "commit": {
+            "abbreviatedOid": "8e7c51c"
+          },
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-15T13:31:20Z",
+          "updatedAt": "2026-07-15T13:31:21Z",
+          "comments": [
+            {
+              "originalPosition": 173,
+              "body": "Nothing wrong with \"var_bit\", but \"var\" would work just fine here.\n\nSince CDA is \"not-sent\", SCHC does not send the residue value's size in the Compression Residue (see Section 7.4.2 of RFC 8724), hence the unit associated with the function plays no role in this case.",
+              "createdAt": "2026-07-15T13:31:20Z",
+              "updatedAt": "2026-07-15T13:31:21Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
