@@ -267,11 +267,7 @@ CoAP compression differs from IPv6 and UDP compression in the following aspects:
 
   On the other hand, some CoAP header fields have variable lengths and the Rule description makes it possible to specify it. For example, the size of the Token field may vary from 0 to 65804 bytes {{RFC8974}}, and the CoAP options rely on the Type-Length-Value encoding format to specify the size of the actual option value in bytes.
 
-  Given a Rule description, the following defines how the FL is used within the Field Descriptor corresponding to a variable-length field.
-
-  If the CDA in the Field Descriptor is set to "not-sent" or to "mapping-sent", then the FL is not set. In fact, the field length can always be determined based on what is specified in the TV of the Field Descriptor.
-
-  Otherwise, the FL can specify an exact length in bits, if it is known in advance that the present header field is going to be used with such a length. More generally and building on {{Section 7.4.2 of RFC8724}}, the following applies when doing SCHC compression of a variable-length field for which it is not possible to specify an exact, expected length in the FL of the corresponding Field Descriptor.
+  Given a Rule description and building on {{Section 7.4.2 of RFC8724}}, the following defines how the FL is used within the Field Descriptor corresponding to a variable-length field.
 
   If the field compression relies on the CDA "value-sent" or LSB, then a function "var" can be used for the FL in the Field Descriptor, with byte being the unit used for the residue value's size. In such case, the residue value's size prepended to the residue value encodes the size of the residue value in bytes, and the decompressor MUST interpret the residue value as consisting of exactly that number of bytes.
 
@@ -279,7 +275,19 @@ CoAP compression differs from IPv6 and UDP compression in the following aspects:
 
   When using the function "var" or a function "var_X" in the FL of the Field Descriptor, SCHC will send the residue value's size in the Compression Residue encoded as specified in {{Section 7.4.2 of RFC8724}}, using the unit associated with the function. For example, if the function "var_bit" is used and the residue value's size for the compressed field is 17 bits, that size is encoded as 0b1111 00010001.
 
-  As an alternative to the function "var" or to a function "var_X", if the length of the present field can be determined from the value of a previous field in the CoAP header, then it is possible to define a specific function for the FL in the Field Descriptor of the present field, with that function returning the length of the field in the unit specified with the function (e.g., see the "tkl" function defined in {{ssec-coap-token-field}}). This holds irrespective of the CDA used for compressing the field.
+  As an alternative to the function "var" or to a function "var_X", if the length of the present field can be determined from the value of a previous field in the CoAP header, then it is possible to define a specific function for the FL in the Field Descriptor of the present field, with that function returning the length of the field in the unit specified with the function (e.g., see the "tkl" function defined in {{ssec-coap-token-field}}).
+
+  Instead, if the field compression relies on the CDA "not-sent" or "mapping-sent", then the same as above applies, with the following differences:
+
+  * The length of the present field is consistent:
+
+    * With the length of the value that is specified in the TV of the Field Descriptor, if CDA is set to "not sent"; or
+
+    * With the length of at least one of the values that are specified in the TV of the Field Descriptor, if CDA is set to "mapping-sent".
+
+  * The function "var" (or any alternative function "var_X") used in the FL of the Field Descriptor still indicates that the length of the present field is variable.
+
+    However, since the CDA in the Field Descriptor is such that SCHC does not send the residue value's size in the Compression Residue (see {{Section 7.4.2 of RFC8724}}), the unit associated with the function plays no role.
 
 * A field can appear several times in a CoAP header. This is typically the case for elements of a URI (i.e., path segments or query parameters). The SCHC specification {{RFC8724}} allows an FID to appear several times in the Rule and uses the Field Position (FP) to identify the correct instance, thus preventing MO's possible ambiguities.
 
@@ -421,7 +429,7 @@ For example, as per the Rule descriptions shown in {{table-complex-path}}, SCHC 
 
 | FID                 | FL  | FP | DI | TV                        | MO            | CDA          |
 |---------------------|-----|----|----|---------------------------|---------------|--------------|
-| CoAP.<br>option(11) |     | 1  | Up | \["/a/b", <br> "/c/d"\]   | match-mapping | mapping-sent |
+| CoAP.<br>option(11) | var | 1  | Up | \["/a/b", <br> "/c/d"\]   | match-mapping | mapping-sent |
 | CoAP.<br>option(11) | var | 3  | Up |                           | ignore        | value-sent   |
 {: #table-complex-path title="Complex Path Example. CoAP Option Numbers: 11 (Uri-Path)." align="center"}
 
@@ -434,7 +442,7 @@ For instance, for a CORECONF path /c/X6?k=eth0, the Rule description can be as s
 
 | FID                 | FL  | FP | DI | TV   | MO      | CDA        |
 |---------------------|-----|----|----|------|---------|------------|
-| CoAP.<br>option(11) |     | 1  | Up | "c"  | equal   | not-sent   |
+| CoAP.<br>option(11) | var | 1  | Up | "c"  | equal   | not-sent   |
 | CoAP.<br>option(11) | var | 2  | Up |      | ignore  | value-sent |
 | CoAP.<br>option(15) | var | 1  | Up | "k=" | MSB(16) | LSB        |
 {: #table-CoMicompress title="CORECONF URI compression. CoAP Option Numbers: 11 (Uri-Path), 15 (Uri-Query)." align="center"}
@@ -564,7 +572,7 @@ If a subfield is not present, then the corresponding Field Descriptor in the SCH
 
 If the piv subfield is present, SCHC MUST NOT send it as variable-size data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the piv subfield, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see {{Section 7.4.2 of RFC8724}}).
 
-Instead, SCHC MUST use the value n from the first byte of the OSCORE Option value to define the size of the piv subfield in the Compression Residue. To this end, SCHC designates a specific function, "osc.piv", that the Rule MUST use to complete the Field Descriptor. During the decompression, this function returns the value n, hence the length of the piv subfield in bytes.
+Instead, SCHC MUST use the value n from the first byte of the OSCORE Option value to define the size of the piv subfield in the Compression Residue. To this end, SCHC designates a specific function, "osc.piv", that the Rule MUST use to complete the Field Descriptor. During the decompression, this function returns the value n, hence the length of the piv subfield in bytes. If the value n is not available (e.g., the present message includes the OSCORE Option with empty Option Value), then the "osc.piv" function returns the value 0.
 
 This construct avoids ambiguity with the value n from the first byte of the OSCORE Option value and results in a more efficient compression of the piv subfield.
 
@@ -588,15 +596,15 @@ In this first scenario, the SCHC compressor on the NGW side receives a POST mess
 +----------+
 ~~~~
 
-| FID                 | FL | FP | DI | TV                           | MO                  | CDA                | Sent <br> \[bits\] |
-|---------------------|----|----|----|------------------------------|---------------------|--------------------|--------------------|
-| CoAP.<br>Version    | 2  | 1  | Bi | 1                            | equal               | not-sent           |                    |
-| CoAP.<br>Type       | 2  | 1  | Dw | CON                          | equal               | not-sent           |                    |
-| CoAP.<br>Type       | 2  | 1  | Up | \[ACK, <br> RST\]            | match- <br> mapping | mapping- <br> sent | T                  |
-| CoAP.<br>TKL        |    | 1  | Bi | 0b0000                       | equal               | not-sent           |                    |
-| CoAP.<br>Code       | 8  | 1  | Bi | \[0.00, <br> ... <br> 5.05\] | match- <br> mapping | mapping- <br> sent | CC CCC             |
-| CoAP.<br>MID        | 16 | 1  | Bi | 0x0000                       | MSB(7)              | LSB                | MID                |
-| CoAP.<br>option(11) |    | 1  | Dw | "status"                     | equal               | not-sent           |                    |
+| FID                 | FL  | FP | DI | TV                           | MO                  | CDA                | Sent <br> \[bits\] |
+|---------------------|-----|----|----|------------------------------|---------------------|--------------------|--------------------|
+| CoAP.<br>Version    | 2   | 1  | Bi | 1                            | equal               | not-sent           |                    |
+| CoAP.<br>Type       | 2   | 1  | Dw | CON                          | equal               | not-sent           |                    |
+| CoAP.<br>Type       | 2   | 1  | Up | \[ACK, <br> RST\]            | match- <br> mapping | mapping- <br> sent | T                  |
+| CoAP.<br>TKL        | var | 1  | Bi | 0b0000                       | equal               | not-sent           |                    |
+| CoAP.<br>Code       | 8   | 1  | Bi | \[0.00, <br> ... <br> 5.05\] | match- <br> mapping | mapping- <br> sent | CC CCC             |
+| CoAP.<br>MID        | 16  | 1  | Bi | 0x0000                       | MSB(7)              | LSB                | MID                |
+| CoAP.<br>option(11) | var | 1  | Dw | "status"                     | equal               | not-sent           |                    |
 {: #table-CoAP-header-1 title="CoAP Context to compress header without Token. CoAP Option Numbers: 11 (Uri-Path)." align="center"}
 
 In this example, SCHC compression elides the Version and Token Length fields. The 25 Method and Response Codes defined in {{RFC7252}} have been shrunk to 5 bits using a "match-mapping" MO. The Uri-Path contains a single element with the TV set to "status" and the CDA set to "not-sent", thereby eliding the single occurrence of the Uri-Path Option with value "status".
@@ -823,7 +831,7 @@ The SCHC Rules for the Inner Compression include all the fields that are present
 |---------------------|----|----|----|---------------|---------------------|--------------------|--------------------|
 | CoAP.<br>Code       | 8  | 1  | Up | 1             | equal               | not-sent           |                    |
 | CoAP.<br>Code       | 8  | 1  | Dw | \[69, 132\]   | match- <br> mapping | mapping- <br> sent | C                  |
-| CoAP.<br>option(11) |    | 1  | Up | "temperature" | equal               | not-sent           |                    |
+| CoAP.<br>option(11) | var| 1  | Up | "temperature" | equal               | not-sent           |                    |
 {: #table-Inner-Rules title="Inner SCHC Rule. CoAP Option Numbers: 11 (Uri-Path)." align="center"}
 
 {{fig-Inner-Compression-GET}} shows the Plaintext obtained for the example GET request. The packet follows the process of Inner Compression and encryption until the payload. The Outer OSCORE message adds the result of the Inner process.
@@ -937,18 +945,18 @@ The Outer SCHC Rule shown in {{table-Outer-Rules}} is used, also to process the 
 | CoAP.<br>Version                 | 2       | 1  | Bi | 1                    | equal   | not- <br> sent |                    |
 | CoAP.<br>Type                    | 2       | 1  | Up | 0                    | equal   | not- <br> sent |                    |
 | CoAP.<br>Type                    | 2       | 1  | Dw | 2                    | equal   | not- <br> sent |                    |
-| CoAP.<br>TKL                     |         | 1  | Bi | 0b0001               | equal   | not- <br> sent |                    |
+| CoAP.<br>TKL                     | var     | 1  | Bi | 0b0001               | equal   | not- <br> sent |                    |
 | CoAP.<br>Code                    | 8       | 1  | Up | 2                    | equal   | not- <br> sent |                    |
 | CoAP.<br>Code                    | 8       | 1  | Dw | 68                   | equal   | not- <br> sent |                    |
 | CoAP.<br>MID                     | 16      | 1  | Bi | 0x0000               | MSB(12) | LSB            | MMMM               |
 | CoAP.<br>Token                   | tkl     | 1  | Bi | 0x80                 | MSB(5)  | LSB            | TTT                |
-| CoAP.<br>option(9).<br>flags     |         | 1  | Up | 0x09                 | equal   | not- <br> sent |                    |
-| CoAP.<br>option(9).<br>flags     |         | 1  | Dw | b''                  | equal   | not- <br> sent |                    |
+| CoAP.<br>option(9).<br>flags     | 8       | 1  | Up | 0x09                 | equal   | not- <br> sent |                    |
+| CoAP.<br>option(9).<br>flags     | 8       | 1  | Dw | b''                  | equal   | not- <br> sent |                    |
 | CoAP.<br>option(9).<br>piv       | osc.piv | 1  | Up | 0x00                 | MSB(4)  | LSB            | PPPP               |
-| CoAP.<br>option(9).<br>piv       |         | 1  | Dw | b''                  | equal   | not- <br> sent |                    |
-| CoAP.<br>option(9).<br>kid_ctx   |         | 1  | Bi | b''                  | equal   | not- <br> sent |                    |
+| CoAP.<br>option(9).<br>piv       | osc.piv | 1  | Dw | b''                  | equal   | not- <br> sent |                    |
+| CoAP.<br>option(9).<br>kid_ctx   | var     | 1  | Bi | b''                  | equal   | not- <br> sent |                    |
 | CoAP.<br>option(9).<br>kid       | var_bit | 1  | Up | 0x636c69 <br> 656e70 | MSB(44) | LSB            | KKKK               |
-| CoAP.<br>option(9).<br>kid       |         | 1  | Dw | b''                  | equal   | not- <br> sent |                    |
+| CoAP.<br>option(9).<br>kid       | var     | 1  | Dw | b''                  | equal   | not- <br> sent |                    |
 {: #table-Outer-Rules title="Outer SCHC Rule. CoAP Option Numbers: 9 (OSCORE)." align="center"}
 
 ~~~~~~~~~~~
@@ -1074,12 +1082,12 @@ In contrast, the following compares these results with what would be obtained by
 | CoAP.<br>Version    | 2   | 1  | Bi | 1             | equal               | not-sent           |                    |
 | CoAP.<br>Type       | 2   | 1  | Up | 0             | equal               | not-sent           |                    |
 | CoAP.<br>Type       | 2   | 1  | Dw | 2             | equal               | not-sent           |                    |
-| CoAP.<br>TKL        |     | 1  | Bi | 0b0001        | equal               | not-sent           |                    |
+| CoAP.<br>TKL        | var | 1  | Bi | 0b0001        | equal               | not-sent           |                    |
 | CoAP.<br>Code       | 8   | 1  | Up | 2             | equal               | not-sent           |                    |
 | CoAP.<br>Code       | 8   | 1  | Dw | \[69, 132\]   | match- <br> mapping | mapping- <br> sent | C                  |
 | CoAP.<br>MID        | 16  | 1  | Bi | 0x0000        | MSB(12)             | LSB                | MMMM               |
 | CoAP.<br>Token      | tkl | 1  | Bi | 0x80          | MSB(5)              | LSB                | TTT                |
-| CoAP.<br>option(11) |     | 1  | Up | "temperature" | equal               | not-sent           |                    |
+| CoAP.<br>option(11) | var | 1  | Up | "temperature" | equal               | not-sent           |                    |
 {: #table-NoOsc-Rules title="SCHC-CoAP Rule (No OSCORE). CoAP Option Numbers: 11 (Uri-Path)." align="center"}
 
 The Rule in {{table-NoOsc-Rules}} yields the SCHC compression results shown in {{fig-GET-temp-no-oscore}} for the request and in {{fig-CONTENT-temp-no-oscore}} for the response.
@@ -1272,14 +1280,14 @@ The Device and the proxy share the SCHC Rule shown in {{fig-rules-device-proxy}}
 | CoAP.<br>Version    | 2   | 1  | Bi | 1                        | equal               | not-sent           |                    |
 | CoAP.<br>Type       | 2   | 1  | Up | 0                        | equal               | not-sent           |                    |
 | CoAP.<br>Type       | 2   | 1  | Dw | \[0, 2\]                 | match- <br> mapping | mapping- <br> sent | T                  |
-| CoAP.<br>TKL        |     | 1  | Bi | 0b0001                   | equal               | not-sent           |                    |
+| CoAP.<br>TKL        | var | 1  | Bi | 0b0001                   | equal               | not-sent           |                    |
 | CoAP.<br>Code       | 8   | 1  | Up | \[1, 2, <br> 3, 4\]      | match- <br> mapping | mapping- <br> sent | CC                 |
 | CoAP.<br>Code       | 8   | 1  | Dw | \[65, 68, <br> 69, 132\] | match- <br> mapping | mapping- <br> sent | CC                 |
 | CoAP.<br>MID        | 16  | 1  | Bi | 0x0000                   | MSB(12)             | LSB                | MMMM               |
 | CoAP.<br>Token      | tkl | 1  | Bi | 0x80                     | MSB(5)              | LSB                | TTT                |
 | CoAP.<br>option(3)  | var | 1  | Up |                          | ignore              | value- <br> sent   |                    |
-| CoAP.<br>option(11) |     | 1  | Up | "temperature"            | equal               | not-sent           |                    |
-| CoAP.<br>option(39) |     | 1  | Up | "coap"                   | equal               | not-sent           |                    |
+| CoAP.<br>option(11) | var | 1  | Up | "temperature"            | equal               | not-sent           |                    |
+| CoAP.<br>option(39) | var | 1  | Up | "coap"                   | equal               | not-sent           |                    |
 {: #fig-rules-device-proxy title="SCHC Rule between the Device and the Proxy. CoAP Option Numbers: 3 (Uri-Host), 11 (Uri-Path), 39 (Proxy-Scheme)." align="center"}
 
 Instead, the proxy and the Application Server share the SCHC Rule shown in {{fig-rules-proxy-server}}, with RuleID 1.
@@ -1295,13 +1303,13 @@ Instead, the proxy and the Application Server share the SCHC Rule shown in {{fig
 | CoAP.<br>Version    | 2   | 1  | Bi | 1                        | equal               | not-sent           |                    |
 | CoAP.<br>Type       | 2   | 1  | Up | 0                        | equal               | not-sent           |                    |
 | CoAP.<br>Type       | 2   | 1  | Dw | \[0, 2\]                 | match- <br> mapping | mapping- <br> sent | T                  |
-| CoAP.<br>TKL        |     | 1  | Bi | 0b0001                   | equal               | not-sent           |                    |
+| CoAP.<br>TKL        | var | 1  | Bi | 0b0001                   | equal               | not-sent           |                    |
 | CoAP.<br>Code       | 8   | 1  | Up | \[1, 2, <br> 3, 4\]      | match- <br> mapping | mapping- <br> sent | CC                 |
 | CoAP.<br>Code       | 8   | 1  | Dw | \[65, 68, <br> 69, 132\] | match- <br> mapping | mapping- <br> sent | CC                 |
 | CoAP.<br>MID        | 16  | 1  | Bi | 0x0000                   | MSB(12)             | LSB                | MMMM               |
 | CoAP.<br>Token      | tkl | 1  | Bi | 0x70                     | MSB(5)              | LSB                | TTT                |
 | CoAP.<br>option(3)  | var | 1  | Up |                          | ignore              | value- <br> sent   |                    |
-| CoAP.<br>option(11) |     | 1  | Up | "temperature"            | equal               | not-sent           |                    |
+| CoAP.<br>option(11) | var | 1  | Up | "temperature"            | equal               | not-sent           |                    |
 {: #fig-rules-proxy-server title="SCHC Rule between the Proxy and the Application Server. CoAP Option Numbers: 3 (Uri-Host), 11 (Uri-Path)." align="center"}
 
 First, the Device applies the Rule in {{fig-rules-device-proxy}} shared with the proxy to the CoAP request in {{fig-example-req}}. The result is the compressed CoAP request in {{fig-example-req-to-proxy}} that the Device sends to the proxy.
@@ -1482,7 +1490,7 @@ The Device and the Application Server share the SCHC Rule shown in {{fig-rules-o
 |---------------------|----|----|----|--------------------------|---------------------|--------------------|--------------------|
 | CoAP.<br>Code       | 8  | 1  | Up | \[1, 2, <br> 3, 4\]      | match- <br> mapping | mapping- <br> sent | CC                 |
 | CoAP.<br>Code       | 8  | 1  | Dw | \[65, 68, <br> 69, 132\] | match- <br> mapping | mapping- <br> sent | CC                 |
-| CoAP.<br>option(11) |    | 1  | Up | "temperature"            | equal               | not-sent           |                    |
+| CoAP.<br>option(11) | var| 1  | Up | "temperature"            | equal               | not-sent           |                    |
 {: #fig-rules-oscore-device-server title="Inner SCHC Rule between the Device and the Application Server. CoAP Option Numbers: 11 (Uri-Path)." align="center"}
 
 The Device and the proxy share the SCHC Rule shown in {{fig-rules-oscore-device-proxy}}, with RuleID 3. The Device and the proxy use this Rule to perform the Outer SCHC Compression/Decompression hop-by-hop on their communication leg.
@@ -1498,20 +1506,20 @@ The Device and the proxy share the SCHC Rule shown in {{fig-rules-oscore-device-
 | CoAP.<br>Version                 | 2       | 1  | Bi | 1        | equal               | not-sent           |                    |
 | CoAP.<br>Type                    | 2       | 1  | Up | 0        | equal               | not-sent           |                    |
 | CoAP.<br>Type                    | 2       | 1  | Dw | \[0, 2\] | match- <br> mapping | mapping- <br> sent | T                  |
-| CoAP.<br>TKL                     |         | 1  | Bi | 0b0001   | equal               | not-sent           |                    |
+| CoAP.<br>TKL                     | var     | 1  | Bi | 0b0001   | equal               | not-sent           |                    |
 | CoAP.<br>Code                    | 8       | 1  | Up | 2        | equal               | not-sent           |                    |
 | CoAP.<br>Code                    | 8       | 1  | Dw | 68       | equal               | not-sent           |                    |
 | CoAP.<br>MID                     | 16      | 1  | Bi | 0x0000   | MSB(12)             | LSB                | MMMM               |
 | CoAP.<br>Token                   | tkl     | 1  | Bi | 0x80     | MSB(5)              | LSB                | TTT                |
 | CoAP.<br>option(3)               | var     | 1  | Up |          | ignore              | value- <br> sent   |                    |
-| CoAP.<br>option(9).<br>flags     |         | 1  | Up | 0x09     | equal               | not-sent           |                    |
-| CoAP.<br>option(9).<br>flags     |         | 1  | Dw | b''      | equal               | not-sent           |                    |
+| CoAP.<br>option(9).<br>flags     | 8       | 1  | Up | 0x09     | equal               | not-sent           |                    |
+| CoAP.<br>option(9).<br>flags     | 8       | 1  | Dw | b''      | equal               | not-sent           |                    |
 | CoAP.<br>option(9).<br>piv       | osc.piv | 1  | Up | 0x00     | MSB(4)              | LSB                | PPPP               |
-| CoAP.<br>option(9).<br>piv       |         | 1  | Dw | b''      | equal               | not-sent           |                    |
-| CoAP.<br>option(9).<br>kid_ctx   |         | 1  | Bi | b''      | equal               | not-sent           |                    |
+| CoAP.<br>option(9).<br>piv       | osc.piv | 1  | Dw | b''      | equal               | not-sent           |                    |
+| CoAP.<br>option(9).<br>kid_ctx   | var     | 1  | Bi | b''      | equal               | not-sent           |                    |
 | CoAP.<br>option(9).<br>kid       | var_bit | 1  | Up | 0x0000   | MSB(12)             | LSB                | KKKK               |
-| CoAP.<br>option(9).<br>kid       |         | 1  | Dw | b''      | equal               | not-sent           |                    |
-| CoAP.<br>option(39)              |         | 1  | Up | "coap"   | equal               | not-sent           |                    |
+| CoAP.<br>option(9).<br>kid       | var     | 1  | Dw | b''      | equal               | not-sent           |                    |
+| CoAP.<br>option(39)              | var     | 1  | Up | "coap"   | equal               | not-sent           |                    |
 {: #fig-rules-oscore-device-proxy title="Outer SCHC Rule between the Device and the Proxy. CoAP Option Numbers: 3 (Uri-Host), 9 (OSCORE), 39 (Proxy-Scheme)." align="center"}
 
 The proxy and the Application Server share the SCHC Rule shown in {{fig-rules-oscore-proxy-server}}, with RuleID 4. The proxy and the Application Server use this Rule to perform the Outer SCHC Compression/Decompression hop-by-hop on their communication leg.
@@ -1527,19 +1535,19 @@ The proxy and the Application Server share the SCHC Rule shown in {{fig-rules-os
 | CoAP.<br>Version                 | 2       | 1  | Bi | 1        | equal               | not-sent           |                    |
 | CoAP.<br>Type                    | 2       | 1  | Up | 0        | equal               | not-sent           |                    |
 | CoAP.<br>Type                    | 2       | 1  | Dw | \[0, 2\] | match- <br> mapping | mapping- <br> sent | T                  |
-| CoAP.<br>TKL                     |         | 1  | Bi | 0b0001   | equal               | not-sent           |                    |
+| CoAP.<br>TKL                     | var     | 1  | Bi | 0b0001   | equal               | not-sent           |                    |
 | CoAP.<br>Code                    | 8       | 1  | Up | 2        | equal               | not-sent           |                    |
 | CoAP.<br>Code                    | 8       | 1  | Dw | 68       | equal               | not-sent           |                    |
 | CoAP.<br>MID                     | 16      | 1  | Bi | 0x0000   | MSB(12)             | LSB                | MMMM               |
 | CoAP.<br>Token                   | tkl     | 1  | Bi | 0x70     | MSB(5)              | LSB                | TTT                |
 | CoAP.<br>option(3)               | var     | 1  | Up |          | ignore              | value- <br> sent   |                    |
-| CoAP.<br>option(9).<br>flags     |         | 1  | Up | 0x09     | equal               | not-sent           |                    |
-| CoAP.<br>option(9).<br>flags     |         | 1  | Dw | b''      | equal               | not-sent           |                    |
+| CoAP.<br>option(9).<br>flags     | 8       | 1  | Up | 0x09     | equal               | not-sent           |                    |
+| CoAP.<br>option(9).<br>flags     | 8       | 1  | Dw | b''      | equal               | not-sent           |                    |
 | CoAP.<br>option(9).<br>piv       | osc.piv | 1  | Up | 0x00     | MSB(4)              | LSB                | PPPP               |
-| CoAP.<br>option(9).<br>piv       |         | 1  | Dw | b''      | equal               | not-sent           |                    |
-| CoAP.<br>option(9).<br>kid_ctx   |         | 1  | Bi | b''      | equal               | not-sent           |                    |
+| CoAP.<br>option(9).<br>piv       | osc.piv | 1  | Dw | b''      | equal               | not-sent           |                    |
+| CoAP.<br>option(9).<br>kid_ctx   | var     | 1  | Bi | b''      | equal               | not-sent           |                    |
 | CoAP.<br>option(9).<br>kid       | var_bit | 1  | Up | 0x0000   | MSB(12)             | LSB                | KKKK               |
-| CoAP.<br>option(9).<br>kid       |         | 1  | Dw | b''      | equal               | not-sent           |                    |
+| CoAP.<br>option(9).<br>kid       | var     | 1  | Dw | b''      | equal               | not-sent           |                    |
 {: #fig-rules-oscore-proxy-server title="Outer SCHC Rule between the Proxy and the Application Server. CoAP Option Numbers: 3 (Uri-Host), 9 (OSCORE)." align="center"}
 
 When the Device applies the Rule in {{fig-rules-oscore-device-server}} shared with the Application Server to the CoAP request in {{fig-example-req}}, this results in the Compressed Plaintext shown in {{fig-plaintext-req}}.
@@ -2079,7 +2087,13 @@ If the expert becomes aware of a definition for SCHC compression of CoAP fields 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
 
-## Version -09 to -10 ## {#sec-09-10}
+## Version -09 - 10
+
+* FL defined as non-empty.
+
+* Fixed example rules to have FL not empty.
+
+* Clarified semantics of the osc.piv function.
 
 * Removed the YANG module ietf-schc-coap and text related to it.
 
