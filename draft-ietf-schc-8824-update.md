@@ -85,6 +85,7 @@ informative:
   I-D.ietf-core-groupcomm-bis:
   I-D.ietf-schc-universal-option:
   I-D.ietf-core-oscore-key-update:
+  I-D.ietf-schc-architecture:
 
 entity:
   SELF: "[RFC-XXXX]"
@@ -99,11 +100,11 @@ This document defines how to compress Constrained Application Protocol (CoAP) he
 
 The Constrained Application Protocol (CoAP) {{RFC7252}} is a request/response protocol designed for microcontrollers with small RAM and ROM, and optimized for services based on REST (Representational State Transfer). Although constrained devices are a leading factor in the design of CoAP, a CoAP header's size is still too large for Low-Power Wide-Area Networks (LPWANs). Applying the Static Context Header Compression and fragmentation (SCHC) framework to CoAP headers is particularly important for improving performance or for enabling the use of CoAP over LPWAN technologies.
 
-{{RFC8724}} defines the SCHC framework, which includes a header compression mechanism for LPWANs that is based on a static context. {{Section 5 of RFC8724}} explains where compression and decompression occur in the architecture. The SCHC compression scheme assumes as a prerequisite that both endpoints know the static context before transmission. The way the context is configured, provisioned, or exchanged is out of the scope of this document.
+{{RFC8724}} defines the SCHC framework, which includes a header compression mechanism for LPWANs that is based on a static SCHC Context. {{Section 5 of RFC8724}} explains where compression and decompression occur in the architecture. The SCHC compression scheme assumes as a prerequisite that communicating SCHC Instances share the SCHC Context before message transmission. The way the SCHC Context is configured, provisioned, or exchanged is out of the scope of this document.
 
-Since CoAP is an application-layer protocol, compressing CoAP headers requires installing common Rules between the two SCHC instances. SCHC compression may apply at two different levels: at the IP and UDP level in the LPWAN, as well as at the application level for CoAP. These two compression techniques may be independent. Both follow the same principle as that described in {{RFC8724}}. As different entities manage the CoAP compression process at different levels, the SCHC Rules driving the compression/decompression are also different. {{RFC8724}} describes how to use SCHC for IP and UDP headers. This document specifies how to apply SCHC compression to CoAP headers.
+Since CoAP is an application-layer protocol, compressing CoAP headers requires installing on the communicating SCHC Instances a common SCHC Context that contains the common SCHC Set of Rules (SoR). SCHC compression may apply at two different levels: at the IP and UDP level in the LPWAN, as well as at the application level for CoAP. These two compression techniques may be independent; they are then performed by distinct SCHC Instances, each operating with its own SCHC Context. Both follow the same principle as that described in {{RFC8724}}. As different entities manage the CoAP compression process at different levels, the SCHC Rules driving the compression/decompression are also different. {{RFC8724}} describes how to use SCHC for IP and UDP headers. This document specifies how to apply SCHC compression to CoAP headers.
 
-SCHC compresses and decompresses headers based on common contexts between Devices. The SCHC context includes multiple Rules. Each Rule can match the header fields to specific values or ranges of values. If a Rule matches, then the Rule is selected. When performing compression, the matched header fields are replaced by the RuleID and the Compression Residue that contains the residual bits of the compression. Thus, different Rules may correspond to different protocol headers in the packet that a Device expects to send or receive.
+SCHC compresses and decompresses headers based on a common SCHC Context shared between SCHC Instances. The SCHC Context includes multiple Rules in its SCHC Set of Rules (SoR). Each Rule can match the header fields to specific values or ranges of values. If a Rule matches, then the Rule is selected. When performing compression, the matched header fields are replaced by the RuleID and the Compression Residue that contains the residual bits of the compression. Thus, different Rules may correspond to different protocol headers in the packet that a Device expects to send or receive.
 
 A Rule describes the packets' entire header with an ordered list of Field Descriptors (see {{Section 7 of RFC8724}}). In turn, each Field Descriptor contains the Field ID (FID), Field Length (FL), and Field Position (FP), as well as a Direction Indicator (DI) (upstream, downstream, or bidirectional) and some associated Target Values (TVs). The DI allows the compression to be based on the best TV for the Field Descriptor, when the TV to consider is different for the different transmission directions. Therefore, a field may be described several times in the same Rule.
 
@@ -155,13 +156,41 @@ In particular, this documents replaces and obsoletes {{RFC8824}} as follows:
 
 {::boilerplate bcp14-tagged}
 
-Readers are expected to be familiar with the terms and concepts related to the SCHC framework {{RFC8724}}, CoAP {{RFC7252}}, and the security protocols OSCORE {{RFC8613}} and Group Object Security for Constrained RESTful Environments (Group OSCORE) {{I-D.ietf-core-oscore-groupcomm}}.
+Readers are expected to be familiar with the terms and concepts related to the SCHC framework defined in {{RFC8724}}.
+
+This document uses the following terms that reflect the terminology introduced in {{I-D.ietf-schc-architecture}}. They all include the word "SCHC" followed by a word that starts with an uppercase letter, in order to avoid ambiguities with similar terms pertaining to other protocols.
+
+* SCHC Endpoint: A logical entity that provides SCHC functionality by hosting the SCHC processing code, rather than a physical device. Multiple SCHC Endpoints can operate on the same physical equipment.
+
+* SCHC Instance: A logical component of a SCHC Endpoint that executes the actual SCHC operations, e.g., compressing and decompressing headers, or fragmenting and reassembling packets. Multiple SCHC Instances can coexist on the same SCHC Endpoint, but each SCHC Instance operates independently, with its own SCHC Context and configuration.
+
+* SCHC Set of Rules (SoR): The collection of Compression and Decompression (C/D), Fragmentation and Reassembly (F/R), and no-compression Rules available to a SCHC Instance.
+
+* SCHC Context: A SCHC SoR together with metadata, shared by two or more SCHC Instances. Metadata may, for example, refer to a data model or a parser compatible with the Rule format.
+
+* SCHC Session: A communication session between two or more SCHC Instances that share a common SCHC Context for SCHC operations.
+
+Readers are also expected to be familiar with the terms and concepts related to:
+
+* CoAP {{RFC7252}}. A notable term is "endpoint", i.e., "\[a\]n entity participating in the CoAP protocol". This is not to be confused with the term "SCHC Endpoint".
+
+* The security protocols OSCORE {{RFC8613}} and Group Object Security for Constrained RESTful Environments (Group OSCORE) {{I-D.ietf-core-oscore-groupcomm}}. A notable term is "OSCORE Security Context", denoting the set of information elements necessary to carry out the cryptographic operations in OSCORE. Although not used in this document, the equivalent term "Group OSCORE Security Context" applies to Group OSCORE and its cryptographic operations. These are not to be confused with the term "SCHC Context".
+
+Finally, building on the term "endpoint" from {{RFC7252}} listed above, this document uses the following terminology:
+
+* The terms "origin endpoint" and "application endpoint" interchangeably denote an origin CoAP client or an origin CoAP server.
+
+* The terms "sender endpoint" and "recipient endpoint" denote an endpoint that sends and receives a CoAP message, respectively.
+
+* The term "OSCORE endpoint" denotes an endpoint that processes a CoAP message using OSCORE or Group OSCORE.
+
+The terms "endpoint", "origin endpoint", "application endpoint", "sender endpoint", "recipient endpoint", and "OSCORE endpoint" only pertain to CoAP and (Group) OSCORE. That is, they do not denote a SCHC Endpoint. If any such endpoint is also a SCHC Endpoint, then the SCHC operations that it performs are executed by a SCHC Instance within that SCHC Endpoint.
 
 # SCHC Applicability to CoAP # {#sec-applicability-to-coap}
 
 SCHC compression for CoAP headers MAY be done in conjunction with the lower layers (IPv6/UDP) or independently. The SCHC adaptation layers described in {{Section 5 of RFC8724}} may be used as shown in {{fig-applicability-to-coap-1}}, {{fig-applicability-to-coap-2}}, and {{fig-applicability-to-coap-3}} below.
 
-In the first example depicted in {{fig-applicability-to-coap-1}}, a Rule compresses the complete header stack from IPv6 to CoAP. In this case, the Device and the Network Gateway (NGW) perform SCHC Compression/Decompression (SCHC C/D), see {{RFC8724}}). The application communicating with the Device does not implement SCHC C/D.
+In the first example depicted in {{fig-applicability-to-coap-1}}, a Rule compresses the complete header stack from IPv6 to CoAP. In this case, the Device and the Network Gateway (NGW) each comprise a SCHC Endpoint with a SCHC Instance. These SCHC Instances share a common SCHC Context and communicate using a SCHC Session. The application communicating with the Device does not implement SCHC C/D and does not comprise a SCHC Endpoint.
 
 ~~~~~~~~~~~ aasvg
  (Device)             (NGW)                            (App)
@@ -181,11 +210,11 @@ In the first example depicted in {{fig-applicability-to-coap-1}}, a Rule compres
 ~~~~~~~~~~~
 {: #fig-applicability-to-coap-1 title="Compression/Decompression at the LPWAN Boundary." artwork-align="center"}
 
-{{fig-applicability-to-coap-1}} shows the use of SCHC header compression above Layer 2 in the Device and the NGW. The SCHC layer receives non-encrypted packets and can apply compression Rules to all the headers in the stack. On the other end, the NGW receives the SCHC packet and reconstructs the headers using the Rule and the Compression Residue. After the decompression, the NGW forwards the IPv6 packet toward the destination. The same process applies in the other direction when a non-encrypted packet arrives at the NGW. Thanks to the IP forwarding based on the IPv6 prefix, the NGW identifies the Device and compresses headers using the Device's Rules.
+{{fig-applicability-to-coap-1}} shows the use of SCHC header compression above Layer 2 in the Device and the NGW. The SCHC Instance at the Device receives non-encrypted packets and applies a matching Rule from its SCHC Context to all the headers in the stack. On the other end, the NGW receives the SCHC packet, internally routes it to its correct SCHC Instance, and reconstructs the headers using a matching Rule and the Compression Residue. After the decompression, the NGW forwards the IPv6 packet toward the destination. The same process applies in the other direction when a non-encrypted packet arrives at the NGW. Thanks to the IP forwarding based on the IPv6 prefix, the NGW identifies the Device and compresses headers using a matching Rule from the SCHC Context of the appropriate SCHC Instance.
 
-In the second example depicted in {{fig-applicability-to-coap-2}}, SCHC compression is applied in the CoAP layer, compressing the CoAP header independently of the other layers. The RuleID, Compression Residue, and CoAP payload are encrypted using a mechanism such as DTLS {{RFC9147}}. Only the other end (App) can decipher the information. If needed, layers below use SCHC to compress the header as defined in {{RFC8724}} (represented by dotted lines in the figure).
+In the second example depicted in {{fig-applicability-to-coap-2}}, SCHC compression is applied in the CoAP layer, compressing the CoAP header independently of the other layers. The RuleID, Compression Residue, and CoAP payload are encrypted using a mechanism such as DTLS {{RFC9147}}. Only the other end (App) can decrypt the incoming information and then perform SCHC decompression, using a matching Rule from the SCHC Context of the appropriate SCHC Instance. If needed, layers below use separate SCHC Instances to compress and decompress the corresponding headers as defined in {{RFC8724}} (represented by dotted lines in the figure).
 
-This use case needs an end-to-end context initialization between the Device and the application. The context initialization is out of scope for this document.
+This use case needs that an end-to-end SCHC Instance and SCHC Context therein are established between the Device and the application. The establishment of the SCHC Instance and SCHC Context is out of scope for this document.
 
 ~~~~~~~~~~~ aasvg
  (Device)             (NGW)                            (App)
@@ -209,7 +238,7 @@ This use case needs an end-to-end context initialization between the Device and 
 ~~~~~~~~~~~
 {: #fig-applicability-to-coap-2 title="Standalone CoAP End-to-End Compression/Decompression." artwork-align="center"}
 
-The third example depicted in {{fig-applicability-to-coap-3}} shows the use of the security protocol OSCORE {{RFC8613}}. In this case, SCHC needs two Rules to compress the CoAP header. A first Rule focuses on the Inner header. The result of this first compression is encrypted using OSCORE. Then, a second Rule compresses the Outer header including the CoAP option OSCORE.
+The third example depicted in {{fig-applicability-to-coap-3}} shows the use of the security protocol OSCORE {{RFC8613}}. In this case, the CoAP header is compressed by using in sequence two distinct SCHC Instances on the same SCHC Endpoint, at the Device or at the application. That is, a matching Rule from the SCHC Context of a first SCHC Instance is used to compress the Inner header. The result of this first compression is encrypted using OSCORE. Then, a matching Rule from the SCHC Context of a second SCHC Instance is used to compress the Outer header including the CoAP option OSCORE.
 
 ~~~~~~~~~~~ aasvg
  (Device)             (NGW)                            (App)
@@ -239,7 +268,7 @@ The third example depicted in {{fig-applicability-to-coap-3}} shows the use of t
 ~~~~~~~~~~~
 {: #fig-applicability-to-coap-3 title="Compression/Decompression when Using OSCORE." artwork-align="center"}
 
-In the case of several SCHC instances as shown in {{fig-applicability-to-coap-2}} and {{fig-applicability-to-coap-3}}, the Rules may come from different provisioning domains.
+In the case of several SCHC Instances as shown in {{fig-applicability-to-coap-2}} and {{fig-applicability-to-coap-3}}, each SCHC Instance operates independently with its own SCHC Context. The SCHC Contexts can be independently provided and managed.
 
 This document focuses on CoAP compression, as represented by the dashed boxes in the previous figures.
 
@@ -289,7 +318,7 @@ CoAP compression differs from IPv6 and UDP compression in the following aspects:
 
     However, since the CDA in the Field Descriptor is such that SCHC does not send the residue value's size in the Compression Residue (see {{Section 7.4.2 of RFC8724}}), the unit associated with the function plays no role.
 
-* A field can appear several times in a CoAP header. This is typically the case for elements of a URI (i.e., path segments or query parameters). The SCHC specification {{RFC8724}} allows an FID to appear several times in the Rule and uses the Field Position (FP) to identify the correct instance, thus preventing MO's possible ambiguities.
+* A field can appear several times in a CoAP header. This is typically the case for elements of a URI (i.e., path segments or query parameters). The SCHC specification {{RFC8724}} allows an FID to appear several times in the Rule and uses the Field Position (FP) to identify the correct occurrence of that field, thus preventing MO's possible ambiguities.
 
 * Field Lengths defined in CoAP can be too large when it comes to LPWAN traffic constraints. For instance, this is particularly true for the Message ID field and the Token field. SCHC uses different MOs to perform the compression (see {{Section 7.4 of RFC8724}}). In this case, SCHC can apply the Most Significant Bits (MSBs) MO to reduce the information carried on LPWANs.
 
@@ -345,7 +374,7 @@ This construct avoids ambiguity with the Token Length field and results in a mor
 
 # Compression of CoAP Options # {#sec-coap-options}
 
-CoAP defines the use of options, which are placed after the mandatory header and the Token field and are ordered by option number (see {{Section 3 of RFC7252}}). As per {{Section 3.1 of RFC7252}}, each option instance in a message relies on a format consisting of an Option Delta (D), an Option Length (L), and an Option Value (V).
+CoAP defines the use of options, which are placed after the mandatory header and the Token field and are ordered by option number (see {{Section 3 of RFC7252}}). As per {{Section 3.1 of RFC7252}}, each occurrence of an option in a message relies on a format consisting of an Option Delta (D), an Option Length (L), and an Option Value (V).
 
 The Option Delta is used to express the option number of a CoAP option within a CoAP message, as the difference between the Option Number of that option and the Option Number of the previous option in that message (or zero for the first option). In the byte-representation of CoAP options used on the wire, Option Delta is encoded either by a 4-bit "Option Delta" field or by that field together with an additional 1- or 2-byte "Option Delta (Extended)" field.
 
@@ -357,11 +386,11 @@ In a SCHC Rule, the Field Descriptors related to CoAP options MUST be specified 
 
 In particular, the Field Descriptors related to CoAP options MUST be listed in the same order according to which the corresponding CoAP options appear in the CoAP message (i.e., ordered by option number).
 
-If a SCHC Rule is intended to compress a CoAP message where a repeatable CoAP option is specified multiple times, then the SCHC Rule generally includes different Field Descriptors that separately correspond to the different instances of that CoAP option. Those Field Descriptors MUST be listed in the same order of the corresponding CoAP option instances in the CoAP message. In order to optimize the compression, a single Field Descriptor MAY pertain to multiple adjacent instances of the same CoAP option that are treated as grouped together (e.g., see {{ssec-uri-path-uri-query-option}}).
+If a SCHC Rule is intended to compress a CoAP message where a repeatable CoAP option is specified multiple times, then the SCHC Rule generally includes different Field Descriptors that separately correspond to the different occurrences of that CoAP option. Those Field Descriptors MUST be listed in the same order of the corresponding CoAP option occurrences in the CoAP message. In order to optimize the compression, a single Field Descriptor MAY pertain to multiple adjacent occurrences of the same CoAP option that are treated as grouped together (e.g., see {{ssec-uri-path-uri-query-option}}).
 
 As further discussed in {{I-D.ietf-schc-universal-option}}, the composition and use of Field Descriptors for compressing/decompressing CoAP options can take a "syntactic" approach or a "semantic" approach.
 
-The syntactic approach operates faithfully to the byte-representation of CoAP options used on the wire. Consequently, it requires multiple Field Descriptors for each given instance of CoAP option to be compressed/decompressed. That is, each of such Field Descriptors pertains to the compression/decompression of the Option Delta, the Option Length, or the Option Value of the CoAP option in question.
+The syntactic approach operates faithfully to the byte-representation of CoAP options used on the wire. Consequently, it requires multiple Field Descriptors for each given occurrence of CoAP option to be compressed/decompressed. That is, each of such Field Descriptors pertains to the compression/decompression of the Option Delta, the Option Length, or the Option Value of the CoAP option in question.
 
 On the contrary, the typically used semantic approach abstracts away from the byte-representation of CoAP options (or, more generally, of protocol header fields) and maps those into generic representations identified by the FIDs of the related Field Descriptors. The semantic approach effectively streamlines Field Descriptors related to CoAP options as required to specify only information about the compression/decompression of the Option Value.
 
@@ -421,7 +450,7 @@ Otherwise, these options' values will be sent in the Compression Residue, i.e., 
 
 ## CoAP Option Uri-Path and Uri-Query Fields # {#ssec-uri-path-uri-query-option}
 
-The Uri-Path and Uri-Query fields are repeatable options, i.e., the CoAP header may include them several times and with different values. The SCHC Rule description uses the FP to distinguish the different instances of such options.
+The Uri-Path and Uri-Query fields are repeatable options, i.e., the CoAP header may include them several times and with different values. The SCHC Rule description uses the FP to distinguish the different occurrences of such options.
 
 To compress these repeatable field values, SCHC can use a "match-mapping" MO to reduce the size of variable paths or queries. When doing so, several elements can be regrouped into a single entry in order to optimize the compression. The numbering of elements does not change, and the first matching element sets the MO comparison.
 
@@ -1125,13 +1154,15 @@ As it can be seen, the difference between applying SCHC + OSCORE as compared to 
 
 # CoAP Header Compression with Proxies ## {#compression-with-proxies}
 
-This section defines how SCHC Compression/Decompression is performed when CoAP proxies are deployed. The following refers to the origin client and origin server as application endpoints.
+This section defines how SCHC Compression/Decompression is performed when CoAP proxies are deployed. The following refers to the origin client and origin server as application endpoints. The origin client, the proxy, and the origin server host one or more SCHC Endpoints each.
+
+For each communication leg on which SCHC is used, SCHC operations are performed according to SCHC Instances that share a common SCHC Context, consistent with a SCHC Session between those SCHC Instances. An entity that performs SCHC operations on multiple communication legs, such as a proxy, hosts different SCHC Instances for different legs and terminates the corresponding SCHC Session at itself; that is, incoming SCHC-compressed data is not relayed as such across communication legs.
 
 Note that SCHC Compression/Decompression of CoAP headers is not necessarily used between each pair of hops in the communication chain. For example, if a proxy is deployed between an origin client and an origin server, SCHC might be used on the communication leg between the origin client and the proxy, but not on the communication leg between the proxy and the origin server.
 
 ## Without End-to-End Security ## {#compression-with-proxies-without-oscore}
 
-In the case that OSCORE is not used end-to-end between client and server, the SCHC processing occurs hop-by-hop, by relying on SCHC Rules that are consistently shared between two adjacent hops.
+In the case that OSCORE is not used end-to-end between client and server, the SCHC processing occurs hop-by-hop, by relying on SCHC Rules that are consistently shared between two adjacent hops, i.e., by relying on a SCHC Context shared by the SCHC Instances hosted at the two adjacent hops and taking part in the same SCHC Session.
 
 In particular, SCHC is used as defined below.
 
@@ -1149,9 +1180,9 @@ In particular, SCHC is used as defined below.
 
 In the case that OSCORE is used end-to-end between client and server (see {{ssec-examples-oscore}}), the following applies.
 
-The SCHC processing occurs end-to-end as to the Inner SCHC Compression/Decompression, by relying on Inner SCHC Rules that are consistently shared between the two application endpoints acting as OSCORE endpoints and sharing the used OSCORE Security Context.
+The SCHC processing occurs end-to-end as to the Inner SCHC Compression/Decompression, by relying on Inner SCHC Rules that are consistently shared between the two application endpoints acting as OSCORE endpoints and sharing the OSCORE Security Context used. The Inner SCHC Rules belong to a SCHC Context shared end-to-end by the SCHC Instances hosted at the two application endpoints and taking part in the same SCHC Session.
 
-Instead, the SCHC processing occurs hop-by-hop as to the Outer SCHC Compression/Decompression, by relying on Outer SCHC Rules that are consistently shared between two adjacent hops.
+Instead, the SCHC processing occurs hop-by-hop as to the Outer SCHC Compression/Decompression, by relying on Outer SCHC Rules that are consistently shared between two adjacent hops, i.e., by relying on a per-leg SCHC Context shared by the SCHC Instances hosted at the two adjacent hops and taking part in a distinct SCHC Session.
 
 In particular, SCHC is used as defined below.
 
@@ -2003,7 +2034,7 @@ If an attacker can introduce a corrupted SCHC-compressed packet onto a link, DoS
 
 SCHC compression emits variable-length Compression Residues for some CoAP fields. In the representation of the compressed header, the length field that is sent is not the length of the original header field but rather the length of the Compression Residue that is being transmitted. If a corrupted packet arrives at the decompressor with a longer or shorter length than that of the original compressed representation, the SCHC decompression procedures will detect an error and drop the packet.
 
-SCHC header compression Rules MUST remain tightly coupled between the compressor and the decompressor. If the compression Rules get out of sync, a Compression Residue might be decompressed differently at the receiver, thus yielding a result different than the initial message submitted to compression procedures. Accordingly, any time the context Rules are updated on an OSCORE endpoint, that endpoint MUST trigger an update of the OSCORE key material, e.g., by running the lightweight key update protocol KUDOS {{I-D.ietf-core-oscore-key-update}}. Similar procedures may be appropriate to signal Rule updates when other message-protection mechanisms are in use.
+SCHC header compression Rules MUST remain tightly coupled between the compressor and the decompressor. If the compression Rules get out of sync, a Compression Residue might be decompressed differently at the receiver, thus yielding a result different than the initial message submitted to compression procedures. Accordingly, any time the Rules within the SCHC Context are updated on an OSCORE endpoint, that endpoint MUST trigger an update of the OSCORE key material, e.g., by running the lightweight key update protocol KUDOS {{I-D.ietf-core-oscore-key-update}}. Similar procedures may be appropriate to signal Rule updates when other message-protection mechanisms are in use.
 
 # IANA Considerations
 
@@ -2087,7 +2118,9 @@ If the expert becomes aware of a definition for SCHC compression of CoAP fields 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
 
-## Version -09 - 10
+## Version -09 to -10 ## {#sec-09-10}
+
+* Terminology aligned with that in draft-ietf-schc-architecture.
 
 * FL defined as non-empty.
 
@@ -2109,7 +2142,7 @@ If the expert becomes aware of a definition for SCHC compression of CoAP fields 
 
 * Fixed occurrence of SCHC subfield name from kid_context to kid_ctx.
 
-* A Field Descriptor can pertain to multiple adjacent instances of the same CoAP option grouped together.
+* A Field Descriptor can pertain to multiple adjacent occurrences of the same CoAP option grouped together.
 
 * Handling a variable number of path segments and query parameters requires different SCHC Rules.
 
