@@ -1348,7 +1348,7 @@ svg {
             <p id="section-toc.1-1.15.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-document-updates" class="internal xref">Document Updates</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.1">
-                <p id="section-toc.1-1.15.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-version-09-to-10" class="internal xref">Version -09 to -10</a></p>
+                <p id="section-toc.1-1.15.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-version-09-10" class="internal xref">Version -09 - 10</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.2">
                 <p id="section-toc.1-1.15.2.2.1"><a href="#appendix-A.2" class="auto internal xref">A.2</a>.  <a href="#name-version-08-to-09" class="internal xref">Version -08 to -09</a></p>
@@ -1760,19 +1760,35 @@ For instance, if a client sends only Confirmable (CON) requests <span>[<a href="
 <p id="section-3.1-2.3.2">
 On the other hand, some CoAP header fields have variable lengths and the Rule description makes it possible to specify it. For example, the size of the Token field may vary from 0 to 65804 bytes <span>[<a href="#RFC8974" class="cite xref">RFC8974</a>]</span>, and the CoAP options rely on the Type-Length-Value encoding format to specify the size of the actual option value in bytes.<a href="#section-3.1-2.3.2" class="pilcrow">¶</a></p>
 <p id="section-3.1-2.3.3">
-Given a Rule description, the following defines how the FL is used within the Field Descriptor corresponding to a variable-length field.<a href="#section-3.1-2.3.3" class="pilcrow">¶</a></p>
+Given a Rule description and building on <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>, the following defines how the FL is used within the Field Descriptor corresponding to a variable-length field.<a href="#section-3.1-2.3.3" class="pilcrow">¶</a></p>
 <p id="section-3.1-2.3.4">
-If the CDA in the Field Descriptor is set to "not-sent" or to "mapping-sent", then the FL is not set. In fact, the field length can always be determined based on what is specified in the TV of the Field Descriptor.<a href="#section-3.1-2.3.4" class="pilcrow">¶</a></p>
+If the field compression relies on the CDA "value-sent" or LSB, then a function "var" can be used for the FL in the Field Descriptor, with byte being the unit used for the residue value's size. In such case, the residue value's size prepended to the residue value encodes the size of the residue value in bytes, and the decompressor <span class="bcp14">MUST</span> interpret the residue value as consisting of exactly that number of bytes.<a href="#section-3.1-2.3.4" class="pilcrow">¶</a></p>
 <p id="section-3.1-2.3.5">
-Otherwise, the FL can specify an exact length in bits, if it is known in advance that the present header field is going to be used with such a length. More generally and building on <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>, the following applies when doing SCHC compression of a variable-length field for which it is not possible to specify an exact, expected length in the FL of the corresponding Field Descriptor.<a href="#section-3.1-2.3.5" class="pilcrow">¶</a></p>
+Alternatively to "var", a function "var_X" can be used for the FL in the Field Descriptor, with X being the unit other than byte that is used for the residue value's size. In particular, this document defines the function "var_bit". When the function "var_bit" is used, the residue value's size prepended to the residue value encodes the size of the residue value in bits, and the decompressor <span class="bcp14">MUST</span> interpret the residue value as consisting of exactly that number of bits. That is, since byte alignment in SCHC applies only at the end of the SCHC packet, the decompressor does not add any per-field padding.<a href="#section-3.1-2.3.5" class="pilcrow">¶</a></p>
 <p id="section-3.1-2.3.6">
-If the field compression relies on the CDA "value-sent" or LSB, then a function "var" can be used for the FL in the Field Descriptor, with byte being the unit used for the residue value's size. In such case, the residue value's size prepended to the residue value encodes the size of the residue value in bytes, and the decompressor <span class="bcp14">MUST</span> interpret the residue value as consisting of exactly that number of bytes.<a href="#section-3.1-2.3.6" class="pilcrow">¶</a></p>
+When using the function "var" or a function "var_X" in the FL of the Field Descriptor, SCHC will send the residue value's size in the Compression Residue encoded as specified in <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>, using the unit associated with the function. For example, if the function "var_bit" is used and the residue value's size for the compressed field is 17 bits, that size is encoded as 0b1111 00010001.<a href="#section-3.1-2.3.6" class="pilcrow">¶</a></p>
 <p id="section-3.1-2.3.7">
-Alternatively to "var", a function "var_X" can be used for the FL in the Field Descriptor, with X being the unit other than byte that is used for the residue value's size. In particular, this document defines the function "var_bit". When the function "var_bit" is used, the residue value's size prepended to the residue value encodes the size of the residue value in bits, and the decompressor <span class="bcp14">MUST</span> interpret the residue value as consisting of exactly that number of bits. That is, since byte alignment in SCHC applies only at the end of the SCHC packet, the decompressor does not add any per-field padding.<a href="#section-3.1-2.3.7" class="pilcrow">¶</a></p>
+As an alternative to the function "var" or to a function "var_X", if the length of the present field can be determined from the value of a previous field in the CoAP header, then it is possible to define a specific function for the FL in the Field Descriptor of the present field, with that function returning the length of the field in the unit specified with the function (e.g., see the "tkl" function defined in <a href="#ssec-coap-token-field" class="auto internal xref">Section 4.6</a>).<a href="#section-3.1-2.3.7" class="pilcrow">¶</a></p>
 <p id="section-3.1-2.3.8">
-When using the function "var" or a function "var_X" in the FL of the Field Descriptor, SCHC will send the residue value's size in the Compression Residue encoded as specified in <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>, using the unit associated with the function. For example, if the function "var_bit" is used and the residue value's size for the compressed field is 17 bits, that size is encoded as 0b1111 00010001.<a href="#section-3.1-2.3.8" class="pilcrow">¶</a></p>
-<p id="section-3.1-2.3.9">
-As an alternative to the function "var" or to a function "var_X", if the length of the present field can be determined from the value of a previous field in the CoAP header, then it is possible to define a specific function for the FL in the Field Descriptor of the present field, with that function returning the length of the field in the unit specified with the function (e.g., see the "tkl" function defined in <a href="#ssec-coap-token-field" class="auto internal xref">Section 4.6</a>). This holds irrespective of the CDA used for compressing the field.<a href="#section-3.1-2.3.9" class="pilcrow">¶</a></p>
+Instead, if the field compression relies on the CDA "not-sent" or "mapping-sent", then the same as above applies, with the following differences:<a href="#section-3.1-2.3.8" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.1-2.3.9.1">
+                <p id="section-3.1-2.3.9.1.1">The length of the present field is consistent:<a href="#section-3.1-2.3.9.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.1-2.3.9.1.2.1">
+                    <p id="section-3.1-2.3.9.1.2.1.1">With the length of the value that is specified in the TV of the Field Descriptor, if CDA is set to "not sent"; or<a href="#section-3.1-2.3.9.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                  <li class="normal" id="section-3.1-2.3.9.1.2.2">
+                    <p id="section-3.1-2.3.9.1.2.2.1">With the length of at least one of the values that are specified in the TV of the Field Descriptor, if CDA is set to "mapping-sent".<a href="#section-3.1-2.3.9.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                </ul>
+</li>
+              <li class="normal" id="section-3.1-2.3.9.2">
+                <p id="section-3.1-2.3.9.2.1">The function "var" (or any alternative function "var_X") used in the FL of the Field Descriptor still indicates that the length of the present field is variable.<a href="#section-3.1-2.3.9.2.1" class="pilcrow">¶</a></p>
+<p id="section-3.1-2.3.9.2.2">
+However, since the CDA in the Field Descriptor is such that SCHC does not send the residue value's size in the Compression Residue (see <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>), the unit associated with the function plays no role.<a href="#section-3.1-2.3.9.2.2" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="section-3.1-2.4">
             <p id="section-3.1-2.4.1">A field can appear several times in a CoAP header. This is typically the case for elements of a URI (i.e., path segments or query parameters). The SCHC specification <span>[<a href="#RFC8724" class="cite xref">RFC8724</a>]</span> allows an FID to appear several times in the Rule and uses the Field Position (FP) to identify the correct instance, thus preventing MO's possible ambiguities.<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
@@ -1974,7 +1990,7 @@ For example, the FID can be set to "CoAP.option(9).flags" in a Field Descriptor 
           <tbody>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(11)</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Up</td>
               <td class="text-left" rowspan="1" colspan="1">["/a/b", <br> "/c/d"]</td>
@@ -2016,7 +2032,7 @@ For example, the FID can be set to "CoAP.option(9).flags" in a Field Descriptor 
           <tbody>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(11)</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Up</td>
               <td class="text-left" rowspan="1" colspan="1">"c"</td>
@@ -2223,7 +2239,7 @@ For example, the FID can be set to "CoAP.option(9).flags" in a Field Descriptor 
 <p id="section-6.4-12"><a href="#fig-oscore-option" class="auto internal xref">Figure 4</a> shows the original format of the OSCORE Option value with the four subfields flags, piv, kid_ctx, and kid superimposed on it. If future specifications extend the OSCORE Option value encoding, e.g., by defining the use of the eight and seventh least significant bits in the first byte of flags, this might result in additional subfields besides the four original ones, hence in corresponding Field Descriptors intended to be used in SCHC Rules.<a href="#section-6.4-12" class="pilcrow">¶</a></p>
 <p id="section-6.4-13">If a subfield is not present, then the corresponding Field Descriptor in the SCHC Rule describes the TV set to b'', with the MO set to "equal" and the CDA set to "not-sent". Note that, if the subfield kid_ctx is present, it directly includes the size octet, i.e., s.<a href="#section-6.4-13" class="pilcrow">¶</a></p>
 <p id="section-6.4-14">If the piv subfield is present, SCHC <span class="bcp14">MUST NOT</span> send it as variable-size data in the Compression Residue. As a result, SCHC does not send the size of the residue resulting from the compression of the piv subfield, which is otherwise requested for variable-size fields when the CDA specified in the Field Descriptor is "value-sent" or LSB (see <span><a href="https://rfc-editor.org/rfc/rfc8724#section-7.4.2" class="relref">Section 7.4.2</a> of [<a href="#RFC8724" class="cite xref">RFC8724</a>]</span>).<a href="#section-6.4-14" class="pilcrow">¶</a></p>
-<p id="section-6.4-15">Instead, SCHC <span class="bcp14">MUST</span> use the value n from the first byte of the OSCORE Option value to define the size of the piv subfield in the Compression Residue. To this end, SCHC designates a specific function, "osc.piv", that the Rule <span class="bcp14">MUST</span> use to complete the Field Descriptor. During the decompression, this function returns the value n, hence the length of the piv subfield in bytes.<a href="#section-6.4-15" class="pilcrow">¶</a></p>
+<p id="section-6.4-15">Instead, SCHC <span class="bcp14">MUST</span> use the value n from the first byte of the OSCORE Option value to define the size of the piv subfield in the Compression Residue. To this end, SCHC designates a specific function, "osc.piv", that the Rule <span class="bcp14">MUST</span> use to complete the Field Descriptor. During the decompression, this function returns the value n, hence the length of the piv subfield in bytes. If the value n is not available (e.g., the present message includes the OSCORE Option with empty Option Value), then the "osc.piv" function returns the value 0.<a href="#section-6.4-15" class="pilcrow">¶</a></p>
 <p id="section-6.4-16">This construct avoids ambiguity with the value n from the first byte of the OSCORE Option value and results in a more efficient compression of the piv subfield.<a href="#section-6.4-16" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2308,7 +2324,7 @@ For example, the FID can be set to "CoAP.option(9).flags" in a Field Descriptor 
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>TKL</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Bi</td>
               <td class="text-left" rowspan="1" colspan="1">0b0000</td>
@@ -2338,7 +2354,7 @@ For example, the FID can be set to "CoAP.option(9).flags" in a Field Descriptor 
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(11)</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Dw</td>
               <td class="text-left" rowspan="1" colspan="1">"status"</td>
@@ -2847,7 +2863,7 @@ Original message length: 10 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(11)</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Up</td>
               <td class="text-left" rowspan="1" colspan="1">"temperature"</td>
@@ -3091,7 +3107,7 @@ Original message length: 10 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>TKL</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Bi</td>
               <td class="text-left" rowspan="1" colspan="1">0b0001</td>
@@ -3141,7 +3157,7 @@ Original message length: 10 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>flags</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">8</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Up</td>
               <td class="text-left" rowspan="1" colspan="1">0x09</td>
@@ -3151,7 +3167,7 @@ Original message length: 10 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>flags</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">8</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Dw</td>
               <td class="text-left" rowspan="1" colspan="1">b''</td>
@@ -3171,7 +3187,7 @@ Original message length: 10 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>piv</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">osc.piv</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Dw</td>
               <td class="text-left" rowspan="1" colspan="1">b''</td>
@@ -3181,7 +3197,7 @@ Original message length: 10 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>kid_ctx</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Bi</td>
               <td class="text-left" rowspan="1" colspan="1">b''</td>
@@ -3201,7 +3217,7 @@ Original message length: 10 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>kid</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Dw</td>
               <td class="text-left" rowspan="1" colspan="1">b''</td>
@@ -3400,7 +3416,7 @@ Payload
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>TKL</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Bi</td>
               <td class="text-left" rowspan="1" colspan="1">0b0001</td>
@@ -3450,7 +3466,7 @@ Payload
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(11)</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Up</td>
               <td class="text-left" rowspan="1" colspan="1">"temperature"</td>
@@ -3744,7 +3760,7 @@ Original message length: 10 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>TKL</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Bi</td>
               <td class="text-left" rowspan="1" colspan="1">0b0001</td>
@@ -3804,7 +3820,7 @@ Original message length: 10 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(11)</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Up</td>
               <td class="text-left" rowspan="1" colspan="1">"temperature"</td>
@@ -3814,7 +3830,7 @@ Original message length: 10 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(39)</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Up</td>
               <td class="text-left" rowspan="1" colspan="1">"coap"</td>
@@ -3884,7 +3900,7 @@ Original message length: 10 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>TKL</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Bi</td>
               <td class="text-left" rowspan="1" colspan="1">0b0001</td>
@@ -3944,7 +3960,7 @@ Original message length: 10 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(11)</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Up</td>
               <td class="text-left" rowspan="1" colspan="1">"temperature"</td>
@@ -4193,7 +4209,7 @@ Compressed message length: 7 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(11)</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Up</td>
               <td class="text-left" rowspan="1" colspan="1">"temperature"</td>
@@ -4263,7 +4279,7 @@ Compressed message length: 7 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>TKL</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Bi</td>
               <td class="text-left" rowspan="1" colspan="1">0b0001</td>
@@ -4323,7 +4339,7 @@ Compressed message length: 7 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>flags</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">8</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Up</td>
               <td class="text-left" rowspan="1" colspan="1">0x09</td>
@@ -4333,7 +4349,7 @@ Compressed message length: 7 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>flags</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">8</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Dw</td>
               <td class="text-left" rowspan="1" colspan="1">b''</td>
@@ -4353,7 +4369,7 @@ Compressed message length: 7 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>piv</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">osc.piv</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Dw</td>
               <td class="text-left" rowspan="1" colspan="1">b''</td>
@@ -4363,7 +4379,7 @@ Compressed message length: 7 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>kid_ctx</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Bi</td>
               <td class="text-left" rowspan="1" colspan="1">b''</td>
@@ -4383,7 +4399,7 @@ Compressed message length: 7 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>kid</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Dw</td>
               <td class="text-left" rowspan="1" colspan="1">b''</td>
@@ -4393,7 +4409,7 @@ Compressed message length: 7 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(39)</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Up</td>
               <td class="text-left" rowspan="1" colspan="1">"coap"</td>
@@ -4463,7 +4479,7 @@ Compressed message length: 7 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>TKL</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Bi</td>
               <td class="text-left" rowspan="1" colspan="1">0b0001</td>
@@ -4523,7 +4539,7 @@ Compressed message length: 7 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>flags</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">8</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Up</td>
               <td class="text-left" rowspan="1" colspan="1">0x09</td>
@@ -4533,7 +4549,7 @@ Compressed message length: 7 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>flags</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">8</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Dw</td>
               <td class="text-left" rowspan="1" colspan="1">b''</td>
@@ -4553,7 +4569,7 @@ Compressed message length: 7 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>piv</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">osc.piv</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Dw</td>
               <td class="text-left" rowspan="1" colspan="1">b''</td>
@@ -4563,7 +4579,7 @@ Compressed message length: 7 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>kid_ctx</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Bi</td>
               <td class="text-left" rowspan="1" colspan="1">b''</td>
@@ -4583,7 +4599,7 @@ Compressed message length: 7 bytes
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">CoAP.<br>option(9).<br>kid</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">var</td>
               <td class="text-left" rowspan="1" colspan="1">1</td>
               <td class="text-left" rowspan="1" colspan="1">Dw</td>
               <td class="text-left" rowspan="1" colspan="1">b''</td>
@@ -5595,20 +5611,29 @@ Specifically, for every CoAP field, only one corresponding registry entry is all
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-document-updates" class="section-name selfRef">Document Updates</a>
       </h2>
 <p id="appendix-A-1">This section is to be removed before publishing as an RFC.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
-<div id="sec-09-10">
+<div id="version-09-10">
 <section id="appendix-A.1">
-        <h3 id="name-version-09-to-10">
-<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-version-09-to-10" class="section-name selfRef">Version -09 to -10</a>
+        <h3 id="name-version-09-10">
+<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-version-09-10" class="section-name selfRef">Version -09 - 10</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="appendix-A.1-1.1">
-            <p id="appendix-A.1-1.1.1">Removed the YANG module ietf-schc-coap and text related to it.<a href="#appendix-A.1-1.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.1.1">FL defined as non-empty.<a href="#appendix-A.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.2">
-            <p id="appendix-A.1-1.2.1">Removed text related to the YANG module ietf-schc defined in RFC 9363.<a href="#appendix-A.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.2.1">Fixed example rules to have FL not empty.<a href="#appendix-A.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.3">
-            <p id="appendix-A.1-1.3.1">Removed unnecessary references as not needed anymore: RFC 9363, RFC 3688, RFC 6020, RFC8407.<a href="#appendix-A.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.3.1">Clarified semantics of the osc.piv function.<a href="#appendix-A.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-A.1-1.4">
+            <p id="appendix-A.1-1.4.1">Removed the YANG module ietf-schc-coap and text related to it.<a href="#appendix-A.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-A.1-1.5">
+            <p id="appendix-A.1-1.5.1">Removed text related to the YANG module ietf-schc defined in RFC 9363.<a href="#appendix-A.1-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-A.1-1.6">
+            <p id="appendix-A.1-1.6.1">Removed unnecessary references as not needed anymore: RFC 9363, RFC 3688, RFC 6020, RFC8407.<a href="#appendix-A.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>

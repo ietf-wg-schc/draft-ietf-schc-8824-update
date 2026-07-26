@@ -136,7 +136,7 @@ Table of Contents
      14.1.  Normative References
      14.2.  Informative References
    Appendix A.  Document Updates
-     A.1.  Version -09 to -10
+     A.1.  Version -09 - 10
      A.2.  Version -08 to -09
      A.3.  Version -07 to -08
      A.4.  Version -06 to -07
@@ -470,22 +470,9 @@ Table of Contents
       Value encoding format to specify the size of the actual option
       value in bytes.
 
-      Given a Rule description, the following defines how the FL is used
-      within the Field Descriptor corresponding to a variable-length
-      field.
-
-      If the CDA in the Field Descriptor is set to "not-sent" or to
-      "mapping-sent", then the FL is not set.  In fact, the field length
-      can always be determined based on what is specified in the TV of
-      the Field Descriptor.
-
-      Otherwise, the FL can specify an exact length in bits, if it is
-      known in advance that the present header field is going to be used
-      with such a length.  More generally and building on Section 7.4.2
-      of [RFC8724], the following applies when doing SCHC compression of
-      a variable-length field for which it is not possible to specify an
-      exact, expected length in the FL of the corresponding Field
-      Descriptor.
+      Given a Rule description and building on Section 7.4.2 of
+      [RFC8724], the following defines how the FL is used within the
+      Field Descriptor corresponding to a variable-length field.
 
       If the field compression relies on the CDA "value-sent" or LSB,
       then a function "var" can be used for the FL in the Field
@@ -520,8 +507,29 @@ Table of Contents
       to define a specific function for the FL in the Field Descriptor
       of the present field, with that function returning the length of
       the field in the unit specified with the function (e.g., see the
-      "tkl" function defined in Section 4.6).  This holds irrespective
-      of the CDA used for compressing the field.
+      "tkl" function defined in Section 4.6).
+
+      Instead, if the field compression relies on the CDA "not-sent" or
+      "mapping-sent", then the same as above applies, with the following
+      differences:
+
+      -  The length of the present field is consistent:
+
+         o  With the length of the value that is specified in the TV of
+            the Field Descriptor, if CDA is set to "not sent"; or
+
+         o  With the length of at least one of the values that are
+            specified in the TV of the Field Descriptor, if CDA is set
+            to "mapping-sent".
+
+      -  The function "var" (or any alternative function "var_X") used
+         in the FL of the Field Descriptor still indicates that the
+         length of the present field is variable.
+
+         However, since the CDA in the Field Descriptor is such that
+         SCHC does not send the residue value's size in the Compression
+         Residue (see Section 7.4.2 of [RFC8724]), the unit associated
+         with the function plays no role.
 
    *  A field can appear several times in a CoAP header.  This is
       typically the case for elements of a URI (i.e., path segments or
@@ -866,7 +874,7 @@ Table of Contents
    +============+=====+==+====+=========+===============+==============+
    | FID        | FL  |FP| DI | TV      | MO            | CDA          |
    +============+=====+==+====+=========+===============+==============+
-   | CoAP.      |     |1 | Up | ["/a/   | match-mapping | mapping-sent |
+   | CoAP.      | var |1 | Up | ["/a/   | match-mapping | mapping-sent |
    | option(11) |     |  |    | b",     |               |              |
    |            |     |  |    | "/c/    |               |              |
    |            |     |  |    | d"]     |               |              |
@@ -900,7 +908,7 @@ Table of Contents
        +============+=====+====+====+======+=========+============+
        | FID        | FL  | FP | DI | TV   | MO      | CDA        |
        +============+=====+====+====+======+=========+============+
-       | CoAP.      |     | 1  | Up | "c"  | equal   | not-sent   |
+       | CoAP.      | var | 1  | Up | "c"  | equal   | not-sent   |
        | option(11) |     |    |    |      |         |            |
        +------------+-----+----+----+------+---------+------------+
        | CoAP.      | var | 2  | Up |      | ignore  | value-sent |
@@ -1208,7 +1216,10 @@ Table of Contents
    Compression Residue.  To this end, SCHC designates a specific
    function, "osc.piv", that the Rule MUST use to complete the Field
    Descriptor.  During the decompression, this function returns the
-   value n, hence the length of the piv subfield in bytes.
+   value n, hence the length of the piv subfield in bytes.  If the value
+   n is not available (e.g., the present message includes the OSCORE
+   Option with empty Option Value), then the "osc.piv" function returns
+   the value 0.
 
    This construct avoids ambiguity with the value n from the first byte
    of the OSCORE Option value and results in a more efficient
@@ -1247,35 +1258,35 @@ Table of Contents
    | RuleID 1 |
    +----------+
 
-   +============+==+====+====+==========+=========+==========+========+
-   | FID        |FL| FP | DI | TV       | MO      | CDA      | Sent   |
-   |            |  |    |    |          |         |          | [bits] |
-   +============+==+====+====+==========+=========+==========+========+
-   | CoAP.      |2 | 1  | Bi | 1        | equal   | not-sent |        |
-   | Version    |  |    |    |          |         |          |        |
-   +------------+--+----+----+----------+---------+----------+--------+
-   | CoAP.      |2 | 1  | Dw | CON      | equal   | not-sent |        |
-   | Type       |  |    |    |          |         |          |        |
-   +------------+--+----+----+----------+---------+----------+--------+
-   | CoAP.      |2 | 1  | Up | [ACK,    | match-  | mapping- | T      |
-   | Type       |  |    |    | RST]     | mapping | sent     |        |
-   +------------+--+----+----+----------+---------+----------+--------+
-   | CoAP.      |  | 1  | Bi | 0b0000   | equal   | not-sent |        |
-   | TKL        |  |    |    |          |         |          |        |
-   +------------+--+----+----+----------+---------+----------+--------+
-   | CoAP.      |8 | 1  | Bi | [0.00,   | match-  | mapping- | CC CCC |
-   | Code       |  |    |    | ...      | mapping | sent     |        |
-   |            |  |    |    | 5.05]    |         |          |        |
-   +------------+--+----+----+----------+---------+----------+--------+
-   | CoAP.      |16| 1  | Bi | 0x0000   | MSB(7)  | LSB      | MID    |
-   | MID        |  |    |    |          |         |          |        |
-   +------------+--+----+----+----------+---------+----------+--------+
-   | CoAP.      |  | 1  | Dw | "status" | equal   | not-sent |        |
-   | option(11) |  |    |    |          |         |          |        |
-   +------------+--+----+----+----------+---------+----------+--------+
+    +============+=====+==+==+==========+=========+==========+========+
+    | FID        | FL  |FP|DI| TV       | MO      | CDA      | Sent   |
+    |            |     |  |  |          |         |          | [bits] |
+    +============+=====+==+==+==========+=========+==========+========+
+    | CoAP.      | 2   |1 |Bi| 1        | equal   | not-sent |        |
+    | Version    |     |  |  |          |         |          |        |
+    +------------+-----+--+--+----------+---------+----------+--------+
+    | CoAP.      | 2   |1 |Dw| CON      | equal   | not-sent |        |
+    | Type       |     |  |  |          |         |          |        |
+    +------------+-----+--+--+----------+---------+----------+--------+
+    | CoAP.      | 2   |1 |Up| [ACK,    | match-  | mapping- | T      |
+    | Type       |     |  |  | RST]     | mapping | sent     |        |
+    +------------+-----+--+--+----------+---------+----------+--------+
+    | CoAP.      | var |1 |Bi| 0b0000   | equal   | not-sent |        |
+    | TKL        |     |  |  |          |         |          |        |
+    +------------+-----+--+--+----------+---------+----------+--------+
+    | CoAP.      | 8   |1 |Bi| [0.00,   | match-  | mapping- | CC CCC |
+    | Code       |     |  |  | ...      | mapping | sent     |        |
+    |            |     |  |  | 5.05]    |         |          |        |
+    +------------+-----+--+--+----------+---------+----------+--------+
+    | CoAP.      | 16  |1 |Bi| 0x0000   | MSB(7)  | LSB      | MID    |
+    | MID        |     |  |  |          |         |          |        |
+    +------------+-----+--+--+----------+---------+----------+--------+
+    | CoAP.      | var |1 |Dw| "status" | equal   | not-sent |        |
+    | option(11) |     |  |  |          |         |          |        |
+    +------------+-----+--+--+----------+---------+----------+--------+
 
-      Table 3: CoAP Context to compress header without Token.  CoAP
-                      Option Numbers: 11 (Uri-Path).
+       Table 3: CoAP Context to compress header without Token.  CoAP
+                       Option Numbers: 11 (Uri-Path).
 
    In this example, SCHC compression elides the Version and Token Length
    fields.  The 25 Method and Response Codes defined in [RFC7252] have
@@ -1576,21 +1587,21 @@ Table of Contents
     | RuleID 0 |
     +----------+
 
-    +============+==+==+==+===============+=========+==========+======+
-    | FID        |FL|FP|DI| TV            | MO      | CDA      |Sent  |
-    |            |  |  |  |               |         |          |[bits]|
-    +============+==+==+==+===============+=========+==========+======+
-    | CoAP.      |8 |1 |Up| 1             | equal   | not-sent |      |
-    | Code       |  |  |  |               |         |          |      |
-    +------------+--+--+--+---------------+---------+----------+------+
-    | CoAP.      |8 |1 |Dw| [69, 132]     | match-  | mapping- |C     |
-    | Code       |  |  |  |               | mapping | sent     |      |
-    +------------+--+--+--+---------------+---------+----------+------+
-    | CoAP.      |  |1 |Up| "temperature" | equal   | not-sent |      |
-    | option(11) |  |  |  |               |         |          |      |
-    +------------+--+--+--+---------------+---------+----------+------+
+   +============+===+==+==+===============+=========+==========+======+
+   | FID        |FL |FP|DI| TV            | MO      | CDA      |Sent  |
+   |            |   |  |  |               |         |          |[bits]|
+   +============+===+==+==+===============+=========+==========+======+
+   | CoAP.      |8  |1 |Up| 1             | equal   | not-sent |      |
+   | Code       |   |  |  |               |         |          |      |
+   +------------+---+--+--+---------------+---------+----------+------+
+   | CoAP.      |8  |1 |Dw| [69, 132]     | match-  | mapping- |C     |
+   | Code       |   |  |  |               | mapping | sent     |      |
+   +------------+---+--+--+---------------+---------+----------+------+
+   | CoAP.      |var|1 |Up| "temperature" | equal   | not-sent |      |
+   | option(11) |   |  |  |               |         |          |      |
+   +------------+---+--+--+---------------+---------+----------+------+
 
-       Table 4: Inner SCHC Rule.  CoAP Option Numbers: 11 (Uri-Path).
+      Table 4: Inner SCHC Rule.  CoAP Option Numbers: 11 (Uri-Path).
 
    Figure 10 shows the Plaintext obtained for the example GET request.
    The packet follows the process of Inner Compression and encryption
@@ -1729,7 +1740,7 @@ Table of Contents
     | CoAP.      | 2       |1 |Dw| 2        | equal   | not- |        |
     | Type       |         |  |  |          |         | sent |        |
     +------------+---------+--+--+----------+---------+------+--------+
-    | CoAP.      |         |1 |Bi| 0b0001   | equal   | not- |        |
+    | CoAP.      | var     |1 |Bi| 0b0001   | equal   | not- |        |
     | TKL        |         |  |  |          |         | sent |        |
     +------------+---------+--+--+----------+---------+------+--------+
     | CoAP.      | 8       |1 |Up| 2        | equal   | not- |        |
@@ -1744,11 +1755,11 @@ Table of Contents
     | CoAP.      | tkl     |1 |Bi| 0x80     | MSB(5)  | LSB  | TTT    |
     | Token      |         |  |  |          |         |      |        |
     +------------+---------+--+--+----------+---------+------+--------+
-    | CoAP.      |         |1 |Up| 0x09     | equal   | not- |        |
+    | CoAP.      | 8       |1 |Up| 0x09     | equal   | not- |        |
     | option(9). |         |  |  |          |         | sent |        |
     | flags      |         |  |  |          |         |      |        |
     +------------+---------+--+--+----------+---------+------+--------+
-    | CoAP.      |         |1 |Dw| b''      | equal   | not- |        |
+    | CoAP.      | 8       |1 |Dw| b''      | equal   | not- |        |
     | option(9). |         |  |  |          |         | sent |        |
     | flags      |         |  |  |          |         |      |        |
     +------------+---------+--+--+----------+---------+------+--------+
@@ -1756,11 +1767,11 @@ Table of Contents
     | option(9). |         |  |  |          |         |      |        |
     | piv        |         |  |  |          |         |      |        |
     +------------+---------+--+--+----------+---------+------+--------+
-    | CoAP.      |         |1 |Dw| b''      | equal   | not- |        |
+    | CoAP.      | osc.piv |1 |Dw| b''      | equal   | not- |        |
     | option(9). |         |  |  |          |         | sent |        |
     | piv        |         |  |  |          |         |      |        |
     +------------+---------+--+--+----------+---------+------+--------+
-    | CoAP.      |         |1 |Bi| b''      | equal   | not- |        |
+    | CoAP.      | var     |1 |Bi| b''      | equal   | not- |        |
     | option(9). |         |  |  |          |         | sent |        |
     | kid_ctx    |         |  |  |          |         |      |        |
     +------------+---------+--+--+----------+---------+------+--------+
@@ -1768,7 +1779,7 @@ Table of Contents
     | option(9). |         |  |  | 656e70   |         |      |        |
     | kid        |         |  |  |          |         |      |        |
     +------------+---------+--+--+----------+---------+------+--------+
-    | CoAP.      |         |1 |Dw| b''      | equal   | not- |        |
+    | CoAP.      | var     |1 |Dw| b''      | equal   | not- |        |
     | option(9). |         |  |  |          |         | sent |        |
     | kid        |         |  |  |          |         |      |        |
     +------------+---------+--+--+----------+---------+------+--------+
@@ -1923,7 +1934,7 @@ Table of Contents
    | CoAP.      |2  |1 |Dw| 2             | equal   | not-sent |      |
    | Type       |   |  |  |               |         |          |      |
    +------------+---+--+--+---------------+---------+----------+------+
-   | CoAP.      |   |1 |Bi| 0b0001        | equal   | not-sent |      |
+   | CoAP.      |var|1 |Bi| 0b0001        | equal   | not-sent |      |
    | TKL        |   |  |  |               |         |          |      |
    +------------+---+--+--+---------------+---------+----------+------+
    | CoAP.      |8  |1 |Up| 2             | equal   | not-sent |      |
@@ -1938,7 +1949,7 @@ Table of Contents
    | CoAP.      |tkl|1 |Bi| 0x80          | MSB(5)  | LSB      |TTT   |
    | Token      |   |  |  |               |         |          |      |
    +------------+---+--+--+---------------+---------+----------+------+
-   | CoAP.      |   |1 |Up| "temperature" | equal   | not-sent |      |
+   | CoAP.      |var|1 |Up| "temperature" | equal   | not-sent |      |
    | option(11) |   |  |  |               |         |          |      |
    +------------+---+--+--+---------------+---------+----------+------+
 
@@ -2210,7 +2221,7 @@ Table of Contents
    | CoAP.      |2  |1 |Dw| [0, 2]        | match-  | mapping- |T     |
    | Type       |   |  |  |               | mapping | sent     |      |
    +------------+---+--+--+---------------+---------+----------+------+
-   | CoAP.      |   |1 |Bi| 0b0001        | equal   | not-sent |      |
+   | CoAP.      |var|1 |Bi| 0b0001        | equal   | not-sent |      |
    | TKL        |   |  |  |               |         |          |      |
    +------------+---+--+--+---------------+---------+----------+------+
    | CoAP.      |8  |1 |Up| [1, 2,        | match-  | mapping- |CC    |
@@ -2228,10 +2239,10 @@ Table of Contents
    | CoAP.      |var|1 |Up|               | ignore  | value-   |      |
    | option(3)  |   |  |  |               |         | sent     |      |
    +------------+---+--+--+---------------+---------+----------+------+
-   | CoAP.      |   |1 |Up| "temperature" | equal   | not-sent |      |
+   | CoAP.      |var|1 |Up| "temperature" | equal   | not-sent |      |
    | option(11) |   |  |  |               |         |          |      |
    +------------+---+--+--+---------------+---------+----------+------+
-   | CoAP.      |   |1 |Up| "coap"        | equal   | not-sent |      |
+   | CoAP.      |var|1 |Up| "coap"        | equal   | not-sent |      |
    | option(39) |   |  |  |               |         |          |      |
    +------------+---+--+--+---------------+---------+----------+------+
 
@@ -2258,7 +2269,7 @@ Table of Contents
    | CoAP.      |2  |1 |Dw| [0, 2]        | match-  | mapping- |T     |
    | Type       |   |  |  |               | mapping | sent     |      |
    +------------+---+--+--+---------------+---------+----------+------+
-   | CoAP.      |   |1 |Bi| 0b0001        | equal   | not-sent |      |
+   | CoAP.      |var|1 |Bi| 0b0001        | equal   | not-sent |      |
    | TKL        |   |  |  |               |         |          |      |
    +------------+---+--+--+---------------+---------+----------+------+
    | CoAP.      |8  |1 |Up| [1, 2,        | match-  | mapping- |CC    |
@@ -2276,7 +2287,7 @@ Table of Contents
    | CoAP.      |var|1 |Up|               | ignore  | value-   |      |
    | option(3)  |   |  |  |               |         | sent     |      |
    +------------+---+--+--+---------------+---------+----------+------+
-   | CoAP.      |   |1 |Up| "temperature" | equal   | not-sent |      |
+   | CoAP.      |var|1 |Up| "temperature" | equal   | not-sent |      |
    | option(11) |   |  |  |               |         |          |      |
    +------------+---+--+--+---------------+---------+----------+------+
 
@@ -2468,22 +2479,22 @@ Table of Contents
    | RuleID 2 |
    +----------+
 
-    +============+==+==+==+===============+=========+==========+======+
-    | FID        |FL|FP|DI| TV            | MO      | CDA      |Sent  |
-    |            |  |  |  |               |         |          |[bits]|
-    +============+==+==+==+===============+=========+==========+======+
-    | CoAP.      |8 |1 |Up| [1, 2,        | match-  | mapping- |CC    |
-    | Code       |  |  |  | 3, 4]         | mapping | sent     |      |
-    +------------+--+--+--+---------------+---------+----------+------+
-    | CoAP.      |8 |1 |Dw| [65, 68,      | match-  | mapping- |CC    |
-    | Code       |  |  |  | 69, 132]      | mapping | sent     |      |
-    +------------+--+--+--+---------------+---------+----------+------+
-    | CoAP.      |  |1 |Up| "temperature" | equal   | not-sent |      |
-    | option(11) |  |  |  |               |         |          |      |
-    +------------+--+--+--+---------------+---------+----------+------+
+   +============+===+==+==+===============+=========+==========+======+
+   | FID        |FL |FP|DI| TV            | MO      | CDA      |Sent  |
+   |            |   |  |  |               |         |          |[bits]|
+   +============+===+==+==+===============+=========+==========+======+
+   | CoAP.      |8  |1 |Up| [1, 2,        | match-  | mapping- |CC    |
+   | Code       |   |  |  | 3, 4]         | mapping | sent     |      |
+   +------------+---+--+--+---------------+---------+----------+------+
+   | CoAP.      |8  |1 |Dw| [65, 68,      | match-  | mapping- |CC    |
+   | Code       |   |  |  | 69, 132]      | mapping | sent     |      |
+   +------------+---+--+--+---------------+---------+----------+------+
+   | CoAP.      |var|1 |Up| "temperature" | equal   | not-sent |      |
+   | option(11) |   |  |  |               |         |          |      |
+   +------------+---+--+--+---------------+---------+----------+------+
 
-      Table 9: Inner SCHC Rule between the Device and the Application
-                Server.  CoAP Option Numbers: 11 (Uri-Path).
+     Table 9: Inner SCHC Rule between the Device and the Application
+               Server.  CoAP Option Numbers: 11 (Uri-Path).
 
    The Device and the proxy share the SCHC Rule shown in Table 10, with
    RuleID 3.  The Device and the proxy use this Rule to perform the
@@ -2507,7 +2518,7 @@ Table of Contents
     | CoAP.      | 2       |1 |Dw|[0, 2]| match-  | mapping- | T      |
     | Type       |         |  |  |      | mapping | sent     |        |
     +------------+---------+--+--+------+---------+----------+--------+
-    | CoAP.      |         |1 |Bi|0b0001| equal   | not-sent |        |
+    | CoAP.      | var     |1 |Bi|0b0001| equal   | not-sent |        |
     | TKL        |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
     | CoAP.      | 8       |1 |Up|2     | equal   | not-sent |        |
@@ -2525,11 +2536,11 @@ Table of Contents
     | CoAP.      | var     |1 |Up|      | ignore  | value-   |        |
     | option(3)  |         |  |  |      |         | sent     |        |
     +------------+---------+--+--+------+---------+----------+--------+
-    | CoAP.      |         |1 |Up|0x09  | equal   | not-sent |        |
+    | CoAP.      | 8       |1 |Up|0x09  | equal   | not-sent |        |
     | option(9). |         |  |  |      |         |          |        |
     | flags      |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
-    | CoAP.      |         |1 |Dw|b''   | equal   | not-sent |        |
+    | CoAP.      | 8       |1 |Dw|b''   | equal   | not-sent |        |
     | option(9). |         |  |  |      |         |          |        |
     | flags      |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
@@ -2537,11 +2548,11 @@ Table of Contents
     | option(9). |         |  |  |      |         |          |        |
     | piv        |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
-    | CoAP.      |         |1 |Dw|b''   | equal   | not-sent |        |
+    | CoAP.      | osc.piv |1 |Dw|b''   | equal   | not-sent |        |
     | option(9). |         |  |  |      |         |          |        |
     | piv        |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
-    | CoAP.      |         |1 |Bi|b''   | equal   | not-sent |        |
+    | CoAP.      | var     |1 |Bi|b''   | equal   | not-sent |        |
     | option(9). |         |  |  |      |         |          |        |
     | kid_ctx    |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
@@ -2549,11 +2560,11 @@ Table of Contents
     | option(9). |         |  |  |      |         |          |        |
     | kid        |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
-    | CoAP.      |         |1 |Dw|b''   | equal   | not-sent |        |
+    | CoAP.      | var     |1 |Dw|b''   | equal   | not-sent |        |
     | option(9). |         |  |  |      |         |          |        |
     | kid        |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
-    | CoAP.      |         |1 |Up|"coap"| equal   | not-sent |        |
+    | CoAP.      | var     |1 |Up|"coap"| equal   | not-sent |        |
     | option(39) |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
 
@@ -2583,7 +2594,7 @@ Table of Contents
     | CoAP.      | 2       |1 |Dw|[0, 2]| match-  | mapping- | T      |
     | Type       |         |  |  |      | mapping | sent     |        |
     +------------+---------+--+--+------+---------+----------+--------+
-    | CoAP.      |         |1 |Bi|0b0001| equal   | not-sent |        |
+    | CoAP.      | var     |1 |Bi|0b0001| equal   | not-sent |        |
     | TKL        |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
     | CoAP.      | 8       |1 |Up|2     | equal   | not-sent |        |
@@ -2601,11 +2612,11 @@ Table of Contents
     | CoAP.      | var     |1 |Up|      | ignore  | value-   |        |
     | option(3)  |         |  |  |      |         | sent     |        |
     +------------+---------+--+--+------+---------+----------+--------+
-    | CoAP.      |         |1 |Up|0x09  | equal   | not-sent |        |
+    | CoAP.      | 8       |1 |Up|0x09  | equal   | not-sent |        |
     | option(9). |         |  |  |      |         |          |        |
     | flags      |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
-    | CoAP.      |         |1 |Dw|b''   | equal   | not-sent |        |
+    | CoAP.      | 8       |1 |Dw|b''   | equal   | not-sent |        |
     | option(9). |         |  |  |      |         |          |        |
     | flags      |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
@@ -2613,11 +2624,11 @@ Table of Contents
     | option(9). |         |  |  |      |         |          |        |
     | piv        |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
-    | CoAP.      |         |1 |Dw|b''   | equal   | not-sent |        |
+    | CoAP.      | osc.piv |1 |Dw|b''   | equal   | not-sent |        |
     | option(9). |         |  |  |      |         |          |        |
     | piv        |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
-    | CoAP.      |         |1 |Bi|b''   | equal   | not-sent |        |
+    | CoAP.      | var     |1 |Bi|b''   | equal   | not-sent |        |
     | option(9). |         |  |  |      |         |          |        |
     | kid_ctx    |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
@@ -2625,7 +2636,7 @@ Table of Contents
     | option(9). |         |  |  |      |         |          |        |
     | kid        |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
-    | CoAP.      |         |1 |Dw|b''   | equal   | not-sent |        |
+    | CoAP.      | var     |1 |Dw|b''   | equal   | not-sent |        |
     | option(9). |         |  |  |      |         |          |        |
     | kid        |         |  |  |      |         |          |        |
     +------------+---------+--+--+------+---------+----------+--------+
@@ -3524,7 +3535,13 @@ Appendix A.  Document Updates
 
    This section is to be removed before publishing as an RFC.
 
-A.1.  Version -09 to -10
+A.1.  Version -09 - 10
+
+   *  FL defined as non-empty.
+
+   *  Fixed example rules to have FL not empty.
+
+   *  Clarified semantics of the osc.piv function.
 
    *  Removed the YANG module ietf-schc-coap and text related to it.
 
