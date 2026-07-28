@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-26T02:07:26.457078+00:00",
+  "timestamp": "2026-07-28T01:55:33.698381+00:00",
   "repo": "ietf-wg-schc/draft-ietf-schc-8824-update",
   "labels": [
     {
@@ -128,24 +128,26 @@
       "id": "PR_kwDOOqAYW87s4TdI",
       "title": "Remove YANG module",
       "url": "https://github.com/ietf-wg-schc/draft-ietf-schc-8824-update/pull/3",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "marco-tiloca-sics",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This PR addresses the Yangdoctors review from Dhruv Dhody archived at https://mailarchive.ietf.org/arch/msg/schc/otF2zxf2yetfeYNbNjPd12zicF4/\r\n\r\nIn particular, it removes from the Internet Draft:\r\n\r\n* Appendix A with the YANG module ietf-schc-coap.\r\n* Section 12.1 with the short security considerations about the YANG module ietf-schc-coap.\r\n* Sections 13.1 and 13.2 with IANA considerations about the YANG module ietf-schc-coap.\r\n* The text in Section 13.4.2 about the ietf-schc module, in the IANA considerations about the new registry.\r\n* The text in Section 4.3 instructing to have a reference to RFC 8974 for fid-coap-tkl in the ietf-schc module.\r\n* The text in Section 4.6 instructing to have a reference to RFC 8974 for fid-coap-token in the ietf-schc module.\r\n* The references to RFC 9363, RFC 3688, RFC 6020, and RFC 8407 as not needed anymore.\r\n\r\n\r\nAs to the YANG module in itself:\r\n\r\n* It was anyway fixed according to the related comments in the Yangdoctors review (on top of those from Alexander's review archived at https://mailarchive.ietf.org/arch/msg/schc/1WufzPEaik4bEBso0hIe5ACi9Xc/ ).\r\n\r\n  Corrections include the format of the copyright disclaimer, the new identity \"fl-variable-bit\" corresponding to the function length var_bit, and the fixed name of the identity \"fl-oscore-piv-length\" corresponding to the function length osc.piv.\r\n\r\n* It is available on the GitHub at https://github.com/ietf-wg-schc/draft-ietf-schc-8824-update/blob/main/ietf-schc-coap%402026-06-30.yang\r\n",
       "createdAt": "2026-07-01T22:12:33Z",
-      "updatedAt": "2026-07-08T17:54:36Z",
+      "updatedAt": "2026-07-26T15:17:33Z",
       "baseRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
       "baseRefName": "main",
       "baseRefOid": "a5845ba46df824bdc94119c8e53b5ceda1cf26b1",
       "headRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
       "headRefName": "remove-yang-module",
       "headRefOid": "2464ff2e11c88f5146e6bcea36f17b32e06e277b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-07-26T15:17:33Z",
+      "mergedAt": "2026-07-26T15:17:33Z",
+      "mergedBy": "marco-tiloca-sics",
+      "mergeCommit": {
+        "oid": "e3792ae1a7c709cf88ee909d9d85536aa6ef5a85"
+      },
       "comments": [],
       "reviews": []
     },
@@ -154,24 +156,26 @@
       "id": "PR_kwDOOqAYW87xj8va",
       "title": "Add field length where missing",
       "url": "https://github.com/ietf-wg-schc/draft-ietf-schc-8824-update/pull/4",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ltn22",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "added the field length in every rule example.\r\n\r\n",
       "createdAt": "2026-07-14T13:19:47Z",
-      "updatedAt": "2026-07-19T16:51:10Z",
+      "updatedAt": "2026-07-26T15:25:35Z",
       "baseRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
       "baseRefName": "main",
-      "baseRefOid": "a5845ba46df824bdc94119c8e53b5ceda1cf26b1",
+      "baseRefOid": "e3792ae1a7c709cf88ee909d9d85536aa6ef5a85",
       "headRepository": "ltn22/draft-ietf-schc-8824-update",
       "headRefName": "main",
-      "headRefOid": "6cd7ec2b2fc743c33650fb29fae33d31b764c0e2",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "096f6d140cd7d4afb4bb0283e8aaa6ffdf24db6d",
+      "closedAt": "2026-07-26T15:25:35Z",
+      "mergedAt": "2026-07-26T15:25:35Z",
+      "mergedBy": "marco-tiloca-sics",
+      "mergeCommit": {
+        "oid": "18e8732cefc94cd878f48d87373c2ad6968c54a6"
+      },
       "comments": [
         {
           "author": "marco-tiloca-sics",
@@ -423,6 +427,34 @@
           ]
         }
       ]
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOOqAYW872l7z_",
+      "title": "Use terminology from SCHC architecture",
+      "url": "https://github.com/ietf-wg-schc/draft-ietf-schc-8824-update/pull/5",
+      "state": "MERGED",
+      "author": "marco-tiloca-sics",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This PR aligns the document with the terminology from draft-ietf-schc-architecture-06 [0].\r\n\r\nThe updates are largely based on the reviewed suggestions available at [1] and [2], following a comparison between [0] and this document.\r\n\r\n[0] https://datatracker.ietf.org/doc/draft-ietf-schc-architecture/06/\r\n\r\n[1] https://github.com/lp-wan/archi/tree/main/archi-06-document-analysis/analysis-drafts/analysis-claude/draft-ietf-schc-8824-update-09\r\n\r\n[2] https://github.com/lp-wan/archi/tree/main/archi-06-document-analysis/analysis-drafts/analysis-gemini/draft-ietf-schc-8824-update-09\r\n",
+      "createdAt": "2026-07-26T17:23:12Z",
+      "updatedAt": "2026-07-26T17:27:50Z",
+      "baseRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
+      "baseRefName": "main",
+      "baseRefOid": "18e8732cefc94cd878f48d87373c2ad6968c54a6",
+      "headRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
+      "headRefName": "architecture-terminology",
+      "headRefOid": "2cb737ccc4c70f3d2898f466be12bd4ed91fc5d7",
+      "closedAt": "2026-07-26T17:27:50Z",
+      "mergedAt": "2026-07-26T17:27:50Z",
+      "mergedBy": "marco-tiloca-sics",
+      "mergeCommit": {
+        "oid": "17a6d1a9feb2684e55eaf261c6840183398fac24"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
