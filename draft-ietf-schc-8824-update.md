@@ -486,7 +486,7 @@ The SCHC Rule description MAY define sending some field values by not setting th
 
 ## CoAP Option Proxy-Cri and Proxy-Scheme-Number Fields # {#ssec-proxy-cri-proxy-scheme-number-option}
 
-The Proxy-Cri field is an option defined in {{I-D.ietf-core-href}}. The option carries an encoded CBOR data item {{RFC8949}} that represents an absolute CRI reference (see {{Section 5 of I-D.ietf-core-href}}). The option is used analogously to the Proxy-Uri Option as defined in {{Section 5.10.2 of RFC7252}}.
+The Proxy-Cri field is an option defined in {{I-D.ietf-core-href}}. The option carries an encoded Concise Binary Object Representation (CBOR) data item {{RFC8949}} that represents an absolute Constrained Resource Identifier (CRI) reference (see {{Section 5 of I-D.ietf-core-href}}). The option is used analogously to the Proxy-Uri Option as defined in {{Section 5.10.2 of RFC7252}}.
 
 The Proxy-Scheme-Number field is an option defined in {{I-D.ietf-core-href}}. The option carries a CRI Scheme Number represented as a CoAP unsigned integer (see {{Sections 5.1.1 and 8.1 of I-D.ietf-core-href}}). The option is used analogously to the Proxy-Scheme Option as defined in {{Section 5.10.2 of RFC7252}}.
 
