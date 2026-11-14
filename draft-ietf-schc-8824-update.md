@@ -276,7 +276,7 @@ This document focuses on CoAP compression, as represented by the dashed boxes in
 
 The use of SCHC over the CoAP header relies on the same principles and compression/decompression techniques used for IP and UDP headers, as explained in {{RFC8724}}. For CoAP, the SCHC Rules description uses the direction information to optimize the compression by reducing the number of Rules needed to compress headers. The Field Descriptor MAY define both request/response headers and TVs in the same Rule, using the DI to indicate the header type.
 
-Like for other header compression protocols, when the compressor does not find a correct Rule to compress the header, the packet MUST be sent uncompressed using the RuleID dedicated to this purpose. In such a case, the Compression Residue is the complete header of the packet (see {{Section 6 of RFC8724}}).
+Like for other header compression protocols, when the compressor does not find a correct Rule to compress the header, the packet MUST be sent uncompressed using the RuleID dedicated to this purpose (see {{Section 6 of RFC8724}}). In such a case, the Compression Residue is the complete header of the packet (see {{Section 7.2 of RFC8724}}).
 
 ## Differences between CoAP and UDP/IP Compression  # {#ssec-differences-with-udp-ip}
 
@@ -320,7 +320,7 @@ CoAP compression differs from IPv6 and UDP compression in the following aspects:
 
 * A field can appear several times in a CoAP header. This is typically the case for elements of a URI (i.e., path segments or query parameters). The SCHC specification {{RFC8724}} allows an FID to appear several times in the Rule and uses the Field Position (FP) to identify the correct occurrence of that field, thus preventing MO's possible ambiguities.
 
-* Field Lengths defined in CoAP can be too large when it comes to LPWAN traffic constraints. For instance, this is particularly true for the Message ID field and the Token field. SCHC uses different MOs to perform the compression (see {{Section 7.4 of RFC8724}}). In this case, SCHC can apply the Most Significant Bits (MSBs) MO to reduce the information carried on LPWANs.
+* Field Lengths defined in CoAP can be too large when it comes to LPWAN traffic constraints. For instance, this is particularly true for the Message ID field and the Token field. SCHC uses different MOs to perform the compression (see {{Section 7.3 of RFC8724}}). In this case, SCHC can apply the Most Significant Bits (MSBs) MO to reduce the information carried on LPWANs.
 
 # Compression of CoAP Header Fields # {#sec-coap-fields-compression}
 
