@@ -438,9 +438,9 @@ If the use of an additional CoAP option is later introduced, the SCHC Rules MAY 
 
 ## CoAP Option Content-Format and Accept Fields # {#ssec-content-format-accept-option}
 
-If the client expects a single specific value, SCHC can elide these fields, by specifying the value in the TV of a Rule description with an "equal" MO and a "not-sent" CDA.
+If a single specific value is expected, SCHC can elide these fields, by specifying the value in the TV of a Rule description with an "equal" MO and a "not-sent" CDA.
 
-Otherwise, if the client expects several possible values, a "match-mapping" MO SHOULD be used to limit the Compression Residue's size. If not, SCHC has to send the Option Value in the Compression Residue (with fixed or variable length).
+Otherwise, if several possible values are expected, a "match-mapping" MO SHOULD be used to limit the Compression Residue's size. If not, SCHC has to send the Option Value in the Compression Residue (with fixed or variable length).
 
 ## CoAP Option Max-Age, Uri-Host, and Uri-Port Fields # {#ssec-max-age-uri-host-uri-port-option}
 
