@@ -126,7 +126,7 @@ SCHC is a general mechanism applied to different protocols, with the exact Rules
 
 The use of SCHC compression applied to CoAP headers was originally defined in {{RFC8824}}. While this document does not alter the core approach, design choices, and features specified therein, this document clarifies, updates, and extends the SCHC compression of CoAP headers defined in {{RFC8824}}.
 
-In particular, this documents replaces and obsoletes {{RFC8824}} as follows:
+In particular, this document replaces and obsoletes {{RFC8824}} as follows:
 
 * It provides clarifications and amendments to the original specification text, based on collected feedback and reported errata.
 
@@ -298,7 +298,7 @@ CoAP compression differs from IPv6 and UDP compression in the following aspects:
 
   Given a Rule description and building on {{Section 7.4.2 of RFC8724}}, the following defines how the FL is used within the Field Descriptor corresponding to a variable-length field.
 
-  If the field compression relies on the CDA "value-sent" or LSB, then a function "var" can be used for the FL in the Field Descriptor, with byte being the unit used for the residue value's size. In such case, the residue value's size prepended to the residue value encodes the size of the residue value in bytes, and the decompressor MUST interpret the residue value as consisting of exactly that number of bytes.
+  If the field compression relies on the CDA "value-sent" or LSB, then a function "var" can be used for the FL in the Field Descriptor, with byte being the unit used for the residue value's size. In such a case, the residue value's size prepended to the residue value encodes the size of the residue value in bytes, and the decompressor MUST interpret the residue value as consisting of exactly that number of bytes.
 
   Alternatively to "var", a function "var_X" can be used for the FL in the Field Descriptor, with X being the unit other than byte that is used for the residue value's size. In particular, this document defines the function "var_bit". When the function "var_bit" is used, the residue value's size prepended to the residue value encodes the size of the residue value in bits, and the decompressor MUST interpret the residue value as consisting of exactly that number of bits. That is, since byte alignment in SCHC applies only at the end of the SCHC packet, the decompressor does not add any per-field padding.
 
@@ -330,7 +330,7 @@ In a SCHC Rule, the first Field Descriptors MUST be those related to the CoAP he
 
 ## CoAP Version Field # {#ssec-coap-version-field}
 
-The Version field is described as bidirectional in a SCHC Rule, and it MUST be elided during SCHC compression, since it always contains the same value. If a new version of CoAP is defined in the future, new Rules will be needed to avoid ambiguities between versions.
+The Version field is described as bidirectional in a SCHC Rule and it MUST be elided during SCHC compression, since it always contains the same value. If a new version of CoAP is defined in the future, new Rules will be needed to avoid ambiguities between versions.
 
 ## CoAP Type Field # {#ssec-coap-type-field}
 
@@ -536,7 +536,7 @@ The following sections present how SCHC compresses some specific CoAP options th
 
 When a CoAP message uses a Block1 or Block2 Option {{RFC7959}} or a Q-Block1 or Q-Block2 Option {{RFC9177}}, SCHC compression MUST send its content in the Compression Residue. In the SCHC Rule, the TV is not set, while the MO is set to "ignore" and the CDA is set to "value-sent".
 
-The Block1, Block2, Q-Block1, and Q-Block2 Options allow fragmentation at the CoAP level that is compatible with SCHC fragmentation. Both fragmentation mechanisms are complementary, and the node may use them for the same packet as needed.
+The Block1, Block2, Q-Block1, and Q-Block2 Options allow fragmentation at the CoAP level that is compatible with SCHC fragmentation. Both fragmentation mechanisms are complementary and the node may use them for the same packet as needed.
 
 ## Observe # {#ssec-coap-extensions-observe}
 
@@ -646,7 +646,7 @@ Note that, if a client is located in an Application Server and sends a request t
 
 The OSCORE security protocol specified in {{RFC8613}} provides end-to-end protection for CoAP messages. When doing so, it hides as much as possible of a CoAP message, while still enabling proxy operations.
 
-Conceptually, this is achieved by splitting the CoAP message into an Inner Plaintext and an Outer OSCORE message. The Inner Plaintext contains (sensitive) information that is not necessary for performing proxy operations. Therefore, that information can be encrypted end-to-end until it reaches the other origin endpoint as its final destination. The Outer Message acts as a shell matching the regular CoAP message format, and includes all the CoAP options and information needed for performing proxy operations and caching. This is summarized in {{fig-inner-outer}}.
+Conceptually, this is achieved by splitting the CoAP message into an Inner Plaintext and an Outer OSCORE message. The Inner Plaintext contains (sensitive) information that is not necessary for performing proxy operations. Therefore, that information can be encrypted end-to-end until it reaches the other origin endpoint as its final destination. The Outer Message acts as a shell matching the regular CoAP message format, and it includes all the CoAP options and information needed for performing proxy operations and caching. This is summarized in {{fig-inner-outer}}.
 
 In particular, the CoAP options are arranged into three classes, each of which is granted a specific type of protection by the OSCORE protocol:
 
@@ -706,7 +706,7 @@ As per these classes, the Outer options comprise the OSCORE Option, which indica
 
 In the Outer header, the original header code is hidden and replaced by a well-known value. As specified in {{Sections 4.1.3.5 and 4.2 of RFC8613}}, the original header code is replaced with POST for requests and Changed for responses, when the message does not include the Observe Option. Otherwise, the original header code is replaced with FETCH for requests and Content for responses.
 
-The first byte of the Plaintext contains the original header code, the Class E options, and, if present, the original message payload preceded by the payload marker.
+The first byte of the Plaintext contains the original header code, which is followed by the Class E options, and, if present, the original message payload preceded by the payload marker.
 
 After that, an Authenticated Encryption with Associated Data (AEAD) algorithm encrypts the Plaintext. This also integrity-protects the Security Context parameters and, if present, any Class I options from the Outer header. The resulting ciphertext becomes the new payload of the OSCORE message, as illustrated in {{fig-full-oscore}}.
 
@@ -2117,6 +2117,10 @@ If the expert becomes aware of a definition for SCHC compression of CoAP fields 
 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
+
+## Version -10 to -11 ## {#sec-10-11}
+
+* Editorial fixes and improvements.
 
 ## Version -09 to -10 ## {#sec-09-10}
 
