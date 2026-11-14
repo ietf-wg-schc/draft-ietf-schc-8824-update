@@ -1503,7 +1503,7 @@ Compressed message length: 7 bytes
 ~~~~~~~~~~~
 {: #fig-example-resp-from-proxy-compressed title="CoAP Content Response Forwarded by the Proxy." artwork-align="left"}
 
-Upon receiving the message in {{fig-example-resp-from-proxy-compressed}}, the Device decompresses it using the Rule in {{fig-rules-device-proxy}} shared with the proxy. The result is the same CoAP request in {{fig-example-resp-from-proxy}} that the Device delivers to the application.
+Upon receiving the message in {{fig-example-resp-from-proxy-compressed}}, the Device decompresses it using the Rule in {{fig-rules-device-proxy}} shared with the proxy. The result is the same CoAP response in {{fig-example-resp-from-proxy}} that the Device delivers to the application.
 
 ## With End-to-End Security ## {#examples-with-oscore}
 
