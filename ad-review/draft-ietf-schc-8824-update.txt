@@ -364,7 +364,7 @@ Table of Contents
 
 2.  SCHC Applicability to CoAP
 
-   SCHC compression for CoAP headers MAY be done in conjunction with the
+   SCHC compression for CoAP headers may be done in conjunction with the
    lower layers (IPv6/UDP) or independently.  The SCHC adaptation layers
    described in Section 5 of [RFC8724] may be used as shown in Figure 1,
    Figure 2, and Figure 3 below.
@@ -495,7 +495,7 @@ Table of Contents
    and compression/decompression techniques used for IP and UDP headers,
    as explained in [RFC8724].  For CoAP, the SCHC Rules description uses
    the direction information to optimize the compression by reducing the
-   number of Rules needed to compress headers.  The Field Descriptor MAY
+   number of Rules needed to compress headers.  The Field Descriptor may
    define both request/response headers and TVs in the same Rule, using
    the DI to indicate the header type.
 
@@ -774,7 +774,7 @@ Table of Contents
    correspond to the different occurrences of that CoAP option.  Those
    Field Descriptors MUST be listed in the same order of the
    corresponding CoAP option occurrences in the CoAP message.  In order
-   to optimize the compression, a single Field Descriptor MAY pertain to
+   to optimize the compression, a single Field Descriptor can pertain to
    multiple adjacent occurrences of the same CoAP option that are
    treated as grouped together (e.g., see Section 5.4).
 
@@ -1012,9 +1012,9 @@ Table of Contents
 
    The Size2 field is an option defined in [RFC7959].
 
-   The SCHC Rule description MAY define sending some field values by not
+   The SCHC Rule description can define sending some field values by not
    setting the TV, while setting the MO to "ignore" and the CDA to
-   "value-sent".  A Rule MAY also use a "match-mapping" MO when there
+   "value-sent".  A Rule can also use a "match-mapping" MO when there
    are different alternatives for the same FID.  Otherwise, the Rule
    sets the TV to a specific value, the MO to "equal", and the CDA to
    "not-sent".
@@ -1034,9 +1034,9 @@ Table of Contents
    [I-D.ietf-core-href]).  The option is used analogously to the Proxy-
    Scheme Option as defined in Section 5.10.2 of [RFC7252].
 
-   The SCHC Rule description MAY define sending some field values by not
+   The SCHC Rule description can define sending some field values by not
    setting the TV, while setting the MO to "ignore" and the CDA to
-   "value-sent".  A Rule MAY also use a "match-mapping" MO when there
+   "value-sent".  A Rule can also use a "match-mapping" MO when there
    are different alternatives for the same FID.  Otherwise, the Rule
    sets the TV to a specific value, the MO to "equal", and the CDA to
    "not-sent".
@@ -1051,11 +1051,11 @@ Table of Contents
 5.8.  CoAP Option ETag and If-Match Fields
 
    When a CoAP message uses the ETag Option or the If-Match Option, SCHC
-   compression MAY send its content in the Compression Residue.  That
+   compression can send its content in the Compression Residue.  That
    is, in the SCHC Rule, the TV is not set, while the MO is set to
    "ignore" and the CDA is set to "value-sent".  Alternatively, if a
    pre-defined set of values determined by the server is known and is
-   used by the client as ETag values or If-Match values, then a Rule MAY
+   used by the client as ETag values or If-Match values, then a Rule can
    use a "match-mapping" MO when there are different alternatives for
    the same FID.
 
@@ -1081,7 +1081,7 @@ Table of Contents
    SCHC Rule, the TV is not set, while the MO is set to "ignore" and the
    CDA is set to "value-sent".  As an exception, and consistent with the
    default value 16 defined for the Hop-Limit Option in Section 3 of
-   [RFC8768], a Rule MAY describe a TV with value 16, with the MO set to
+   [RFC8768], a Rule can describe a TV with value 16, with the MO set to
    "equal" and the CDA set to "not-sent".
 
 5.11.  CoAP Option Echo Field
@@ -1100,7 +1100,7 @@ Table of Contents
    is set to "value-sent".  An exception applies in the case that the
    server generates the values to use for the Echo Option by means of a
    persistent counter (see Appendix A of [RFC9175]).  In such a case, a
-   Rule MAY use the MSB MO and the LSB CDA.  This would be effectively
+   Rule can use the MSB MO and the LSB CDA.  This would be effectively
    applicable until the persistent counter at the server becomes greater
    than the maximum threshold value that produces an MSB-matching.
 
@@ -1116,11 +1116,11 @@ Table of Contents
    protected, this also protects against interchange of fragments
    between different block-wise request operations.
 
-   When a CoAP message uses the Request-Tag Option, SCHC compression MAY
+   When a CoAP message uses the Request-Tag Option, SCHC compression can
    send its content in the Compression Residue.  That is, in the SCHC
    Rule, the TV is not set, while the MO is set to "ignore" and the CDA
    is set to "value-sent".  Alternatively, if a pre-defined set of
-   Request-Tag values used by the client is known, a Rule MAY use a
+   Request-Tag values used by the client is known, a Rule can use a
    "match-mapping" MO when there are different alternatives for the same
    FID.
 
@@ -1167,9 +1167,9 @@ Table of Contents
    implementation MAY limit the delta between two consecutive values or
    a proxy can modify the increment.
 
-   Since the client MAY use a RST message to inform a server that the
-   Observe response is not required, a specific SCHC Rule SHOULD exist
-   to allow the compression of a RST message.
+   Since the client could use a RST message to reject the Observe
+   response, a specific SCHC Rule SHOULD exist to allow the compression
+   of a RST message.
 
 6.3.  No-Response
 
@@ -1950,7 +1950,7 @@ Table of Contents
    exchange.  Once the sequence number exceeds the maximum value, the
    OSCORE keys need to be re-established.
 
-   The size, s, that is included in the kid_ctx field MAY be masked off
+   The size, s, that is included in the kid_ctx field can be masked off
    with an LSB CDA.  The rest of the kid_ctx field could have additional
    bits masked off, or the whole field could be fixed in accordance with
    an "equal" MO and a "not-sent" CDA.  The same holds for the kid
@@ -3645,6 +3645,8 @@ Appendix A.  Document Updates
    This section is to be removed before publishing as an RFC.
 
 A.1.  Version -10 to -11
+
+   *  Revised use of normative "MAY".
 
    *  Editorial fixes and improvements.
 
