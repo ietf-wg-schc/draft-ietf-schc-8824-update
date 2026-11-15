@@ -791,11 +791,11 @@ After having completed the Outer SCHC Decompression of an incoming message, the 
 
 After having completed the Inner SCHC Decompression of an incoming message, the recipient endpoint MUST prepend the 0xFF payload marker to the CoAP payload, if any was present after the consumed Compression Residue.
 
-## Example OSCORE Compression
+## Example of OSCORE Compression
 
 This section provides an example with a GET request and a corresponding Content response, exchanged between a Device-based CoAP client and a cloud-based CoAP server. The example also describes a possible set of Rules for Inner SCHC Compression and Outer SCHC Compression. A dump of the results and a contrast between SCHC + OSCORE performance and SCHC + CoAP performance are also listed. This example shows an estimate of the cost of security with SCHC-OSCORE.
 
-Our first CoAP message is the GET request in {{fig-GET-temp}}.
+The request used in the example is the GET request in {{fig-GET-temp}}.
 
 ~~~~~~~~~~~
 Original message:
