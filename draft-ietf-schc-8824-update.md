@@ -310,7 +310,7 @@ CoAP compression differs from IPv6 and UDP compression in the following aspects:
 
   * The length of the present field is consistent:
 
-    * With the length of the value that is specified in the TV of the Field Descriptor, if CDA is set to "not sent"; or
+    * With the length of the value that is specified in the TV of the Field Descriptor, if CDA is set to "not-sent"; or
 
     * With the length of at least one of the values that are specified in the TV of the Field Descriptor, if CDA is set to "mapping-sent".
 
@@ -564,7 +564,7 @@ The first byte of the OSCORE Option value specifies information to parse the res
 
 The flag byte is followed by the Partial IV field. After that, if the h bit is set, the kid context field is present, preceded by one byte "s" indicating its length in bytes. After that, if the k bit is set, the kid field is present, and it ends where the OSCORE Option value ends.
 
-Within the flag byte, the eight and seventh least significant bits have been originally defined as reserved and are always set to 0. Future specifications might extend the OSCORE Option value encoding, e.g., by defining the use of the eight and seventh least significant bits in the flag byte. In turn, the use of such bits can result in expanding the space for the OSCORE flag bits by means of additional flag bytes that follow the first flag byte, or in introducing additional fields in the OSCORE Option value besides the original ones.
+Within the flag byte, the eighth and seventh least significant bits have been originally defined as reserved and are always set to 0. Future specifications might extend the OSCORE Option value encoding, e.g., by defining the use of the eighth and seventh least significant bits in the flag byte. In turn, the use of such bits can result in expanding the space for the OSCORE flag bits by means of additional flag bytes that follow the first flag byte, or in introducing additional fields in the OSCORE Option value besides the original ones.
 
 ~~~~~~~~~~~
  0 1 2 3 4 5 6 7 <------ n bytes ------->
@@ -595,7 +595,7 @@ Conceptually, SCHC discerns four distinct pieces of information within the OSCOR
 
 If a SCHC Rule is intended to compress a CoAP message that specifies the OSCORE Option, then the related Field Descriptors MUST be listed in the same order according to which the corresponding pieces of information appear in the OSCORE Option value.
 
-{{fig-oscore-option}} shows the original format of the OSCORE Option value with the four subfields flags, piv, kid_ctx, and kid superimposed on it. If future specifications extend the OSCORE Option value encoding, e.g., by defining the use of the eight and seventh least significant bits in the first byte of flags, this might result in additional subfields besides the four original ones, hence in corresponding Field Descriptors intended to be used in SCHC Rules.
+{{fig-oscore-option}} shows the original format of the OSCORE Option value with the four subfields flags, piv, kid_ctx, and kid superimposed on it. If future specifications extend the OSCORE Option value encoding, e.g., by defining the use of the eighth and seventh least significant bits in the first byte of flags, this might result in additional subfields besides the four original ones, hence in corresponding Field Descriptors intended to be used in SCHC Rules.
 
 If a subfield is not present, then the corresponding Field Descriptor in the SCHC Rule describes the TV set to b'', with the MO set to "equal" and the CDA set to "not-sent". Note that, if the subfield kid_ctx is present, it directly includes the size octet, i.e., s.
 
