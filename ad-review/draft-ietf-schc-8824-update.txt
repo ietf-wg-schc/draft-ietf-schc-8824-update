@@ -6,11 +6,11 @@ SCHC Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Obsoletes: 8824 (if approved)                                 L. Toutain
 Intended status: Standards Track                          IMT Atlantique
-Expires: 18 May 2027                                         I. Martínez
+Expires: 19 May 2027                                         I. Martínez
                                                                    IRISA
                                                              A. Minaburo
                                                               Consultant
-                                                        14 November 2026
+                                                        15 November 2026
 
 
 Static Context Header Compression (SCHC) for the Constrained Application
@@ -62,7 +62,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 May 2027.
+   This Internet-Draft will expire on 19 May 2027.
 
 Copyright Notice
 
@@ -597,7 +597,7 @@ Table of Contents
       -  The length of the present field is consistent:
 
          o  With the length of the value that is specified in the TV of
-            the Field Descriptor, if CDA is set to "not sent"; or
+            the Field Descriptor, if CDA is set to "not-sent"; or
 
          o  With the length of at least one of the values that are
             specified in the TV of the Field Descriptor, if CDA is set
@@ -1223,10 +1223,10 @@ Table of Contents
    set, the kid field is present, and it ends where the OSCORE Option
    value ends.
 
-   Within the flag byte, the eight and seventh least significant bits
+   Within the flag byte, the eighth and seventh least significant bits
    have been originally defined as reserved and are always set to 0.
    Future specifications might extend the OSCORE Option value encoding,
-   e.g., by defining the use of the eight and seventh least significant
+   e.g., by defining the use of the eighth and seventh least significant
    bits in the flag byte.  In turn, the use of such bits can result in
    expanding the space for the OSCORE flag bits by means of additional
    flag bytes that follow the first flag byte, or in introducing
@@ -1277,7 +1277,7 @@ Table of Contents
    Figure 4 shows the original format of the OSCORE Option value with
    the four subfields flags, piv, kid_ctx, and kid superimposed on it.
    If future specifications extend the OSCORE Option value encoding,
-   e.g., by defining the use of the eight and seventh least significant
+   e.g., by defining the use of the eighth and seventh least significant
    bits in the first byte of flags, this might result in additional
    subfields besides the four original ones, hence in corresponding
    Field Descriptors intended to be used in SCHC Rules.
