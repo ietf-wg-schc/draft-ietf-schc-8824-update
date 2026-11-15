@@ -744,7 +744,7 @@ The SCHC compression scheme consists of compressing both the Plaintext before en
 +-+-+---+----------+------------+-- ... --+   +-------+-------- ... --+
 | Token                                   |   | Options (E)           |
 +---------------------------------- ... --+   +-------+-------- ... --+
-| Options (IU)             |                  | OxFF  |
+| Options (IU)             |                  | 0xFF  |
 :                          :                  +-------+-------------+
 : OSCORE Option            :                  | Payload             |
 |                          |                  |                     |
