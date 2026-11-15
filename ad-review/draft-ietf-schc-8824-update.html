@@ -1882,8 +1882,8 @@ However, since the CDA in the Field Descriptor is such that SCHC does not send t
         <h3 id="name-coap-code-field">
 <a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-coap-code-field" class="section-name selfRef">CoAP Code Field</a>
         </h3>
-<p id="section-4.4-1">The Code field takes value from the "Code" column of the "CoAP Codes" IANA registry, encoded as specified in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-3" class="relref">Section 3</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>. This field indicates the Method Code of a CoAP request or the Response Code of a CoAP Response, while the value 0.00 indicates an Empty message. The compression of the CoAP Code field follows the same principle as that of the CoAP Type field.<a href="#section-4.4-1" class="pilcrow">¶</a></p>
-<p id="section-4.4-2">If the Device plays a specific role, SCHC may split the code values into two Field Descriptors: (1) the Method Codes with the 0 class and (2) the Response Codes. SCHC will then use the DI to identify the correct value in the packet. If the Device only implements a CoAP client, SCHC compression may focus only on the Method Codes that the client uses in its outgoing requests.<a href="#section-4.4-2" class="pilcrow">¶</a></p>
+<p id="section-4.4-1">The Code field takes value from the "Code" column of the "CoAP Method Codes" and "CoAP Response Codes" IANA registries. Like specified in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-3" class="relref">Section 3</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>, the Code field is encoded as split into a 3-bit class and a 5-bit detail. This field indicates the Method Code of a CoAP request or the Response Code of a CoAP Response, while the value 0.00 indicates an Empty message. The compression of the CoAP Code field follows the same principle as that of the CoAP Type field.<a href="#section-4.4-1" class="pilcrow">¶</a></p>
+<p id="section-4.4-2">If the Device plays a specific role, SCHC may split the code values into two Field Descriptors: (1) the Method Codes with class 0 and (2) the Response Codes. SCHC will then use the DI to identify the correct value in the packet. If the Device only implements a CoAP client, SCHC compression may focus only on the Method Codes that the client uses in its outgoing requests.<a href="#section-4.4-2" class="pilcrow">¶</a></p>
 <p id="section-4.4-3">For known values, SCHC can use a "match-mapping" MO. If SCHC cannot compress the Code field, it will send the values in the Compression Residue.<a href="#section-4.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -5666,7 +5666,10 @@ Specifically, for every CoAP field, only one corresponding registry entry is all
             <p id="appendix-A.1-1.1.1">Revised use of normative "<span class="bcp14">MAY</span>".<a href="#appendix-A.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.2">
-            <p id="appendix-A.1-1.2.1">Editorial fixes and improvements.<a href="#appendix-A.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.2.1">Explicit mentioning of CoAP code split into class and detail.<a href="#appendix-A.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-A.1-1.3">
+            <p id="appendix-A.1-1.3.1">Editorial fixes and improvements.<a href="#appendix-A.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>

@@ -688,16 +688,17 @@ Table of Contents
 
 4.4.  CoAP Code Field
 
-   The Code field takes value from the "Code" column of the "CoAP Codes"
-   IANA registry, encoded as specified in Section 3 of [RFC7252].  This
-   field indicates the Method Code of a CoAP request or the Response
-   Code of a CoAP Response, while the value 0.00 indicates an Empty
-   message.  The compression of the CoAP Code field follows the same
-   principle as that of the CoAP Type field.
+   The Code field takes value from the "Code" column of the "CoAP Method
+   Codes" and "CoAP Response Codes" IANA registries.  Like specified in
+   Section 3 of [RFC7252], the Code field is encoded as split into a
+   3-bit class and a 5-bit detail.  This field indicates the Method Code
+   of a CoAP request or the Response Code of a CoAP Response, while the
+   value 0.00 indicates an Empty message.  The compression of the CoAP
+   Code field follows the same principle as that of the CoAP Type field.
 
    If the Device plays a specific role, SCHC may split the code values
-   into two Field Descriptors: (1) the Method Codes with the 0 class and
-   (2) the Response Codes.  SCHC will then use the DI to identify the
+   into two Field Descriptors: (1) the Method Codes with class 0 and (2)
+   the Response Codes.  SCHC will then use the DI to identify the
    correct value in the packet.  If the Device only implements a CoAP
    client, SCHC compression may focus only on the Method Codes that the
    client uses in its outgoing requests.
@@ -3647,6 +3648,8 @@ Appendix A.  Document Updates
 A.1.  Version -10 to -11
 
    *  Revised use of normative "MAY".
+
+   *  Explicit mentioning of CoAP code split into class and detail.
 
    *  Editorial fixes and improvements.
 
