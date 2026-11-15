@@ -261,7 +261,7 @@ Table of Contents
       options Proxy-Cri and Proxy-Scheme-Number (see Section 5.6).
 
    *  It updates the SCHC compression processing for the CoAP options:
-      ETag and If-Match (see Section 5.8); and If-None-Match (see
+      ETag and If-Match (see Section 5.8), and If-None-Match (see
       Section 5.9).
 
    *  It defines the SCHC compression for the CoAP option Hop-Limit (see
