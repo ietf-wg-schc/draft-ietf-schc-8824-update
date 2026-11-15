@@ -117,7 +117,7 @@ Table of Contents
    8.  Examples of CoAP Header Compression
      8.1.  Mandatory Header with CON Message
      8.2.  OSCORE Compression
-     8.3.  Example OSCORE Compression
+     8.3.  Example of OSCORE Compression
    9.  CoAP Header Compression with Proxies
      9.1.  Without End-to-End Security
      9.2.  With End-to-End Security
@@ -1601,7 +1601,7 @@ Table of Contents
    to the CoAP payload, if any was present after the consumed
    Compression Residue.
 
-8.3.  Example OSCORE Compression
+8.3.  Example of OSCORE Compression
 
    This section provides an example with a GET request and a
    corresponding Content response, exchanged between a Device-based CoAP
@@ -1611,7 +1611,7 @@ Table of Contents
    OSCORE performance and SCHC + CoAP performance are also listed.  This
    example shows an estimate of the cost of security with SCHC-OSCORE.
 
-   Our first CoAP message is the GET request in Figure 8.
+   The request used in the example is the GET request in Figure 8.
 
    Original message:
    =================
