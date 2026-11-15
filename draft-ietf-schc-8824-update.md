@@ -1208,7 +1208,7 @@ In particular, SCHC is used as defined below.
 
 This section provides examples of SCHC Compression/Decompression in the presence of a CoAP proxy.
 
-The presented examples refer to the same deployment considered in {{sec-applicability-to-coap}}, including a Device communicating over LPWAN with a Network Gateway (NGW), which in turn communicates with an Application Server over the Internet. The Application Server and the Device exchange CoAP messages through the NGW.
+The presented examples refer to the same deployments considered in {{sec-applicability-to-coap}}, including a Device communicating over LPWAN with a Network Gateway (NGW), which in turn communicates with an Application Server over the Internet. The Application Server and the Device exchange CoAP messages through the NGW.
 
 The following also applies in the presented examples.
 
@@ -1365,7 +1365,7 @@ Compressed message length: 14 bytes
 
 Upon receiving the message in {{fig-example-req-to-proxy}}, the proxy decompresses it with the Rule in {{fig-rules-device-proxy}} shared with the Device and obtains the same CoAP request in {{fig-example-req}}.
 
-After that, the proxy removes the Proxy-Scheme Option from the decompressed CoAP request. Also, the proxy replaces the values of the CoAP Message ID and of the CoAP Token to 0x0004 and 0x75, respectively. The result is the CoAP request shown in {{fig-example-req-from-proxy}}.
+After that, the proxy removes the Proxy-Scheme Option from the decompressed CoAP request. Also, the proxy replaces the values of the CoAP Message ID and of the CoAP Token with 0x0004 and 0x75, respectively. The result is the CoAP request shown in {{fig-example-req-from-proxy}}.
 
 ~~~~~~~~~~~
 
@@ -1450,7 +1450,7 @@ Compressed message length: 7 bytes
 
 Upon receiving the message in {{fig-example-resp-to-proxy}}, the proxy decompresses it using the Rule in {{fig-rules-proxy-server}} shared with the Application Server. The result is the same CoAP response in {{fig-example-resp}}.
 
-Then, the proxy replaces the values of the CoAP Message ID and of the CoAP Token to 0x0001 and 0x82, respectively. The result is the CoAP response shown in {{fig-example-resp-from-proxy}}.
+Then, the proxy replaces the values of the CoAP Message ID and of the CoAP Token with 0x0001 and 0x82, respectively. The result is the CoAP response shown in {{fig-example-resp-from-proxy}}.
 
 ~~~~~~~~~~~
 
@@ -1772,7 +1772,7 @@ Compressed message length: 25 bytes
 
 Upon receiving the message in {{fig-example-oscore-req-to-proxy}}, the proxy decompresses it with the Rule in {{fig-rules-oscore-device-proxy}} shared with the Device, thus performing the SCHC Outer Decompression. The result is the same OSCORE-protected CoAP request in {{fig-example-oscore-req}}.
 
-After that, the proxy removes the Proxy-Scheme Option from the decompressed OSCORE-protected CoAP request. Also, the proxy replaces the values of the CoAP Message ID and of the CoAP Token to 0x0004 and 0x75, respectively. The result is the OSCORE-protected CoAP request shown in {{fig-example-oscore-req-from-proxy}}.
+After that, the proxy removes the Proxy-Scheme Option from the decompressed OSCORE-protected CoAP request. Also, the proxy replaces the values of the CoAP Message ID and of the CoAP Token with 0x0004 and 0x75, respectively. The result is the OSCORE-protected CoAP request shown in {{fig-example-oscore-req-from-proxy}}.
 
 ~~~~~~~~~~~
 
@@ -1909,7 +1909,7 @@ Compressed message length: 16 bytes
 
 Upon receiving the message in {{fig-example-oscore-resp-to-proxy}}, the proxy decompresses it with the Rule in {{fig-rules-oscore-proxy-server}} shared with the Application Server, thus performing the SCHC Outer Decompression. The result is the same OSCORE-protected CoAP response in {{fig-example-oscore-resp}}.
 
-After that, the proxy replaces the values of the CoAP Message ID and of the CoAP Token to 0x0001 and 0x82, respectively. The result is the OSCORE-protected CoAP response shown in {{fig-example-oscore-resp-from-proxy}}.
+After that, the proxy replaces the values of the CoAP Message ID and of the CoAP Token with 0x0001 and 0x82, respectively. The result is the OSCORE-protected CoAP response shown in {{fig-example-oscore-resp-from-proxy}}.
 
 ~~~~~~~~~~~
 
