@@ -5501,15 +5501,13 @@ Consequently, given any two entries related to CoAP options, those entries are i
 <p id="section-13.3-2">Expert reviewers should take into consideration the following points:<a href="#section-13.3-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-13.3-3.1">
-            <p id="section-13.3-3.1.1">Point squatting should be discouraged. Reviewers are encouraged to get sufficient information for registration requests to ensure that the usage is not going to duplicate one that is already registered and that the point is likely to be used in deployments.<a href="#section-13.3-3.1.1" class="pilcrow">¶</a></p>
-<p id="section-13.3-3.1.2">
-Specifically, for every CoAP field, only one corresponding registry entry is allowed. Also, for every CoAP subfield, only one corresponding registry entry is allowed.<a href="#section-13.3-3.1.2" class="pilcrow">¶</a></p>
+            <p id="section-13.3-3.1.1">For every CoAP field, only one corresponding registry entry is allowed. Also, for every CoAP subfield, only one corresponding registry entry is allowed.<a href="#section-13.3-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.3-3.2">
-            <p id="section-13.3-3.2.1">For a new registry entry, it has to be clear where that entry has to be positioned within the registry, according to the criteria compiled in <a href="#sec-iana-coap-fields-structure" class="auto internal xref">Section 13.2.2</a>.<a href="#section-13.3-3.2.1" class="pilcrow">¶</a></p>
+            <p id="section-13.3-3.2.1">For a new registry entry, the information provided with the registration request is sufficient to unambiguously determining where that entry has to be positioned within the registry, according to the criteria compiled in <a href="#sec-iana-coap-fields-structure" class="auto internal xref">Section 13.2.2</a>.<a href="#section-13.3-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.3-3.3">
-            <p id="section-13.3-3.3.1">Consistent with the "Specification Required" registration policy, specifications should exist, but early assignment before a specification is available is considered to be permissible. When specifications are not provided, the description provided needs to have sufficient information to identify what the point is being used for.<a href="#section-13.3-3.3.1" class="pilcrow">¶</a></p>
+            <p id="section-13.3-3.3.1">For a new registry entry, the information provided with the registration request has to clearly describe how a SCHC compression Rule works with the CoAP field or subfield associated with that entry.<a href="#section-13.3-3.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-13.3-4">If the expert becomes aware of a definition for SCHC compression of CoAP fields and subfields that is deployed and in use, the expert may also initiate a registration or update an existing one on their own, if they deem important that the definition in question gains visibility through the registry entry.<a href="#section-13.3-4" class="pilcrow">¶</a></p>
@@ -5669,7 +5667,10 @@ Specifically, for every CoAP field, only one corresponding registry entry is all
             <p id="appendix-A.1-1.2.1">Explicit mentioning of CoAP code split into class and detail.<a href="#appendix-A.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.3">
-            <p id="appendix-A.1-1.3.1">Editorial fixes and improvements.<a href="#appendix-A.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.3.1">Revised guidelines for Expert Review.<a href="#appendix-A.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-A.1-1.4">
+            <p id="appendix-A.1-1.4.1">Editorial fixes and improvements.<a href="#appendix-A.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
