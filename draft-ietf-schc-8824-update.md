@@ -2103,13 +2103,11 @@ The IANA registry established in this document is defined as "Specification Requ
 
 Expert reviewers should take into consideration the following points:
 
-* Point squatting should be discouraged. Reviewers are encouraged to get sufficient information for registration requests to ensure that the usage is not going to duplicate one that is already registered and that the point is likely to be used in deployments.
+* For every CoAP field, only one corresponding registry entry is allowed. Also, for every CoAP subfield, only one corresponding registry entry is allowed.
 
-  Specifically, for every CoAP field, only one corresponding registry entry is allowed. Also, for every CoAP subfield, only one corresponding registry entry is allowed.
+* For a new registry entry, the information provided with the registration request is sufficient to unambiguously determining where that entry has to be positioned within the registry, according to the criteria compiled in {{sec-iana-coap-fields-structure}}.
 
-* For a new registry entry, it has to be clear where that entry has to be positioned within the registry, according to the criteria compiled in {{sec-iana-coap-fields-structure}}.
-
-* Consistent with the "Specification Required" registration policy, specifications should exist, but early assignment before a specification is available is considered to be permissible. When specifications are not provided, the description provided needs to have sufficient information to identify what the point is being used for.
+* For a new registry entry, the information provided with the registration request has to clearly describe how a SCHC compression Rule works with the CoAP field or subfield associated with that entry.
 
 If the expert becomes aware of a definition for SCHC compression of CoAP fields and subfields that is deployed and in use, the expert may also initiate a registration or update an existing one on their own, if they deem important that the definition in question gains visibility through the registry entry.
 
@@ -2123,6 +2121,8 @@ If the expert becomes aware of a definition for SCHC compression of CoAP fields 
 * Revised use of normative "MAY".
 
 * Explicit mentioning of CoAP code split into class and detail.
+
+* Revised guidelines for Expert Review.
 
 * Editorial fixes and improvements.
 
