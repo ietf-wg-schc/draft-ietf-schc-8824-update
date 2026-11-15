@@ -140,7 +140,7 @@ In particular, this document replaces and obsoletes {{RFC8824}} as follows:
 
 * It defines the SCHC compression for the recently defined CoAP options Proxy-Cri and Proxy-Scheme-Number (see {{ssec-proxy-cri-proxy-scheme-number-option}}).
 
-* It updates the SCHC compression processing for the CoAP options: ETag and If-Match (see {{ssec-etag-if-match-option}}); and If-None-Match (see {{ssec-if-none-match}}).
+* It updates the SCHC compression processing for the CoAP options: ETag and If-Match (see {{ssec-etag-if-match-option}}), and If-None-Match (see {{ssec-if-none-match}}).
 
 * It defines the SCHC compression for the CoAP option Hop-Limit (see {{coap-options-hop-limit}}).
 
