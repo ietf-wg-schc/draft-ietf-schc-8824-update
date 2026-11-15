@@ -188,7 +188,7 @@ The terms "endpoint", "origin endpoint", "application endpoint", "sender endpoin
 
 # SCHC Applicability to CoAP # {#sec-applicability-to-coap}
 
-SCHC compression for CoAP headers MAY be done in conjunction with the lower layers (IPv6/UDP) or independently. The SCHC adaptation layers described in {{Section 5 of RFC8724}} may be used as shown in {{fig-applicability-to-coap-1}}, {{fig-applicability-to-coap-2}}, and {{fig-applicability-to-coap-3}} below.
+SCHC compression for CoAP headers may be done in conjunction with the lower layers (IPv6/UDP) or independently. The SCHC adaptation layers described in {{Section 5 of RFC8724}} may be used as shown in {{fig-applicability-to-coap-1}}, {{fig-applicability-to-coap-2}}, and {{fig-applicability-to-coap-3}} below.
 
 In the first example depicted in {{fig-applicability-to-coap-1}}, a Rule compresses the complete header stack from IPv6 to CoAP. In this case, the Device and the Network Gateway (NGW) each comprise a SCHC Endpoint with a SCHC Instance. These SCHC Instances share a common SCHC Context and communicate using a SCHC Session. The application communicating with the Device does not implement SCHC C/D and does not comprise a SCHC Endpoint.
 
@@ -274,7 +274,7 @@ This document focuses on CoAP compression, as represented by the dashed boxes in
 
 # CoAP Headers Compressed with SCHC # {#sec-coap-header-compression}
 
-The use of SCHC over the CoAP header relies on the same principles and compression/decompression techniques used for IP and UDP headers, as explained in {{RFC8724}}. For CoAP, the SCHC Rules description uses the direction information to optimize the compression by reducing the number of Rules needed to compress headers. The Field Descriptor MAY define both request/response headers and TVs in the same Rule, using the DI to indicate the header type.
+The use of SCHC over the CoAP header relies on the same principles and compression/decompression techniques used for IP and UDP headers, as explained in {{RFC8724}}. For CoAP, the SCHC Rules description uses the direction information to optimize the compression by reducing the number of Rules needed to compress headers. The Field Descriptor may define both request/response headers and TVs in the same Rule, using the DI to indicate the header type.
 
 Like for other header compression protocols, when the compressor does not find a correct Rule to compress the header, the packet MUST be sent uncompressed using the RuleID dedicated to this purpose (see {{Section 6 of RFC8724}}). In such a case, the Compression Residue is the complete header of the packet (see {{Section 7.2 of RFC8724}}).
 
@@ -386,7 +386,7 @@ In a SCHC Rule, the Field Descriptors related to CoAP options MUST be specified 
 
 In particular, the Field Descriptors related to CoAP options MUST be listed in the same order according to which the corresponding CoAP options appear in the CoAP message (i.e., ordered by option number).
 
-If a SCHC Rule is intended to compress a CoAP message where a repeatable CoAP option is specified multiple times, then the SCHC Rule generally includes different Field Descriptors that separately correspond to the different occurrences of that CoAP option. Those Field Descriptors MUST be listed in the same order of the corresponding CoAP option occurrences in the CoAP message. In order to optimize the compression, a single Field Descriptor MAY pertain to multiple adjacent occurrences of the same CoAP option that are treated as grouped together (e.g., see {{ssec-uri-path-uri-query-option}}).
+If a SCHC Rule is intended to compress a CoAP message where a repeatable CoAP option is specified multiple times, then the SCHC Rule generally includes different Field Descriptors that separately correspond to the different occurrences of that CoAP option. Those Field Descriptors MUST be listed in the same order of the corresponding CoAP option occurrences in the CoAP message. In order to optimize the compression, a single Field Descriptor can pertain to multiple adjacent occurrences of the same CoAP option that are treated as grouped together (e.g., see {{ssec-uri-path-uri-query-option}}).
 
 As further discussed in {{I-D.ietf-schc-universal-option}}, the composition and use of Field Descriptors for compressing/decompressing CoAP options can take a "syntactic" approach or a "semantic" approach.
 
@@ -482,7 +482,7 @@ SCHC fixes the number of Uri-Path or Uri-Query elements in a Rule at Rule creati
 
 The Size2 field is an option defined in {{RFC7959}}.
 
-The SCHC Rule description MAY define sending some field values by not setting the TV, while setting the MO to "ignore" and the CDA to "value-sent". A Rule MAY also use a "match-mapping" MO when there are different alternatives for the same FID. Otherwise, the Rule sets the TV to a specific value, the MO to "equal", and the CDA to "not-sent".
+The SCHC Rule description can define sending some field values by not setting the TV, while setting the MO to "ignore" and the CDA to "value-sent". A Rule can also use a "match-mapping" MO when there are different alternatives for the same FID. Otherwise, the Rule sets the TV to a specific value, the MO to "equal", and the CDA to "not-sent".
 
 ## CoAP Option Proxy-Cri and Proxy-Scheme-Number Fields # {#ssec-proxy-cri-proxy-scheme-number-option}
 
@@ -490,7 +490,7 @@ The Proxy-Cri field is an option defined in {{I-D.ietf-core-href}}. The option c
 
 The Proxy-Scheme-Number field is an option defined in {{I-D.ietf-core-href}}. The option carries a CRI Scheme Number represented as a CoAP unsigned integer (see {{Sections 5.1.1 and 8.1 of I-D.ietf-core-href}}). The option is used analogously to the Proxy-Scheme Option as defined in {{Section 5.10.2 of RFC7252}}.
 
-The SCHC Rule description MAY define sending some field values by not setting the TV, while setting the MO to "ignore" and the CDA to "value-sent". A Rule MAY also use a "match-mapping" MO when there are different alternatives for the same FID. Otherwise, the Rule sets the TV to a specific value, the MO to "equal", and the CDA to "not-sent".
+The SCHC Rule description can define sending some field values by not setting the TV, while setting the MO to "ignore" and the CDA to "value-sent". A Rule can also use a "match-mapping" MO when there are different alternatives for the same FID. Otherwise, the Rule sets the TV to a specific value, the MO to "equal", and the CDA to "not-sent".
 
 ## CoAP Location-Path and Location-Query Fields # {#ssec-location-path-location-query-option}
 
@@ -498,7 +498,7 @@ A Rule entry cannot store these fields' values. Therefore, SCHC compression MUST
 
 ## CoAP Option ETag and If-Match Fields # {#ssec-etag-if-match-option}
 
-When a CoAP message uses the ETag Option or the If-Match Option, SCHC compression MAY send its content in the Compression Residue. That is, in the SCHC Rule, the TV is not set, while the MO is set to "ignore" and the CDA is set to "value-sent". Alternatively, if a pre-defined set of values determined by the server is known and is used by the client as ETag values or If-Match values, then a Rule MAY use a "match-mapping" MO when there are different alternatives for the same FID.
+When a CoAP message uses the ETag Option or the If-Match Option, SCHC compression can send its content in the Compression Residue. That is, in the SCHC Rule, the TV is not set, while the MO is set to "ignore" and the CDA is set to "value-sent". Alternatively, if a pre-defined set of values determined by the server is known and is used by the client as ETag values or If-Match values, then a Rule can use a "match-mapping" MO when there are different alternatives for the same FID.
 
 ## CoAP Option If-None-Match # {#ssec-if-none-match}
 
@@ -508,19 +508,19 @@ The If-None-Match Option occurs at most once and is always empty. The SCHC Rule 
 
 The Hop-Limit field is an option defined in {{RFC8768}} that can be used to detect forwarding loops through a chain of CoAP proxies. The first proxy in the chain that understands the option includes it in a received request with a proper value set, before forwarding the request. Any following proxy that understands the option decrements the Option Value and forwards the request if the new value is different from zero, or returns a 5.08 (Hop Limit Reached) error response otherwise.
 
-When a CoAP message uses the Hop-Limit Option, SCHC compression SHOULD send its content in the Compression Residue. That is, in the SCHC Rule, the TV is not set, while the MO is set to "ignore" and the CDA is set to "value-sent". As an exception, and consistent with the default value 16 defined for the Hop-Limit Option in {{Section 3 of RFC8768}}, a Rule MAY describe a TV with value 16, with the MO set to "equal" and the CDA set to "not-sent".
+When a CoAP message uses the Hop-Limit Option, SCHC compression SHOULD send its content in the Compression Residue. That is, in the SCHC Rule, the TV is not set, while the MO is set to "ignore" and the CDA is set to "value-sent". As an exception, and consistent with the default value 16 defined for the Hop-Limit Option in {{Section 3 of RFC8768}}, a Rule can describe a TV with value 16, with the MO set to "equal" and the CDA set to "not-sent".
 
 ## CoAP Option Echo Field ## {#coap-options-echo}
 
 The Echo field is an option defined in {{RFC9175}} that a server can include in a CoAP response as a challenge to the client, and that the client echoes back to the server in one or more CoAP requests. This enables the server to verify the freshness of a request and to cryptographically verify the aliveness of the client. Also, it forces the client to demonstrate reachability at its claimed network address.
 
-When a CoAP message uses the Echo Option, SCHC compression SHOULD send its content in the Compression Residue. That is, in the SCHC Rule, the TV is not set, while the MO is set to "ignore" and the CDA is set to "value-sent". An exception applies in the case that the server generates the values to use for the Echo Option by means of a persistent counter (see {{Section A of RFC9175}}). In such a case, a Rule MAY use the MSB MO and the LSB CDA. This would be effectively applicable until the persistent counter at the server becomes greater than the maximum threshold value that produces an MSB-matching.
+When a CoAP message uses the Echo Option, SCHC compression SHOULD send its content in the Compression Residue. That is, in the SCHC Rule, the TV is not set, while the MO is set to "ignore" and the CDA is set to "value-sent". An exception applies in the case that the server generates the values to use for the Echo Option by means of a persistent counter (see {{Section A of RFC9175}}). In such a case, a Rule can use the MSB MO and the LSB CDA. This would be effectively applicable until the persistent counter at the server becomes greater than the maximum threshold value that produces an MSB-matching.
 
 ## CoAP Option Request-Tag Field ## {#coap-options-request-tag}
 
 The Request-Tag field is an option defined in {{RFC9175}} that the client can set in CoAP requests throughout block-wise operations, with value an ephemeral short-lived identifier of the specific block-wise operation in question. This allows the server to match message fragments belonging to the same request operation and, if the server supports it, to reliably process simultaneous block-wise request operations on a single resource. If requests are integrity protected, this also protects against interchange of fragments between different block-wise request operations.
 
-When a CoAP message uses the Request-Tag Option, SCHC compression MAY send its content in the Compression Residue. That is, in the SCHC Rule, the TV is not set, while the MO is set to "ignore" and the CDA is set to "value-sent". Alternatively, if a pre-defined set of Request-Tag values used by the client is known, a Rule MAY use a "match-mapping" MO when there are different alternatives for the same FID.
+When a CoAP message uses the Request-Tag Option, SCHC compression can send its content in the Compression Residue. That is, in the SCHC Rule, the TV is not set, while the MO is set to "ignore" and the CDA is set to "value-sent". Alternatively, if a pre-defined set of Request-Tag values used by the client is known, a Rule can use a "match-mapping" MO when there are different alternatives for the same FID.
 
 ## CoAP Option EDHOC Field ## {#coap-options-edhoc}
 
@@ -542,7 +542,7 @@ The Block1, Block2, Q-Block1, and Q-Block2 Options allow fragmentation at the Co
 
 {{RFC7641}} defines the Observe Option. The SCHC Rule description does not set the TV, while setting the MO to "ignore" and the CDA to "value-sent". SCHC does not limit the maximum size for this option (3 bytes). To reduce the transmission size, either the Device implementation MAY limit the delta between two consecutive values or a proxy can modify the increment.
 
-Since the client MAY use a RST message to inform a server that the Observe response is not required, a specific SCHC Rule SHOULD exist to allow the compression of a RST message.
+Since the client could use a RST message to reject the Observe response, a specific SCHC Rule SHOULD exist to allow the compression of a RST message.
 
 ## No-Response # {#ssec-coap-extensions-no-response}
 
@@ -1056,7 +1056,7 @@ Note that fixing a flag bit will limit the possible OSCORE Options that can be u
 
 The piv field lends itself to having some bits masked off with an MSB MO and an LSB CDA. This SCHC description could be useful in applications where the message transmission frequency is low, such as with LPWAN technologies. Note that compressing the piv field may reduce the maximum number of sequence numbers that can be used in an exchange. Once the sequence number exceeds the maximum value, the OSCORE keys need to be re-established.
 
-The size, s, that is included in the kid_ctx field MAY be masked off with an LSB CDA. The rest of the kid_ctx field could have additional bits masked off, or the whole field could be fixed in accordance with an "equal" MO and a "not-sent" CDA. The same holds for the kid field.
+The size, s, that is included in the kid_ctx field can be masked off with an LSB CDA. The rest of the kid_ctx field could have additional bits masked off, or the whole field could be fixed in accordance with an "equal" MO and a "not-sent" CDA. The same holds for the kid field.
 
 The Outer Rule of {{table-Outer-Rules}} is applied to the example GET request and Content response. {{fig-Compressed-GET}} and {{fig-Compressed-CONTENT}} show the resulting messages.
 
@@ -2119,6 +2119,8 @@ If the expert becomes aware of a definition for SCHC compression of CoAP fields 
 {:removeinrfc}
 
 ## Version -10 to -11 ## {#sec-10-11}
+
+* Revised use of normative "MAY".
 
 * Editorial fixes and improvements.
 
