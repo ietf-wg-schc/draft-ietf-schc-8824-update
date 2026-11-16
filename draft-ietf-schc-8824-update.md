@@ -1112,7 +1112,7 @@ In contrast, the following compares these results with what would be obtained by
 | CoAP.<br>Type       | 2   | 1  | Up | 0             | equal               | not-sent           |                    |
 | CoAP.<br>Type       | 2   | 1  | Dw | 2             | equal               | not-sent           |                    |
 | CoAP.<br>TKL        | var | 1  | Bi | 0b0001        | equal               | not-sent           |                    |
-| CoAP.<br>Code       | 8   | 1  | Up | 2             | equal               | not-sent           |                    |
+| CoAP.<br>Code       | 8   | 1  | Up | 1             | equal               | not-sent           |                    |
 | CoAP.<br>Code       | 8   | 1  | Dw | \[69, 132\]   | match- <br> mapping | mapping- <br> sent | C                  |
 | CoAP.<br>MID        | 16  | 1  | Bi | 0x0000        | MSB(12)             | LSB                | MMMM               |
 | CoAP.<br>Token      | tkl | 1  | Bi | 0x80          | MSB(5)              | LSB                | TTT                |
@@ -2127,6 +2127,8 @@ If the expert becomes aware of a definition for SCHC compression of CoAP fields 
 * No stand on the semantic approach being "typical".
 
 * Revised use of normative "MAY" and "SHOULD" throughout the document.
+
+* Fixed a TV in a SCHC Compression Rule.
 
 * Explicit mentioning of CoAP code split into class and detail.
 
