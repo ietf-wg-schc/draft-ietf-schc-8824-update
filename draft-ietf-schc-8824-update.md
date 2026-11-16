@@ -336,7 +336,7 @@ The Version field is described as bidirectional in a SCHC Rule and it MUST be el
 
 The Type field specifies one of the four types of CoAP messages, encoded as specified in {{Section 3 of RFC7252}}: Confirmable (CON), Non-confirmable (NON), Acknowledgement (ACK), and Reset (RST).
 
-The SCHC compression scheme SHOULD elide this field if, for instance, a client is sending only NON messages or only CON messages. For RST messages, SCHC may use a dedicated Rule. For other usages, SCHC can use a "match-mapping" MO.
+The SCHC compression scheme should elide this field if, for instance, a client is sending only NON messages or only CON messages. For RST messages, SCHC may use a dedicated Rule. For other usages, SCHC can use a "match-mapping" MO.
 
 ## CoAP Token Length (TKL) Field # {#ssec-coap-tkl-field}
 
@@ -2118,7 +2118,9 @@ If the expert becomes aware of a definition for SCHC compression of CoAP fields 
 
 ## Version -10 to -11 ## {#sec-10-11}
 
-* Revised use of normative "MAY".
+* Compression of Type by elision: changed "SHOULD" to "should".
+
+* Revised use of normative "MAY" throughout the document.
 
 * Explicit mentioning of CoAP code split into class and detail.
 
