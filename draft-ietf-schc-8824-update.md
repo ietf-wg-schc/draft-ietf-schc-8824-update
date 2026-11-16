@@ -2034,7 +2034,7 @@ If an attacker can introduce a corrupted SCHC-compressed packet onto a link, DoS
 
 SCHC compression emits variable-length Compression Residues for some CoAP fields. In the representation of the compressed header, the length field that is sent is not the length of the original header field but rather the length of the Compression Residue that is being transmitted. If a corrupted packet arrives at the decompressor with a longer or shorter length than that of the original compressed representation, the SCHC decompression procedures will detect an error and drop the packet.
 
-SCHC header compression Rules must remain tightly coupled between the compressor and the decompressor. If the compression Rules get out of sync, a Compression Residue might be decompressed differently at the receiver, thus yielding a result different than the initial message submitted to compression procedures. Accordingly, any time the Rules within the SCHC Context are updated on an OSCORE endpoint, that endpoint must trigger an update of the OSCORE key material. Similar procedures may be appropriate to signal Rule updates when other message-protection mechanisms are in use.
+SCHC header compression Rules must remain tightly coupled between the compressor and the decompressor. If the compression Rules get out of sync, a Compression Residue might be decompressed differently at the receiver, thus yielding a result different than the initial message submitted to compression procedures. Accordingly, any time the Rules within the SCHC Context are updated on an OSCORE endpoint, that endpoint must trigger an update of the OSCORE key material. It is expected that a procedure employed to signal Rule updates when using OSCORE is possible to appropriately employ also when other message-protection mechanisms are used.
 
 # IANA Considerations
 
@@ -2125,6 +2125,8 @@ If the expert becomes aware of a definition for SCHC compression of CoAP fields 
   - "CoAP client" and "CoAP server" as roles of a Device.
 
   - The key update protocol KUDOS for OSCORE is just an example.
+
+  - Expectations on procedures for signaling Rule updates.
 
 * No stand on the semantic approach being "typical".
 
