@@ -354,7 +354,7 @@ Otherwise, if the Token Length field value changes over time, the SCHC Rule does
 
 The Code field takes value from the "Code" column of the "CoAP Method Codes" and "CoAP Response Codes" IANA registries. Like specified in {{Section 3 of RFC7252}}, the Code field is encoded as split into a 3-bit class and a 5-bit detail. This field indicates the Method Code of a CoAP request or the Response Code of a CoAP Response, while the value 0.00 indicates an Empty message. The compression of the CoAP Code field follows the same principle as that of the CoAP Type field.
 
-If the Device plays a specific role, SCHC may split the code values into two Field Descriptors: (1) the Method Codes with class 0 and (2) the Response Codes. SCHC will then use the DI to identify the correct value in the packet. If the Device only implements a CoAP client, SCHC compression may focus only on the Method Codes that the client uses in its outgoing requests.
+If the Device plays either the specific role of CoAP client or the specific role of CoAP server, SCHC may split the code values into two Field Descriptors: (1) the Method Codes with class 0 and (2) the Response Codes. SCHC will then use the DI to identify the correct value in the packet. If the Device only implements a CoAP client, SCHC compression may focus only on the Method Codes that the client uses in its outgoing requests.
 
 For known values, SCHC can use a "match-mapping" MO. If SCHC cannot compress the Code field, it will send the values in the Compression Residue.
 
@@ -2119,6 +2119,10 @@ If the expert becomes aware of a definition for SCHC compression of CoAP fields 
 ## Version -10 to -11 ## {#sec-10-11}
 
 * Compression of Type by elision: changed "SHOULD" to "should".
+
+* Clarifications:
+
+  "CoAP client" and "CoAP server" as roles of a Device.
 
 * Revised use of normative "MAY" throughout the document.
 
