@@ -6,11 +6,11 @@ SCHC Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Obsoletes: 8824 (if approved)                                 L. Toutain
 Intended status: Standards Track                          IMT Atlantique
-Expires: 19 May 2027                                         I. Martínez
+Expires: 20 May 2027                                         I. Martínez
                                                                    IRISA
                                                              A. Minaburo
                                                               Consultant
-                                                        15 November 2026
+                                                        16 November 2026
 
 
 Static Context Header Compression (SCHC) for the Constrained Application
@@ -62,7 +62,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 May 2027.
+   This Internet-Draft will expire on 20 May 2027.
 
 Copyright Notice
 
@@ -653,7 +653,7 @@ Table of Contents
    encoded as specified in Section 3 of [RFC7252]: Confirmable (CON),
    Non-confirmable (NON), Acknowledgement (ACK), and Reset (RST).
 
-   The SCHC compression scheme SHOULD elide this field if, for instance,
+   The SCHC compression scheme should elide this field if, for instance,
    a client is sending only NON messages or only CON messages.  For RST
    messages, SCHC may use a dedicated Rule.  For other usages, SCHC can
    use a "match-mapping" MO.
@@ -3641,7 +3641,9 @@ Appendix A.  Document Updates
 
 A.1.  Version -10 to -11
 
-   *  Revised use of normative "MAY".
+   *  Compression of Type by elision: changed "SHOULD" to "should".
+
+   *  Revised use of normative "MAY" throughout the document.
 
    *  Explicit mentioning of CoAP code split into class and detail.
 

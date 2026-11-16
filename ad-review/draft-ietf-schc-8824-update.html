@@ -1048,7 +1048,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tiloca, et al.</td>
-<td class="center">Expires 19 May 2027</td>
+<td class="center">Expires 20 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1064,12 +1064,12 @@ svg {
 <a href="https://www.rfc-editor.org/rfc/rfc8824" class="eref">8824</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-11-15" class="published">15 November 2026</time>
+<time datetime="2026-11-16" class="published">16 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-05-19">19 May 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-20">20 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1126,7 +1126,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 20 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1862,7 +1862,7 @@ However, since the CDA in the Field Descriptor is such that SCHC does not send t
 <a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-coap-type-field" class="section-name selfRef">CoAP Type Field</a>
         </h3>
 <p id="section-4.2-1">The Type field specifies one of the four types of CoAP messages, encoded as specified in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-3" class="relref">Section 3</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>: Confirmable (CON), Non-confirmable (NON), Acknowledgement (ACK), and Reset (RST).<a href="#section-4.2-1" class="pilcrow">¶</a></p>
-<p id="section-4.2-2">The SCHC compression scheme <span class="bcp14">SHOULD</span> elide this field if, for instance, a client is sending only NON messages or only CON messages. For RST messages, SCHC may use a dedicated Rule. For other usages, SCHC can use a "match-mapping" MO.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">The SCHC compression scheme should elide this field if, for instance, a client is sending only NON messages or only CON messages. For RST messages, SCHC may use a dedicated Rule. For other usages, SCHC can use a "match-mapping" MO.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="ssec-coap-tkl-field">
@@ -5661,16 +5661,19 @@ Consequently, given any two entries related to CoAP options, those entries are i
         </h3>
 <ul class="normal">
 <li class="normal" id="appendix-A.1-1.1">
-            <p id="appendix-A.1-1.1.1">Revised use of normative "<span class="bcp14">MAY</span>".<a href="#appendix-A.1-1.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.1.1">Compression of Type by elision: changed "<span class="bcp14">SHOULD</span>" to "should".<a href="#appendix-A.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.2">
-            <p id="appendix-A.1-1.2.1">Explicit mentioning of CoAP code split into class and detail.<a href="#appendix-A.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.2.1">Revised use of normative "<span class="bcp14">MAY</span>" throughout the document.<a href="#appendix-A.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.3">
-            <p id="appendix-A.1-1.3.1">Revised guidelines for Expert Review.<a href="#appendix-A.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.3.1">Explicit mentioning of CoAP code split into class and detail.<a href="#appendix-A.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.4">
-            <p id="appendix-A.1-1.4.1">Editorial fixes and improvements.<a href="#appendix-A.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.4.1">Revised guidelines for Expert Review.<a href="#appendix-A.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-A.1-1.5">
+            <p id="appendix-A.1-1.5.1">Editorial fixes and improvements.<a href="#appendix-A.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
