@@ -3305,10 +3305,10 @@ Table of Contents
    an incompressible value).  The key-renewal operation itself may
    require several message exchanges and result in energy-intensive
    computation, but the optimal trade-off will depend on the specifics
-   of the Device and expected usage patterns.  In order to renew its key
-   material with another OSCORE endpoint, the Device can rely on the
-   lightweight key update protocol KUDOS defined in
-   [I-D.ietf-core-oscore-key-update].
+   of the Device and expected usage patterns.  The key update protocol
+   KUDOS [I-D.ietf-core-oscore-key-update] is an example of key-renewal
+   procedure that allows two Devices to update their shared OSCORE key
+   material in a lightweight fashion.
 
    If an attacker can introduce a corrupted SCHC-compressed packet onto
    a link, DoS attacks can be mounted by causing excessive resource
@@ -3331,11 +3331,9 @@ Table of Contents
    receiver, thus yielding a result different than the initial message
    submitted to compression procedures.  Accordingly, any time the Rules
    within the SCHC Context are updated on an OSCORE endpoint, that
-   endpoint must trigger an update of the OSCORE key material, e.g., by
-   running the lightweight key update protocol KUDOS
-   [I-D.ietf-core-oscore-key-update].  Similar procedures may be
-   appropriate to signal Rule updates when other message-protection
-   mechanisms are in use.
+   endpoint must trigger an update of the OSCORE key material.  Similar
+   procedures may be appropriate to signal Rule updates when other
+   message-protection mechanisms are in use.
 
 13.  IANA Considerations
 
@@ -3647,6 +3645,8 @@ A.1.  Version -10 to -11
    *  Clarifications:
 
       -  "CoAP client" and "CoAP server" as roles of a Device.
+
+      -  The key update protocol KUDOS for OSCORE is just an example.
 
    *  No stand on the semantic approach being "typical".
 
