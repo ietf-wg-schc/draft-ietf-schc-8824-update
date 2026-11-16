@@ -2028,13 +2028,13 @@ If an LPWAN is the Layer 2 technology being used, the SCHC security consideratio
 
 When SCHC is used with OSCORE, the security considerations discussed in {{RFC8613}} continue to apply. When SCHC is used with Group OSCORE, the security considerations discussed in {{I-D.ietf-core-oscore-groupcomm}} continue to apply. When SCHC is used in the presence of CoAP proxies, the security considerations discussed in {{Section 11.2 of RFC7252}} continue to apply.
 
-When SCHC is used with the OSCORE Outer headers, the Initialization Vector (IV) size in the Compression Residue must be carefully selected. There is a trade-off between compression efficiency (with a longer MSB MO prefix) and the frequency at which the Device must renew its key material (in order to prevent the IV from expanding to an incompressible value). The key-renewal operation itself may require several message exchanges and result in energy-intensive computation, but the optimal trade-off will depend on the specifics of the Device and expected usage patterns. In order to renew its key material with another OSCORE endpoint, the Device can rely on the lightweight key update protocol KUDOS defined in {{I-D.ietf-core-oscore-key-update}}.
+When SCHC is used with the OSCORE Outer headers, the Initialization Vector (IV) size in the Compression Residue must be carefully selected. There is a trade-off between compression efficiency (with a longer MSB MO prefix) and the frequency at which the Device must renew its key material (in order to prevent the IV from expanding to an incompressible value). The key-renewal operation itself may require several message exchanges and result in energy-intensive computation, but the optimal trade-off will depend on the specifics of the Device and expected usage patterns. The key update protocol KUDOS {{I-D.ietf-core-oscore-key-update}} is an example of key-renewal procedure that allows two Devices to update their shared OSCORE key material in a lightweight fashion.
 
 If an attacker can introduce a corrupted SCHC-compressed packet onto a link, DoS attacks can be mounted by causing excessive resource consumption at the decompressor. However, an attacker able to inject packets at the link layer is also capable of other, potentially more damaging, attacks.
 
 SCHC compression emits variable-length Compression Residues for some CoAP fields. In the representation of the compressed header, the length field that is sent is not the length of the original header field but rather the length of the Compression Residue that is being transmitted. If a corrupted packet arrives at the decompressor with a longer or shorter length than that of the original compressed representation, the SCHC decompression procedures will detect an error and drop the packet.
 
-SCHC header compression Rules must remain tightly coupled between the compressor and the decompressor. If the compression Rules get out of sync, a Compression Residue might be decompressed differently at the receiver, thus yielding a result different than the initial message submitted to compression procedures. Accordingly, any time the Rules within the SCHC Context are updated on an OSCORE endpoint, that endpoint must trigger an update of the OSCORE key material, e.g., by running the lightweight key update protocol KUDOS {{I-D.ietf-core-oscore-key-update}}. Similar procedures may be appropriate to signal Rule updates when other message-protection mechanisms are in use.
+SCHC header compression Rules must remain tightly coupled between the compressor and the decompressor. If the compression Rules get out of sync, a Compression Residue might be decompressed differently at the receiver, thus yielding a result different than the initial message submitted to compression procedures. Accordingly, any time the Rules within the SCHC Context are updated on an OSCORE endpoint, that endpoint must trigger an update of the OSCORE key material. Similar procedures may be appropriate to signal Rule updates when other message-protection mechanisms are in use.
 
 # IANA Considerations
 
@@ -2123,6 +2123,8 @@ If the expert becomes aware of a definition for SCHC compression of CoAP fields 
 * Clarifications:
 
   - "CoAP client" and "CoAP server" as roles of a Device.
+
+  - The key update protocol KUDOS for OSCORE is just an example.
 
 * No stand on the semantic approach being "typical".
 
