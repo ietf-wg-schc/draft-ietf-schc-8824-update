@@ -792,13 +792,13 @@ Table of Contents
    pertains to the compression/decompression of the Option Delta, the
    Option Length, or the Option Value of the CoAP option in question.
 
-   On the contrary, the typically used semantic approach abstracts away
-   from the byte-representation of CoAP options (or, more generally, of
-   protocol header fields) and maps those into generic representations
-   identified by the FIDs of the related Field Descriptors.  The
-   semantic approach effectively streamlines Field Descriptors related
-   to CoAP options as required to specify only information about the
-   compression/decompression of the Option Value.
+   On the contrary, the semantic approach abstracts away from the byte-
+   representation of CoAP options (or, more generally, of protocol
+   header fields) and maps those into generic representations identified
+   by the FIDs of the related Field Descriptors.  The semantic approach
+   effectively streamlines Field Descriptors related to CoAP options as
+   required to specify only information about the compression/
+   decompression of the Option Value.
 
    The rest of this document refers to the semantic approach, especially
    when defining the SCHC compression/decompression of CoAP options as
@@ -3646,7 +3646,9 @@ A.1.  Version -10 to -11
 
    *  Clarifications:
 
-      "CoAP client" and "CoAP server" as roles of a Device.
+      -  "CoAP client" and "CoAP server" as roles of a Device.
+
+   *  No stand on the semantic approach being "typical".
 
    *  Revised use of normative "MAY" throughout the document.
 

@@ -1926,7 +1926,7 @@ However, since the CDA in the Field Descriptor is such that SCHC does not send t
 <p id="section-5.1-3">If a SCHC Rule is intended to compress a CoAP message where a repeatable CoAP option is specified multiple times, then the SCHC Rule generally includes different Field Descriptors that separately correspond to the different occurrences of that CoAP option. Those Field Descriptors <span class="bcp14">MUST</span> be listed in the same order of the corresponding CoAP option occurrences in the CoAP message. In order to optimize the compression, a single Field Descriptor can pertain to multiple adjacent occurrences of the same CoAP option that are treated as grouped together (e.g., see <a href="#ssec-uri-path-uri-query-option" class="auto internal xref">Section 5.4</a>).<a href="#section-5.1-3" class="pilcrow">¶</a></p>
 <p id="section-5.1-4">As further discussed in <span>[<a href="#I-D.ietf-schc-universal-option" class="cite xref">I-D.ietf-schc-universal-option</a>]</span>, the composition and use of Field Descriptors for compressing/decompressing CoAP options can take a "syntactic" approach or a "semantic" approach.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
 <p id="section-5.1-5">The syntactic approach operates faithfully to the byte-representation of CoAP options used on the wire. Consequently, it requires multiple Field Descriptors for each given occurrence of CoAP option to be compressed/decompressed. That is, each of such Field Descriptors pertains to the compression/decompression of the Option Delta, the Option Length, or the Option Value of the CoAP option in question.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
-<p id="section-5.1-6">On the contrary, the typically used semantic approach abstracts away from the byte-representation of CoAP options (or, more generally, of protocol header fields) and maps those into generic representations identified by the FIDs of the related Field Descriptors. The semantic approach effectively streamlines Field Descriptors related to CoAP options as required to specify only information about the compression/decompression of the Option Value.<a href="#section-5.1-6" class="pilcrow">¶</a></p>
+<p id="section-5.1-6">On the contrary, the semantic approach abstracts away from the byte-representation of CoAP options (or, more generally, of protocol header fields) and maps those into generic representations identified by the FIDs of the related Field Descriptors. The semantic approach effectively streamlines Field Descriptors related to CoAP options as required to specify only information about the compression/decompression of the Option Value.<a href="#section-5.1-6" class="pilcrow">¶</a></p>
 <p id="section-5.1-7">The rest of this document refers to the semantic approach, especially when defining the SCHC compression/decompression of CoAP options as well as when providing examples of CoAP header compression.<a href="#section-5.1-7" class="pilcrow">¶</a></p>
 <div id="sec-field-descriptors-coap-options-value">
 <section id="section-5.1.1">
@@ -5665,20 +5665,26 @@ Consequently, given any two entries related to CoAP options, those entries are i
 </li>
           <li class="normal" id="appendix-A.1-1.2">
             <p id="appendix-A.1-1.2.1">Clarifications:<a href="#appendix-A.1-1.2.1" class="pilcrow">¶</a></p>
-<p id="appendix-A.1-1.2.2">
-"CoAP client" and "CoAP server" as roles of a Device.<a href="#appendix-A.1-1.2.2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.1-1.2.2.1">
+                <p id="appendix-A.1-1.2.2.1.1">"CoAP client" and "CoAP server" as roles of a Device.<a href="#appendix-A.1-1.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
           <li class="normal" id="appendix-A.1-1.3">
-            <p id="appendix-A.1-1.3.1">Revised use of normative "<span class="bcp14">MAY</span>" throughout the document.<a href="#appendix-A.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.3.1">No stand on the semantic approach being "typical".<a href="#appendix-A.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.4">
-            <p id="appendix-A.1-1.4.1">Explicit mentioning of CoAP code split into class and detail.<a href="#appendix-A.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.4.1">Revised use of normative "<span class="bcp14">MAY</span>" throughout the document.<a href="#appendix-A.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.5">
-            <p id="appendix-A.1-1.5.1">Revised guidelines for Expert Review.<a href="#appendix-A.1-1.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.5.1">Explicit mentioning of CoAP code split into class and detail.<a href="#appendix-A.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.6">
-            <p id="appendix-A.1-1.6.1">Editorial fixes and improvements.<a href="#appendix-A.1-1.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.6.1">Revised guidelines for Expert Review.<a href="#appendix-A.1-1.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-A.1-1.7">
+            <p id="appendix-A.1-1.7.1">Editorial fixes and improvements.<a href="#appendix-A.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
