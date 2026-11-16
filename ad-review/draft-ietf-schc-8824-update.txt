@@ -2022,7 +2022,7 @@ Table of Contents
    | CoAP.      |var|1 |Bi| 0b0001        | equal   | not-sent |      |
    | TKL        |   |  |  |               |         |          |      |
    +------------+---+--+--+---------------+---------+----------+------+
-   | CoAP.      |8  |1 |Up| 2             | equal   | not-sent |      |
+   | CoAP.      |8  |1 |Up| 1             | equal   | not-sent |      |
    | Code       |   |  |  |               |         |          |      |
    +------------+---+--+--+---------------+---------+----------+------+
    | CoAP.      |8  |1 |Dw| [69, 132]     | match-  | mapping- |C     |
@@ -3652,6 +3652,8 @@ A.1.  Version -10 to -11
 
    *  Revised use of normative "MAY" and "SHOULD" throughout the
       document.
+
+   *  Fixed a TV in a SCHC Compression Rule.
 
    *  Explicit mentioning of CoAP code split into class and detail.
 
