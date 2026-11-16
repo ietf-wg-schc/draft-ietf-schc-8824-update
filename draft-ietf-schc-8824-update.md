@@ -440,7 +440,7 @@ If the use of an additional CoAP option is later introduced, the SCHC Rules MAY 
 
 If a single specific value is expected, SCHC can elide these fields, by specifying the value in the TV of a Rule description with an "equal" MO and a "not-sent" CDA.
 
-Otherwise, if several possible values are expected, a "match-mapping" MO SHOULD be used to limit the Compression Residue's size. If not, SCHC has to send the Option Value in the Compression Residue (with fixed or variable length).
+Otherwise, if several possible values are expected, a "match-mapping" MO should be used to limit the Compression Residue's size. If not, SCHC has to send the Option Value in the Compression Residue (with fixed or variable length).
 
 ## CoAP Option Max-Age, Uri-Host, and Uri-Port Fields # {#ssec-max-age-uri-host-uri-port-option}
 
@@ -508,13 +508,13 @@ The If-None-Match Option occurs at most once and is always empty. The SCHC Rule 
 
 The Hop-Limit field is an option defined in {{RFC8768}} that can be used to detect forwarding loops through a chain of CoAP proxies. The first proxy in the chain that understands the option includes it in a received request with a proper value set, before forwarding the request. Any following proxy that understands the option decrements the Option Value and forwards the request if the new value is different from zero, or returns a 5.08 (Hop Limit Reached) error response otherwise.
 
-When a CoAP message uses the Hop-Limit Option, SCHC compression SHOULD send its content in the Compression Residue. That is, in the SCHC Rule, the TV is not set, while the MO is set to "ignore" and the CDA is set to "value-sent". As an exception, and consistent with the default value 16 defined for the Hop-Limit Option in {{Section 3 of RFC8768}}, a Rule can describe a TV with value 16, with the MO set to "equal" and the CDA set to "not-sent".
+When a CoAP message uses the Hop-Limit Option, SCHC compression should send its content in the Compression Residue. That is, in the SCHC Rule, the TV is not set, while the MO is set to "ignore" and the CDA is set to "value-sent". As an exception, and consistent with the default value 16 defined for the Hop-Limit Option in {{Section 3 of RFC8768}}, a Rule can describe a TV with value 16, with the MO set to "equal" and the CDA set to "not-sent".
 
 ## CoAP Option Echo Field ## {#coap-options-echo}
 
 The Echo field is an option defined in {{RFC9175}} that a server can include in a CoAP response as a challenge to the client, and that the client echoes back to the server in one or more CoAP requests. This enables the server to verify the freshness of a request and to cryptographically verify the aliveness of the client. Also, it forces the client to demonstrate reachability at its claimed network address.
 
-When a CoAP message uses the Echo Option, SCHC compression SHOULD send its content in the Compression Residue. That is, in the SCHC Rule, the TV is not set, while the MO is set to "ignore" and the CDA is set to "value-sent". An exception applies in the case that the server generates the values to use for the Echo Option by means of a persistent counter (see {{Section A of RFC9175}}). In such a case, a Rule can use the MSB MO and the LSB CDA. This would be effectively applicable until the persistent counter at the server becomes greater than the maximum threshold value that produces an MSB-matching.
+When a CoAP message uses the Echo Option, SCHC compression should send its content in the Compression Residue. That is, in the SCHC Rule, the TV is not set, while the MO is set to "ignore" and the CDA is set to "value-sent". An exception applies in the case that the server generates the values to use for the Echo Option by means of a persistent counter (see {{Section A of RFC9175}}). In such a case, a Rule can use the MSB MO and the LSB CDA. This would be effectively applicable until the persistent counter at the server becomes greater than the maximum threshold value that produces an MSB-matching.
 
 ## CoAP Option Request-Tag Field ## {#coap-options-request-tag}
 
@@ -542,7 +542,7 @@ The Block1, Block2, Q-Block1, and Q-Block2 Options allow fragmentation at the Co
 
 {{RFC7641}} defines the Observe Option. The SCHC Rule description does not set the TV, while setting the MO to "ignore" and the CDA to "value-sent". SCHC does not limit the maximum size for this option (3 bytes). To reduce the transmission size, either the Device implementation MAY limit the delta between two consecutive values or a proxy can modify the increment.
 
-Since the client could use a RST message to reject the Observe response, a specific SCHC Rule SHOULD exist to allow the compression of a RST message.
+Since the client could use a RST message to reject the Observe response, a specific SCHC Rule should exist to allow the compression of a RST message.
 
 ## No-Response # {#ssec-coap-extensions-no-response}
 
@@ -2126,7 +2126,7 @@ If the expert becomes aware of a definition for SCHC compression of CoAP fields 
 
 * No stand on the semantic approach being "typical".
 
-* Revised use of normative "MAY" throughout the document.
+* Revised use of normative "MAY" and "SHOULD" throughout the document.
 
 * Explicit mentioning of CoAP code split into class and detail.
 
