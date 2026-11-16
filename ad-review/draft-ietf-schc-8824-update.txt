@@ -920,7 +920,7 @@ Table of Contents
    "equal" MO and a "not-sent" CDA.
 
    Otherwise, if several possible values are expected, a "match-mapping"
-   MO SHOULD be used to limit the Compression Residue's size.  If not,
+   MO should be used to limit the Compression Residue's size.  If not,
    SCHC has to send the Option Value in the Compression Residue (with
    fixed or variable length).
 
@@ -1079,7 +1079,7 @@ Table of Contents
    response otherwise.
 
    When a CoAP message uses the Hop-Limit Option, SCHC compression
-   SHOULD send its content in the Compression Residue.  That is, in the
+   should send its content in the Compression Residue.  That is, in the
    SCHC Rule, the TV is not set, while the MO is set to "ignore" and the
    CDA is set to "value-sent".  As an exception, and consistent with the
    default value 16 defined for the Hop-Limit Option in Section 3 of
@@ -1096,7 +1096,7 @@ Table of Contents
    forces the client to demonstrate reachability at its claimed network
    address.
 
-   When a CoAP message uses the Echo Option, SCHC compression SHOULD
+   When a CoAP message uses the Echo Option, SCHC compression should
    send its content in the Compression Residue.  That is, in the SCHC
    Rule, the TV is not set, while the MO is set to "ignore" and the CDA
    is set to "value-sent".  An exception applies in the case that the
@@ -1170,7 +1170,7 @@ Table of Contents
    a proxy can modify the increment.
 
    Since the client could use a RST message to reject the Observe
-   response, a specific SCHC Rule SHOULD exist to allow the compression
+   response, a specific SCHC Rule should exist to allow the compression
    of a RST message.
 
 6.3.  No-Response
@@ -3650,7 +3650,8 @@ A.1.  Version -10 to -11
 
    *  No stand on the semantic approach being "typical".
 
-   *  Revised use of normative "MAY" throughout the document.
+   *  Revised use of normative "MAY" and "SHOULD" throughout the
+      document.
 
    *  Explicit mentioning of CoAP code split into class and detail.
 

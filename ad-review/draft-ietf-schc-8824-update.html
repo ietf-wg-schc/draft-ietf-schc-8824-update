@@ -1990,7 +1990,7 @@ For example, the FID can be set to "CoAP.option(9).flags" in a Field Descriptor 
 <a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-coap-option-content-format-" class="section-name selfRef">CoAP Option Content-Format and Accept Fields</a>
         </h3>
 <p id="section-5.2-1">If a single specific value is expected, SCHC can elide these fields, by specifying the value in the TV of a Rule description with an "equal" MO and a "not-sent" CDA.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
-<p id="section-5.2-2">Otherwise, if several possible values are expected, a "match-mapping" MO <span class="bcp14">SHOULD</span> be used to limit the Compression Residue's size. If not, SCHC has to send the Option Value in the Compression Residue (with fixed or variable length).<a href="#section-5.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.2-2">Otherwise, if several possible values are expected, a "match-mapping" MO should be used to limit the Compression Residue's size. If not, SCHC has to send the Option Value in the Compression Residue (with fixed or variable length).<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="ssec-max-age-uri-host-uri-port-option">
@@ -2152,7 +2152,7 @@ For example, the FID can be set to "CoAP.option(9).flags" in a Field Descriptor 
 <a href="#section-5.10" class="section-number selfRef">5.10. </a><a href="#name-coap-option-hop-limit-field" class="section-name selfRef">CoAP Option Hop-Limit Field</a>
         </h3>
 <p id="section-5.10-1">The Hop-Limit field is an option defined in <span>[<a href="#RFC8768" class="cite xref">RFC8768</a>]</span> that can be used to detect forwarding loops through a chain of CoAP proxies. The first proxy in the chain that understands the option includes it in a received request with a proper value set, before forwarding the request. Any following proxy that understands the option decrements the Option Value and forwards the request if the new value is different from zero, or returns a 5.08 (Hop Limit Reached) error response otherwise.<a href="#section-5.10-1" class="pilcrow">¶</a></p>
-<p id="section-5.10-2">When a CoAP message uses the Hop-Limit Option, SCHC compression <span class="bcp14">SHOULD</span> send its content in the Compression Residue. That is, in the SCHC Rule, the TV is not set, while the MO is set to "ignore" and the CDA is set to "value-sent". As an exception, and consistent with the default value 16 defined for the Hop-Limit Option in <span><a href="https://rfc-editor.org/rfc/rfc8768#section-3" class="relref">Section 3</a> of [<a href="#RFC8768" class="cite xref">RFC8768</a>]</span>, a Rule can describe a TV with value 16, with the MO set to "equal" and the CDA set to "not-sent".<a href="#section-5.10-2" class="pilcrow">¶</a></p>
+<p id="section-5.10-2">When a CoAP message uses the Hop-Limit Option, SCHC compression should send its content in the Compression Residue. That is, in the SCHC Rule, the TV is not set, while the MO is set to "ignore" and the CDA is set to "value-sent". As an exception, and consistent with the default value 16 defined for the Hop-Limit Option in <span><a href="https://rfc-editor.org/rfc/rfc8768#section-3" class="relref">Section 3</a> of [<a href="#RFC8768" class="cite xref">RFC8768</a>]</span>, a Rule can describe a TV with value 16, with the MO set to "equal" and the CDA set to "not-sent".<a href="#section-5.10-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="coap-options-echo">
@@ -2161,7 +2161,7 @@ For example, the FID can be set to "CoAP.option(9).flags" in a Field Descriptor 
 <a href="#section-5.11" class="section-number selfRef">5.11. </a><a href="#name-coap-option-echo-field" class="section-name selfRef">CoAP Option Echo Field</a>
         </h3>
 <p id="section-5.11-1">The Echo field is an option defined in <span>[<a href="#RFC9175" class="cite xref">RFC9175</a>]</span> that a server can include in a CoAP response as a challenge to the client, and that the client echoes back to the server in one or more CoAP requests. This enables the server to verify the freshness of a request and to cryptographically verify the aliveness of the client. Also, it forces the client to demonstrate reachability at its claimed network address.<a href="#section-5.11-1" class="pilcrow">¶</a></p>
-<p id="section-5.11-2">When a CoAP message uses the Echo Option, SCHC compression <span class="bcp14">SHOULD</span> send its content in the Compression Residue. That is, in the SCHC Rule, the TV is not set, while the MO is set to "ignore" and the CDA is set to "value-sent". An exception applies in the case that the server generates the values to use for the Echo Option by means of a persistent counter (see <span><a href="https://rfc-editor.org/rfc/rfc9175#appendix-A" class="relref">Appendix A</a> of [<a href="#RFC9175" class="cite xref">RFC9175</a>]</span>). In such a case, a Rule can use the MSB MO and the LSB CDA. This would be effectively applicable until the persistent counter at the server becomes greater than the maximum threshold value that produces an MSB-matching.<a href="#section-5.11-2" class="pilcrow">¶</a></p>
+<p id="section-5.11-2">When a CoAP message uses the Echo Option, SCHC compression should send its content in the Compression Residue. That is, in the SCHC Rule, the TV is not set, while the MO is set to "ignore" and the CDA is set to "value-sent". An exception applies in the case that the server generates the values to use for the Echo Option by means of a persistent counter (see <span><a href="https://rfc-editor.org/rfc/rfc9175#appendix-A" class="relref">Appendix A</a> of [<a href="#RFC9175" class="cite xref">RFC9175</a>]</span>). In such a case, a Rule can use the MSB MO and the LSB CDA. This would be effectively applicable until the persistent counter at the server becomes greater than the maximum threshold value that produces an MSB-matching.<a href="#section-5.11-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="coap-options-request-tag">
@@ -2205,7 +2205,7 @@ For example, the FID can be set to "CoAP.option(9).flags" in a Field Descriptor 
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-observe" class="section-name selfRef">Observe</a>
         </h3>
 <p id="section-6.2-1"><span>[<a href="#RFC7641" class="cite xref">RFC7641</a>]</span> defines the Observe Option. The SCHC Rule description does not set the TV, while setting the MO to "ignore" and the CDA to "value-sent". SCHC does not limit the maximum size for this option (3 bytes). To reduce the transmission size, either the Device implementation <span class="bcp14">MAY</span> limit the delta between two consecutive values or a proxy can modify the increment.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
-<p id="section-6.2-2">Since the client could use a RST message to reject the Observe response, a specific SCHC Rule <span class="bcp14">SHOULD</span> exist to allow the compression of a RST message.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
+<p id="section-6.2-2">Since the client could use a RST message to reject the Observe response, a specific SCHC Rule should exist to allow the compression of a RST message.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="ssec-coap-extensions-no-response">
@@ -5675,7 +5675,7 @@ Consequently, given any two entries related to CoAP options, those entries are i
             <p id="appendix-A.1-1.3.1">No stand on the semantic approach being "typical".<a href="#appendix-A.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.4">
-            <p id="appendix-A.1-1.4.1">Revised use of normative "<span class="bcp14">MAY</span>" throughout the document.<a href="#appendix-A.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.4.1">Revised use of normative "<span class="bcp14">MAY</span>" and "<span class="bcp14">SHOULD</span>" throughout the document.<a href="#appendix-A.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-A.1-1.5">
             <p id="appendix-A.1-1.5.1">Explicit mentioning of CoAP code split into class and detail.<a href="#appendix-A.1-1.5.1" class="pilcrow">¶</a></p>
