@@ -68,6 +68,7 @@ normative:
   RFC8974:
   RFC9175:
   RFC9177:
+  RFC9363:
   RFC9668:
   I-D.ietf-core-oscore-groupcomm:
   I-D.ietf-core-href:
@@ -151,6 +152,8 @@ In particular, this document replaces and obsoletes {{RFC8824}} as follows:
 * It clarifies how the SCHC compression handles the CoAP payload marker (see {{payload-marker}}).
 
 * It defines the SCHC compression of CoAP headers in the presence of CoAP proxies (see {{compression-with-proxies}}), for which examples are provided (see {{examples}}).
+
+Note that policies and rules specified in the present document cannot be expressed by employing the ietf-schc module and corresponding YANG data model defined in {{RFC9363}}.
 
 ## Terminology ## {#terminology}
 
@@ -2121,6 +2124,8 @@ If the expert becomes aware of a definition for SCHC compression of CoAP fields 
 * Compression of Type by elision: changed "SHOULD" to "should".
 
 * Clarifications:
+
+  - This document goes beyond what can be expressed by the YANG data model defined in RFC 9363.
 
   - "CoAP client" and "CoAP server" as roles of a Device.
 
