@@ -6,11 +6,11 @@ SCHC Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Obsoletes: 8824 (if approved)                                 L. Toutain
 Intended status: Standards Track                          IMT Atlantique
-Expires: 20 May 2027                                         I. Martínez
+Expires: 21 May 2027                                         I. Martínez
                                                                    IRISA
                                                              A. Minaburo
                                                               Consultant
-                                                        16 November 2026
+                                                        17 November 2026
 
 
 Static Context Header Compression (SCHC) for the Constrained Application
@@ -62,7 +62,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 May 2027.
+   This Internet-Draft will expire on 21 May 2027.
 
 Copyright Notice
 
@@ -284,6 +284,10 @@ Table of Contents
    *  It defines the SCHC compression of CoAP headers in the presence of
       CoAP proxies (see Section 9), for which examples are provided (see
       Section 10).
+
+   Note that policies and rules specified in the present document cannot
+   be expressed by employing the ietf-schc module and corresponding YANG
+   data model defined in [RFC9363].
 
 1.1.  Terminology
 
@@ -3579,6 +3583,11 @@ Table of Contents
               Robust Transmission", RFC 9177, DOI 10.17487/RFC9177,
               March 2022, <https://www.rfc-editor.org/rfc/rfc9177>.
 
+   [RFC9363]  Minaburo, A. and L. Toutain, "A YANG Data Model for Static
+              Context Header Compression (SCHC)", RFC 9363,
+              DOI 10.17487/RFC9363, March 2023,
+              <https://www.rfc-editor.org/rfc/rfc9363>.
+
    [RFC9668]  Palombini, F., Tiloca, M., Höglund, R., Hristozov, S., and
               G. Selander, "Using Ephemeral Diffie-Hellman Over COSE
               (EDHOC) with the Constrained Application Protocol (CoAP)
@@ -3644,6 +3653,9 @@ A.1.  Version -10 to -11
    *  Compression of Type by elision: changed "SHOULD" to "should".
 
    *  Clarifications:
+
+      -  This document goes beyond what can be expressed by the YANG
+         data model defined in RFC 9363.
 
       -  "CoAP client" and "CoAP server" as roles of a Device.
 
