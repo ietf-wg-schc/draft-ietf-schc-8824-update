@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-15T04:15:21.086252+00:00",
+  "timestamp": "2026-11-17T05:59:45.018743+00:00",
   "repo": "ietf-wg-schc/draft-ietf-schc-8824-update",
   "labels": [
     {
@@ -453,6 +453,32 @@
       "mergeCommit": {
         "oid": "17a6d1a9feb2684e55eaf261c6840183398fac24"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDOOqAYW88AAAABPtXnUA",
+      "title": "AD Review",
+      "url": "https://github.com/ietf-wg-schc/draft-ietf-schc-8824-update/pull/6",
+      "state": "OPEN",
+      "author": "marco-tiloca-sics",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This PR addresses the AD review from \u00c9ric Vyncke archived at https://mailarchive.ietf.org/arch/msg/schc/Jm3_IQRirPlYFXxQp84y-zcPO4Y/",
+      "createdAt": "2026-11-17T02:16:06Z",
+      "updatedAt": "2026-11-17T02:16:23Z",
+      "baseRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
+      "baseRefName": "main",
+      "baseRefOid": "17a6d1a9feb2684e55eaf261c6840183398fac24",
+      "headRepository": "ietf-wg-schc/draft-ietf-schc-8824-update",
+      "headRefName": "ad-review",
+      "headRefOid": "15180bed2ae98b185669059fd0a4982f9eed2166",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
